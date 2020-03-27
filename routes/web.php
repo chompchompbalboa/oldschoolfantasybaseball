@@ -14,5 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    return redirect('/draft');
+});
+
+Route::get('/draft/{type?}', function () {
     return view('draft');
 });
+
