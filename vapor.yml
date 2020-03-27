@@ -1,0 +1,16 @@
+id: 8509
+name: oldschoolfantasybaseball
+environments:
+    production:
+        domain: oldschoolfantasybaseball.com
+        memory: 1024
+        cli-memory: 512
+        database: oldschoolfantasybaseball-production
+        storage: oldschoolfantasybaseball-production
+        build:
+            - 'composer install --no-dev --classmap-authoritative'
+            - 'php artisan event:cache'
+            - 'npm ci && npm run prod && rm -rf node_modules'
+        deploy:
+            - 'php artisan migrate --force'
+
