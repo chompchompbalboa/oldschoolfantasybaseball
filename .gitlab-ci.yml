@@ -1,0 +1,70 @@
+#-------------------------------------------------------------------------------
+# Setup
+#-------------------------------------------------------------------------------
+# Reference article (last referenced 10/7/19):
+# https://lorisleiva.com/laravel-deployment-using-gitlab-pipelines/
+
+image: lorisleiva/laravel-docker:latest
+
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  VAPOR_API_TOKEN: "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMDBlYWVmMmE4MTk0MGI3ZWIwOWIyNGNlYmUwOWE0MWNlYzVmYTM5YTBiYmFmYjlmOGMwZjk5N2YxMWQ3MzY1MDcxMzRhM2EzM2I2NTZlNDQiLCJpYXQiOjE1ODUzMzgwOTcsIm5iZiI6MTU4NTMzODA5NywiZXhwIjoxNjE2ODc0MDk3LCJzdWIiOiIyNTI4Iiwic2NvcGVzIjpbIioiXX0.1_eKXXNnwYqCl8FyhslWGajm8jtFP6WHnEJn89dCq7srHsDWzlBfZNzb1FTUXGOC72CkEg3FFeBhztCScwZNrNXb-Zak0iH_Dp6kgHsd8ayVSy3Zt29zUykudnjthjtY-3BhvPsBKIAWyKKdA2UnCxIfk4z-DBpwf4Q_DI9wlnHd1yW7ZbQfqiB4gFZU-2ZG1nHp00fPqfRnM7G1dsD32q29OtQy3Ks7raRgXzz9Z4O77yb9Xh-JqOgc8EMVYPvtrtdSrAIl38s67fpdmPneX5sKtSedqbH0fF5jIi5PIbmYU0-hu2buF0OFGOfrLI9MUGT99rFy8Vk6UpbTJB3Duww2EFADCIlUBWKbN5QAys8g5s8USUzjI7nzy78qU_-PvKf4qJDSx9Uo6f_rP-d7TqYkK6W6Sl0njxCIMNBL1Tn3zcRcw83WsagXT2PesrDwMRiutCrvyrYAqFC3ScYMU20KshbTfXtfuT32eLvGceguk2qQUtU3iS_SNzX8U9erTWJ7kbP50XcVZecMpy3yQHDTWm2a8mJ3fkoCKUSfy1wTRk--_Lwb3TKst6ObZICGbG_JcOOjgaJyt3cMejLeJkKn6bLynCKdY1wZA76yP6d4zTgp-IpU6Omgyi00aAm8iDjpXSkpZOlARmL3mRqfDAJbPc2rZE_aa3jgWRkopNw"
+#-------------------------------------------------------------------------------
+# Build
+#-------------------------------------------------------------------------------
+composer:
+  stage: build
+  script:
+    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+    - cp .env.testing .env
+    - php artisan key:generate
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-composer
+    paths:
+      - vendor/
+  artifacts:
+    expire_in: 1 month
+    paths:
+      - vendor/
+      - .env
+
+npm:
+  stage: build
+  script:
+    - npm install
+    - npm run production
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-npm
+    paths:
+      - node_modules/
+  artifacts:
+    expire_in: 1 month
+    paths:
+      - node_modules/
+      - public/css/
+      - public/js/
+
+#-------------------------------------------------------------------------------
+# Test
+#-------------------------------------------------------------------------------
+jest: 
+  stage: test
+  script:
+    - npm test
+    
+phpunit: 
+  stage: test
+  script:
+    - phpunit
+
+#-------------------------------------------------------------------------------
+# Deploy
+#-------------------------------------------------------------------------------
+vapor:
+  stage: deploy
+  script:
+    - vapor deploy production
