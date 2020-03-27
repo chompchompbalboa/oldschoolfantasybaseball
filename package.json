@@ -10,7 +10,7 @@
         "hot-production": "cross-env NODE_ENV=production node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js --disable-host-check",
         "prod": "npm run production",
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "test": "jest",
+        "test": "jest --passWithNoTests",
         "test-watch": "jest --watch"
     },
     "devDependencies": {

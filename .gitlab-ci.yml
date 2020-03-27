@@ -54,7 +54,7 @@ npm:
 jest: 
   stage: test
   script:
-    - npm run jest --passWithNoTests
+    - npm test
     
 phpunit: 
   stage: test
