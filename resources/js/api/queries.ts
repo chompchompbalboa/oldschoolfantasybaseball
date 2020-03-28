@@ -1,16 +1,11 @@
 //-----------------------------------------------------------------------------
 // Imports
 //-----------------------------------------------------------------------------
-import { combineReducers } from 'redux'
-import draftReducer from '@/state/draft/reducers'
-import statsReducer from '@/state/stats/reducers'
+import axios from '@/api/axios'
 
 //-----------------------------------------------------------------------------
-// Combine Reducers
+// Queries
 //-----------------------------------------------------------------------------
-export const appReducer = combineReducers({
-  draft: draftReducer,
-  stats: statsReducer
-})
-
-export type IAppState = ReturnType<typeof appReducer>
+export const getAllPlayers = async () => {
+	return axios.get('/api/players')
+}

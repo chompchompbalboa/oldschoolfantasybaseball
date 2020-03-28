@@ -1,16 +1,15 @@
 //-----------------------------------------------------------------------------
 // Imports
 //-----------------------------------------------------------------------------
-import { combineReducers } from 'redux'
-import draftReducer from '@/state/draft/reducers'
-import statsReducer from '@/state/stats/reducers'
+import { v4 as createUuid } from 'uuid'
+
+import { IDraft } from '@/state/draft/types'
 
 //-----------------------------------------------------------------------------
-// Combine Reducers
+// Default Draft
 //-----------------------------------------------------------------------------
-export const appReducer = combineReducers({
-  draft: draftReducer,
-  stats: statsReducer
+export const defaultDraft: () => IDraft = () => ({
+  id: createUuid(),
+  statCategoriesBatting: [ 'AVG', 'OPS', 'HR', 'R', 'RBI', 'SB' ],
+  statCategoriesPitching: [ 'ERA', 'IP', 'K', 'QS', 'SV', 'WHIP' ]
 })
-
-export type IAppState = ReturnType<typeof appReducer>

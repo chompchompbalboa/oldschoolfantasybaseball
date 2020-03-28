@@ -4,25 +4,30 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { useLoadDraft } from '@/hooks'
+import { IDraft } from '@/state/draft/types'
 
-import DraftRoom from '@draft/DraftRoom'
+import DraftRoomSettingsStatCategories from '@draft/DraftRoomSettingsStatCategories'
 
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-export const DraftLive = () => {
-
-  const { draftId } = useLoadDraft()
+export const DraftRoomSettings = ({
+  draftId
+}: IDraftRoomSettings) => {
 
   return (
     <Container>
-      {draftId && 
-        <DraftRoom
-          draftId={draftId}/>
-      }
+      <DraftRoomSettingsStatCategories
+        draftId={draftId}/>
     </Container>
   )
+}
+
+//-----------------------------------------------------------------------------
+// Props
+//-----------------------------------------------------------------------------
+export interface IDraftRoomSettings {
+  draftId: IDraft['id']
 }
 
 //-----------------------------------------------------------------------------
@@ -31,4 +36,4 @@ export const DraftLive = () => {
 const Container = styled.div`
 `
 
-export default DraftLive
+export default DraftRoomSettings

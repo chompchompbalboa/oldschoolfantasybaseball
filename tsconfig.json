@@ -12,6 +12,7 @@
       "@draft/*": ["./bundles/Draft/*"]
     },
     "skipLibCheck": true,
+    "strictNullChecks": true,
     "esModuleInterop": true,
     "noUnusedLocals": true
   },

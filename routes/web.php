@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Models\Player;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,11 +15,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/draft/{type?}', function () {
+    return view('draft');
+});
+
 Route::get('/', function () {
     return redirect('/draft');
 });
 
-Route::get('/draft/{type?}', function () {
-    return view('draft');
+Route::group(['prefix' => 'api'], function () {
+  
+    // Resource Controllers
+    Route::resources([
+      // Team
+      'players' => 'PlayerController',
+    ]);
 });
 

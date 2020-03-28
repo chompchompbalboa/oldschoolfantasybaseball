@@ -1,16 +1,9 @@
 //-----------------------------------------------------------------------------
 // Imports
 //-----------------------------------------------------------------------------
-import { combineReducers } from 'redux'
-import draftReducer from '@/state/draft/reducers'
-import statsReducer from '@/state/stats/reducers'
+import * as queries from '@/api/queries'
 
 //-----------------------------------------------------------------------------
-// Combine Reducers
+// Export
 //-----------------------------------------------------------------------------
-export const appReducer = combineReducers({
-  draft: draftReducer,
-  stats: statsReducer
-})
-
-export type IAppState = ReturnType<typeof appReducer>
+export const query = queries

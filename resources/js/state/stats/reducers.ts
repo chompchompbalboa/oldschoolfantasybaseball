@@ -4,7 +4,6 @@
 import { 
   IDraftActions,
   SET_ALL_DRAFTS,
-  UPDATE_ACTIVE_DRAFT_ID,
   UPDATE_DRAFT
 } from '@/state/draft/actions'
 
@@ -14,12 +13,12 @@ import { IAllDrafts } from '@/state/draft/types'
 // Initial State
 //-----------------------------------------------------------------------------
 export type IDraftState = {
-  activeDraftId: string | null
+  activeDraft: string | null
   allDrafts: IAllDrafts
 }
 
 export const initialDraftState: IDraftState = {
-  activeDraftId: null,
+  activeDraft: null,
   allDrafts: {}
 }
 
@@ -34,14 +33,6 @@ export const userReducer = (state = initialDraftState, action: IDraftActions): I
       return {
         ...state,
         allDrafts: nextAllDrafts
-      }
-    }
-
-    case UPDATE_ACTIVE_DRAFT_ID: {
-      const { nextActiveDraftId } = action
-      return {
-        ...state,
-        activeDraftId: nextActiveDraftId
       }
     }
 

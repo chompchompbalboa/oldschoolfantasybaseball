@@ -7,4 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Player extends Model
 {
     protected $table = 'people';
+
+    protected $visible = [ 'playerId', 'nameFirst', 'nameLast' ];
 }
