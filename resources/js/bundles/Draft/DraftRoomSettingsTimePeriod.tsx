@@ -4,24 +4,17 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { IDraft } from '@/state/draft/types'
+
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-export const DraftRoomContent = ({
-  children,
-  contentChoices,
-  isActiveContent
-}: IDraftRoomContent) => {
+export const DraftRoomSettingsTimePeriod = ({
+}: IDraftRoomSettingsTimePeriod) => {
 
   return (
-    <Container
-      isActiveContent={isActiveContent}>
-      <DraftRoomContentChoices>
-        {contentChoices}
-      </DraftRoomContentChoices>
-      <ActiveContent>
-        {children}
-      </ActiveContent>
+    <Container>
+      DraftRoomSettingsTimePeriod
     </Container>
   )
 }
@@ -29,32 +22,14 @@ export const DraftRoomContent = ({
 //-----------------------------------------------------------------------------
 // Props
 //-----------------------------------------------------------------------------
-export interface IDraftRoomContent {
-  children?: any
-  contentChoices: React.ReactElement[]
-  isActiveContent: boolean
+export interface IDraftRoomSettingsTimePeriod {
+  draftId: IDraft['id']
 }
 
 //-----------------------------------------------------------------------------
 // Styled Components
 //-----------------------------------------------------------------------------
 const Container = styled.div`
-  display: ${ ({ isActiveContent }: IContainer ) => isActiveContent ? 'flex' : 'none' };
-  height: 100%;
-`
-interface IContainer {
-  isActiveContent: boolean
-}
-
-const DraftRoomContentChoices = styled.div`
-  width: 20%;
-  height: 100%;
-  border-right: 1px solid black;
 `
 
-const ActiveContent = styled.div`
-  width: 80%;
-  height: 100%;
-`
-
-export default DraftRoomContent
+export default DraftRoomSettingsTimePeriod

@@ -7,21 +7,17 @@ import styled from 'styled-components'
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-export const DraftRoomContent = ({
+export const DraftRoomContentChoice = ({
   children,
-  contentChoices,
-  isActiveContent
-}: IDraftRoomContent) => {
+  isActive,
+  onClick = () => null
+}: IDraftRoomContentChoice) => {
 
   return (
     <Container
-      isActiveContent={isActiveContent}>
-      <DraftRoomContentChoices>
-        {contentChoices}
-      </DraftRoomContentChoices>
-      <ActiveContent>
-        {children}
-      </ActiveContent>
+      isActive={isActive}
+      onClick={onClick}>
+      {children}
     </Container>
   )
 }
@@ -29,32 +25,30 @@ export const DraftRoomContent = ({
 //-----------------------------------------------------------------------------
 // Props
 //-----------------------------------------------------------------------------
-export interface IDraftRoomContent {
+export interface IDraftRoomContentChoice {
   children?: any
-  contentChoices: React.ReactElement[]
-  isActiveContent: boolean
+  isActive: boolean
+  onClick?(...args: any): void
 }
 
 //-----------------------------------------------------------------------------
 // Styled Components
 //-----------------------------------------------------------------------------
 const Container = styled.div`
-  display: ${ ({ isActiveContent }: IContainer ) => isActiveContent ? 'flex' : 'none' };
-  height: 100%;
+  cursor: pointer;
+  width: 100%;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${ ({ isActive }: IContainer ) => isActive ? 'rgb(240, 240, 240)' : 'transparent' };
+  font-weight: ${ ({ isActive }: IContainer ) => isActive ? 'bold' : 'inherit' };
+  &:hover {
+    background-color: rgb(240, 240, 240);
+  }
 `
 interface IContainer {
-  isActiveContent: boolean
+  isActive: boolean
 }
 
-const DraftRoomContentChoices = styled.div`
-  width: 20%;
-  height: 100%;
-  border-right: 1px solid black;
-`
-
-const ActiveContent = styled.div`
-  width: 80%;
-  height: 100%;
-`
-
-export default DraftRoomContent
+export default DraftRoomContentChoice

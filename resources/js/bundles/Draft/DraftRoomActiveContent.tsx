@@ -1,31 +1,36 @@
 //-----------------------------------------------------------------------------
 // Imports
 //-----------------------------------------------------------------------------
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import { IDraft } from '@/state/draft/types'
 
-import DraftRoomActiveContent from '@draft/DraftRoomActiveContent'
-import DraftRoomTabs from '@draft/DraftRoomTabs'
+import { IDraftRoomActiveContent } from '@draft/DraftRoom'
+
+import  DraftRoomPicks from '@draft/DraftRoomPicks'
+import  DraftRoomSettings from '@draft/DraftRoomSettings'
+import  DraftRoomTeams from '@draft/DraftRoomTeams'
 
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-export const DraftRoom = ({
-  draftId
-}: IDraftRoom) => {
-
-  const [ activeContent, setActiveContent ] = useState('DRAFT_SETTINGS' as IDraftRoomActiveContent)
+export const DraftRoomActiveContent = ({
+  draftId,
+  activeContent
+}: IDraftRoomActiveContentProps) => {
 
   return (
     <Container>
-      <DraftRoomTabs
-        activeContent={activeContent}
-        setActiveContent={setActiveContent}/>
-      <DraftRoomActiveContent
+      <DraftRoomSettings
         draftId={draftId}
-        activeContent={activeContent}/>
+        isActiveContent={activeContent === 'DRAFT_SETTINGS'}/>
+      <DraftRoomTeams
+        draftId={draftId}
+        isActiveContent={activeContent === 'DRAFT_TEAMS'}/>
+      <DraftRoomPicks
+        draftId={draftId}
+        isActiveContent={activeContent === 'DRAFT_PICKS'}/>
     </Container>
   )
 }
@@ -33,22 +38,16 @@ export const DraftRoom = ({
 //-----------------------------------------------------------------------------
 // Props
 //-----------------------------------------------------------------------------
-export interface IDraftRoom {
+export interface IDraftRoomActiveContentProps {
   draftId: IDraft['id']
+  activeContent: IDraftRoomActiveContent
 }
-
-//-----------------------------------------------------------------------------
-// Types
-//-----------------------------------------------------------------------------
-export type IDraftRoomActiveContent = 
-  'DRAFT_SETTINGS' |
-  'DRAFT_TEAMS' | 
-  'DRAFT_PICKS'
 
 //-----------------------------------------------------------------------------
 // Styled Components
 //-----------------------------------------------------------------------------
 const Container = styled.div`
+  height: calc(100vh - 3rem);
 `
 
-export default DraftRoom
+export default DraftRoomActiveContent

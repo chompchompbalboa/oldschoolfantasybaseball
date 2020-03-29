@@ -11,6 +11,10 @@ import {
   setAllDrafts,
   updateActiveDraftId
 } from '@/state/draft/actions'
+import { 
+  setAllTeams
+} from '@/state/team/actions'
+
 import { defaultDraft } from '@/state/draft/defaults'
 
 //-----------------------------------------------------------------------------
@@ -21,13 +25,22 @@ export const useLoadDraft = (): IReturnValue => {
   const dispatch = useDispatch()
   const draftId = useSelector((state: IAppState) => state.draft.activeDraftId)
   const allDrafts = useSelector((state: IAppState) => state.draft.allDrafts)
+  const allTeams = useSelector((state: IAppState) => state.team.allTeams)
 
   useEffect(() => {
     if(draftId === null) {
-      const newDraft = defaultDraft()
+      const { 
+        newDraft,
+        newTeams
+      } = defaultDraft()
+      
       dispatch(setAllDrafts({
         ...allDrafts,
         [newDraft.id]: newDraft
+      }))
+      dispatch(setAllTeams({
+        ...allTeams,
+        ...newTeams
       }))
       dispatch(updateActiveDraftId(newDraft.id))
     }
