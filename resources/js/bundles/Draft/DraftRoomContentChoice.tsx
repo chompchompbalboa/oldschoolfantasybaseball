@@ -9,7 +9,7 @@ import styled from 'styled-components'
 //-----------------------------------------------------------------------------
 export const DraftRoomContentChoice = ({
   children,
-  isActive,
+  isActive = false,
   onClick = () => null
 }: IDraftRoomContentChoice) => {
 
@@ -27,7 +27,7 @@ export const DraftRoomContentChoice = ({
 //-----------------------------------------------------------------------------
 export interface IDraftRoomContentChoice {
   children?: any
-  isActive: boolean
+  isActive?: boolean
   onClick?(...args: any): void
 }
 

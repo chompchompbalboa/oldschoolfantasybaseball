@@ -9,33 +9,31 @@ import {
   IStatCategoryPitching 
 } from '@/state/stats/types'
 
+import DraftRoomContentTile from '@draft/DraftRoomContentTile'
+
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
 export const DraftRoomSettingsStatCategoriesCategory = ({
   draftStatCategories,
-  header,
   statCategories,
   toggleStatCategory
 }: IDraftRoomSettingsStatCategoriesCategory) => {
 
   return (
     <Container>
-      <Header>{header}</Header>
-      <StatCategories>
-         {[ ...statCategories ].map(statCategory => (
-           <StatCategory
-            key={statCategory}>
-             <StatCategoryLabel>
-               {statCategory}
-             </StatCategoryLabel>
-             <StatCategoryInput
-              type="checkbox"
-              checked={[ ...draftStatCategories ].includes(statCategory)}
-              onChange={() => toggleStatCategory(statCategory)}/>
-           </StatCategory>
-         ))}
-      </StatCategories>
+      {[ ...statCategories ].map(statCategory => (
+        <DraftRoomContentTile
+        key={statCategory}>
+          <StatCategoryLabel>
+            {statCategory}
+          </StatCategoryLabel>
+          <StatCategoryInput
+          type="checkbox"
+          checked={[ ...draftStatCategories ].includes(statCategory)}
+          onChange={() => toggleStatCategory(statCategory)}/>
+        </DraftRoomContentTile>
+      ))}
     </Container>
   )
 }
@@ -45,7 +43,6 @@ export const DraftRoomSettingsStatCategoriesCategory = ({
 //-----------------------------------------------------------------------------
 export interface IDraftRoomSettingsStatCategoriesCategory {
   draftStatCategories: IStatCategoryBatting[] | IStatCategoryPitching[]
-  header: string
   statCategories: IStatCategoryBatting[] | IStatCategoryPitching[]
   toggleStatCategory(statCategory: IStatCategoryBatting | IStatCategoryPitching): void
 }
@@ -54,16 +51,6 @@ export interface IDraftRoomSettingsStatCategoriesCategory {
 // Styled Components
 //-----------------------------------------------------------------------------
 const Container = styled.div``
-
-const Header = styled.div``
-
-const StatCategories = styled.div`
-  display: flex;
-`
-
-const StatCategory = styled.div`
-  margin-left: 0.5rem;
-`
 
 const StatCategoryLabel = styled.label`
   margin-right: 0.2rem;

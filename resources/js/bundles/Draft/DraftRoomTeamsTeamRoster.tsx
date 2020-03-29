@@ -7,19 +7,23 @@ import styled from 'styled-components'
 import { IDraft } from '@/state/draft/types'
 import { ITeam } from '@/state/team/types'
 
-import DraftRoomTeamsTeamRoster from '@draft/DraftRoomTeamsTeamRoster'
+import DraftRoomTeamsTeamRosterBatting from '@draft/DraftRoomTeamsTeamRosterBatting'
+import DraftRoomTeamsTeamRosterPitching from '@draft/DraftRoomTeamsTeamRosterPitching'
 
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-export const DraftRoomTeamsTeam = ({
+export const DraftRoomTeamsTeamRoster = ({
   draftId,
   teamId
-}: IDraftRoomTeamsTeam) => {
+}: IDraftRoomTeamsTeamRoster) => {
 
   return (
     <Container>
-      <DraftRoomTeamsTeamRoster
+      <DraftRoomTeamsTeamRosterBatting
+        draftId={draftId}
+        teamId={teamId}/>
+      <DraftRoomTeamsTeamRosterPitching
         draftId={draftId}
         teamId={teamId}/>
     </Container>
@@ -29,7 +33,7 @@ export const DraftRoomTeamsTeam = ({
 //-----------------------------------------------------------------------------
 // Props
 //-----------------------------------------------------------------------------
-export interface IDraftRoomTeamsTeam {
+export interface IDraftRoomTeamsTeamRoster {
   draftId: IDraft['id']
   teamId: ITeam['id']
 }
@@ -37,7 +41,6 @@ export interface IDraftRoomTeamsTeam {
 //-----------------------------------------------------------------------------
 // Styled Components
 //-----------------------------------------------------------------------------
-const Container = styled.div`
-`
+const Container = styled.div``
 
-export default DraftRoomTeamsTeam
+export default DraftRoomTeamsTeamRoster

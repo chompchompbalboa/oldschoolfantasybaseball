@@ -38,7 +38,6 @@ export const DraftRoomSettingsStatCategoriesBatting = ({
   return (
     <DraftRoomSettingsStatCategoriesCategory
       draftStatCategories={draftStatCategoriesBatting}
-      header="Batting"
       statCategories={statCategoriesBatting}
       toggleStatCategory={toggleStatCategory}/>
   )

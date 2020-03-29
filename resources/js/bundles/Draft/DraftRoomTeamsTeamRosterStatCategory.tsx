@@ -3,41 +3,32 @@
 //-----------------------------------------------------------------------------
 import React from 'react'
 import styled from 'styled-components'
-
-import { IDraft } from '@/state/draft/types'
-import { ITeam } from '@/state/team/types'
-
-import DraftRoomTeamsTeamRoster from '@draft/DraftRoomTeamsTeamRoster'
+import { 
+  IStatCategoryBatting,
+  IStatCategoryPitching 
+} from '@/state/stats/types'
 
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-export const DraftRoomTeamsTeam = ({
-  draftId,
-  teamId
-}: IDraftRoomTeamsTeam) => {
-
-  return (
-    <Container>
-      <DraftRoomTeamsTeamRoster
-        draftId={draftId}
-        teamId={teamId}/>
-    </Container>
-  )
-}
+export const DraftRoomTeamsTeamRosterStatCategory = ({
+  statCategory
+}: IDraftRoomTeamsTeamRosterStatCategory) => (
+    <StatCategoryLabel>
+      {statCategory}
+    </StatCategoryLabel>
+)
 
 //-----------------------------------------------------------------------------
 // Props
 //-----------------------------------------------------------------------------
-export interface IDraftRoomTeamsTeam {
-  draftId: IDraft['id']
-  teamId: ITeam['id']
+export interface IDraftRoomTeamsTeamRosterStatCategory {
+  statCategory: IStatCategoryBatting | IStatCategoryPitching
 }
 
 //-----------------------------------------------------------------------------
 // Styled Components
 //-----------------------------------------------------------------------------
-const Container = styled.div`
-`
+const StatCategoryLabel = styled.th``
 
-export default DraftRoomTeamsTeam
+export default DraftRoomTeamsTeamRosterStatCategory

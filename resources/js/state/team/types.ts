@@ -4,3 +4,7 @@ export interface ITeam {
   id: string
   name: string
 }
+
+export interface ITeamUpdates {
+  name?: ITeam['name']
+}

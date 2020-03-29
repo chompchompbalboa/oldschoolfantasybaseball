@@ -4,24 +4,18 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { IDraft } from '@/state/draft/types'
-import { ITeam } from '@/state/team/types'
-
-import DraftRoomTeamsTeamRoster from '@draft/DraftRoomTeamsTeamRoster'
-
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-export const DraftRoomTeamsTeam = ({
-  draftId,
-  teamId
-}: IDraftRoomTeamsTeam) => {
+export const DraftRoomContentTile = ({
+  children,
+  width = "10rem"
+}: IDraftRoomContentTile) => {
 
   return (
-    <Container>
-      <DraftRoomTeamsTeamRoster
-        draftId={draftId}
-        teamId={teamId}/>
+    <Container
+      containerWidth={width}>
+      {children}
     </Container>
   )
 }
@@ -29,15 +23,26 @@ export const DraftRoomTeamsTeam = ({
 //-----------------------------------------------------------------------------
 // Props
 //-----------------------------------------------------------------------------
-export interface IDraftRoomTeamsTeam {
-  draftId: IDraft['id']
-  teamId: ITeam['id']
+export interface IDraftRoomContentTile {
+  children?: any
+  width?: string
 }
 
 //-----------------------------------------------------------------------------
 // Styled Components
 //-----------------------------------------------------------------------------
 const Container = styled.div`
+  width: ${ ({ containerWidth }: IContainer ) => containerWidth };
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  &:hover {
+    background-color: rgb(240, 240, 240);
+  }
 `
+interface IContainer {
+  containerWidth: string
+}
 
-export default DraftRoomTeamsTeam
+export default DraftRoomContentTile

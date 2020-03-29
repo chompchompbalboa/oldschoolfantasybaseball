@@ -3,7 +3,8 @@
 //-----------------------------------------------------------------------------
 import { 
   ITeamActions,
-  SET_ALL_TEAMS
+  SET_ALL_TEAMS,
+  UPDATE_TEAM
 } from '@/state/team/actions'
 
 import { IAllTeams } from '@/state/team/types'
@@ -30,6 +31,20 @@ export const teamReducer = (state = initialDraftState, action: ITeamActions): IT
       return {
         ...state,
         allTeams: nextAllTeams
+      }
+    }
+
+    case UPDATE_TEAM: {
+      const { teamId, updates } = action
+      return {
+        ...state,
+        allTeams: {
+          ...state.allTeams,
+          [teamId]: {
+            ...state.allTeams[teamId],
+            ...updates
+          }
+        }
       }
     }
 

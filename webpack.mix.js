@@ -18,4 +18,4 @@ mix.webpackConfig({
 	},
 })
 
-mix.ts('resources/js/bundles/Draft.tsx', 'public/js/draft.js').sourceMaps()
+mix.ts('resources/js/bundles/Draft.tsx', 'public/js/draft.js').sourceMaps(true, 'source-map')
