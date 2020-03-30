@@ -8,13 +8,13 @@ import { IAppState } from '@/state'
 import { IDraft } from '@/state/draft/types'
 import { ITeam } from '@/state/team/types'
 
-import { 
-  allDraftRosterSpotsBatting
-} from '@/state/draft/defaults'
-
 import DraftRoomTeamsTeamRosterSpot from '@draft/DraftRoomTeamsTeamRosterSpot'
 import DraftRoomTeamsTeamRosterStatCategories from '@draft/DraftRoomTeamsTeamRosterStatCategories'
 import DraftRoomTeamsTeamRosterStatCategory from '@draft/DraftRoomTeamsTeamRosterStatCategory'
+
+import {
+  allDraftRosterSpotsBatting
+} from '@/state/draft/defaults'
 
 //-----------------------------------------------------------------------------
 // Component
@@ -25,25 +25,41 @@ export const DraftRoomTeamsTeamRosterBatting = ({
 }: IDraftRoomTeamsTeamRosterBatting) => {
 
   // Redux
-  const draftRoster = useSelector((state: IAppState) => state.draft.allDrafts[draftId].roster)
+  const draftPicks = useSelector((state: IAppState) => state.draft.allDrafts[draftId].picks)
   const draftStatCategoriesBatting = useSelector((state: IAppState) => state.draft.allDrafts[draftId].statCategoriesBatting)
+  const allBattingStats = useSelector((state: IAppState) => state.stats.allBattingStats)
 
   const teamRosterSpotsBatting: React.ReactElement[] = []
   let rosterSpotHasBackground: boolean = false
-  allDraftRosterSpotsBatting.forEach(rosterSpotBatting => {
-    const rosterSpotCount = draftRoster.batting[rosterSpotBatting]
-    for(let i = 0; i < rosterSpotCount; i++) {
+  Object.keys(draftPicks).forEach(draftPickId => {
+    const draftPick = draftPicks[draftPickId]
+    // @ts-ignore
+    if(draftPick.teamId === teamId && allDraftRosterSpotsBatting.includes(draftPick.position) ) {
       teamRosterSpotsBatting.push(
         <DraftRoomTeamsTeamRosterSpot
-          key={rosterSpotBatting + i}
+          key={draftPickId}
           draftId={draftId}
           hasBackground={rosterSpotHasBackground}
-          rosterSpot={rosterSpotBatting}
+          position={draftPick.position}
           statCategories={draftStatCategoriesBatting}
+          statsId={draftPick.statsId}
           teamId={teamId}/> 
       )
-      rosterSpotHasBackground = !rosterSpotHasBackground
     }
+  })
+
+  const statCategoriesTotals: React.ReactElement[] = draftStatCategoriesBatting.map(statCategoryBatting => {
+    let total = 0
+    Object.keys(draftPicks).forEach(draftPickId => {
+      const draftPick = draftPicks[draftPickId]
+      // @ts-ignore
+      if(draftPick.teamId === teamId && allDraftRosterSpotsBatting.includes(draftPick.position)) {
+        total = total + allBattingStats[draftPick.statsId][statCategoryBatting]
+      }
+    })
+    return (
+      <td style={{ textAlign: "center"}} key={statCategoryBatting}>{total}</td>
+    )
   })
 
   const statCategoriesBatting: React.ReactElement[] = draftStatCategoriesBatting.map(statCategoryBatting => (
@@ -56,7 +72,8 @@ export const DraftRoomTeamsTeamRosterBatting = ({
     <DraftRoomTeamsTeamRosterStatCategories
       header="Batting"
       rosterSpots={teamRosterSpotsBatting}
-      statCategories={statCategoriesBatting}/>
+      statCategories={statCategoriesBatting}
+      totals={statCategoriesTotals}/>
   )
 }
 

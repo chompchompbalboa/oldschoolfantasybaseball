@@ -8,7 +8,7 @@ import { IDraft } from '@/state/draft/types'
 
 import { IDraftRoomActiveContent } from '@draft/DraftRoom'
 
-import  DraftRoomPicks from '@draft/DraftRoomPicks'
+import  DraftRoomDraft from '@draft/DraftRoomDraft'
 import  DraftRoomSettings from '@draft/DraftRoomSettings'
 import  DraftRoomTeams from '@draft/DraftRoomTeams'
 
@@ -28,7 +28,7 @@ export const DraftRoomActiveContent = ({
       <DraftRoomTeams
         draftId={draftId}
         isActiveContent={activeContent === 'DRAFT_TEAMS'}/>
-      <DraftRoomPicks
+      <DraftRoomDraft
         draftId={draftId}
         isActiveContent={activeContent === 'DRAFT_PICKS'}/>
     </Container>

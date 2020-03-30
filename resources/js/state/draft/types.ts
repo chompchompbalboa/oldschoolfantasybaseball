@@ -2,6 +2,8 @@
 // Imports
 //-----------------------------------------------------------------------------
 import {
+  IBattingStats,
+  IPitchingStats,
   IStatCategoryBatting,
   IStatCategoryPitching
 } from '@/state/stats/types'
@@ -16,19 +18,25 @@ export interface IAllDrafts { [draftId: string]: IDraft }
 
 export interface IDraft {
   id: string
+  currentRound: number
+  currentPick: number
   statCategoriesBatting: IStatCategoryBatting[]
   statCategoriesPitching: IStatCategoryPitching[]
   teams: ITeam['id'][]
   roster: IDraftRoster
   timePeriod: IDraftTimePeriod
+  picks: { [draftPickId: string]: IDraftPick }
 }
 
 export interface IDraftUpdates {
+  currentRound?: IDraft['currentRound']
+  currentPick?: IDraft['currentPick']
   statCategoriesBatting?: IDraft['statCategoriesBatting']
   statCategoriesPitching?: IDraft['statCategoriesPitching']
   teams?: IDraft['teams']
   roster?: IDraft['roster']
   timePeriod?: IDraft['timePeriod']
+  picks?: IDraft['picks']
 }
 
 export interface IDraftRoster {
@@ -58,4 +66,12 @@ export type IDraftRosterSpotPitching = keyof IDraftRosterPitching
 export interface IDraftTimePeriod {
   startYear: number
   endYear: number
+}
+
+export interface IDraftPick {
+  id: string // Round # - Pick #
+  isLocked: boolean
+  teamId: ITeam['id']
+  position: IDraftRosterSpotBatting | IDraftRosterSpotPitching
+  statsId: IBattingStats['ID'] | IPitchingStats['ID']
 }

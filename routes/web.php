@@ -16,7 +16,10 @@ use App\Models\Player;
 */
 
 Route::get('/draft/{type?}', function () {
-    return view('draft');
+    $players = Player::all();
+    return view('draft')->with([
+        'players' => $players
+    ]);
 });
 
 Route::get('/', function () {
@@ -27,8 +30,8 @@ Route::group(['prefix' => 'api'], function () {
   
     // Resource Controllers
     Route::resources([
-      // Team
-      'players' => 'PlayerController',
+        'draft/pick' => 'DraftPickController',
+        'players' => 'PlayerController',
     ]);
 });
 

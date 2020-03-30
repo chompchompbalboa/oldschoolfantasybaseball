@@ -1,3 +1,6 @@
+export interface IAllPlayers { [playerId: string]: IPlayer }
+
 export interface IPlayer {
-  playerId: string
+  id: string
+  name: string
 }

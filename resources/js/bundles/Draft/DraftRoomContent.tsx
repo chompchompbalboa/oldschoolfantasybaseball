@@ -50,11 +50,13 @@ const DraftRoomContentChoices = styled.div`
   width: 20%;
   height: 100%;
   border-right: 1px solid black;
+  overflow-y: scroll;
 `
 
 const ActiveContent = styled.div`
   width: 80%;
   height: 100%;
+  overflow-y: scroll;
 `
 
 export default DraftRoomContent

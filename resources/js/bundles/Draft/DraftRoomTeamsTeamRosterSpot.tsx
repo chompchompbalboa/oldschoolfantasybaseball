@@ -2,44 +2,72 @@
 // Imports
 //-----------------------------------------------------------------------------
 import React from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
+import { IAppState } from '@/state'
 import { 
   IDraft, 
   IDraftRosterSpotBatting,
   IDraftRosterSpotPitching
 } from '@/state/draft/types'
 import {
+  IBattingStats,
+  IPitchingStats,
   IStatCategoryBatting,
   IStatCategoryPitching
 } from '@/state/stats/types'
 import { ITeam } from '@/state/team/types'
+
+import {
+  allDraftRosterSpotsBatting
+} from '@/state/draft/defaults'
 
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
 export const DraftRoomTeamsTeam = ({
   draftId,
+  statsId,
   teamId,
   hasBackground,
-  rosterSpot,
+  position,
   statCategories
 }: IDraftRoomTeamsTeam) => {
 
-  const rosterSpotStatCategories: React.ReactElement[] = [ ...statCategories ].map(statCategory => (
-    <StatCategory
-      key={statCategory}>
-      {statCategory}
-    </StatCategory>
-  ))
+
+  // @ts-ignore
+  const stats = useSelector((state: IAppState) => allDraftRosterSpotsBatting.includes(position) 
+    ? state.stats.allBattingStats[statsId]
+    : state.stats.allPitchingStats[statsId]
+  )
+  const player = useSelector((state: IAppState) => state.player.allPlayers[stats.playerID])
+  const rosterSpotStatCategories: React.ReactElement[] = [ ...statCategories ].map(statCategory => {
+    // @ts-ignore
+    const value = stats[statCategory]
+    return (
+      <StatCategory
+        key={statCategory}>
+        {value}
+      </StatCategory>
+    )
+  })
 
   return (
     <Container
       hasBackground={hasBackground}>
       {[
         <StatCategory
-          key="rosterSpot">
-          {rosterSpot}
+          key="name">
+          {player.name}
+        </StatCategory>,
+        <StatCategory
+          key="year">
+          {stats.yearID}
+        </StatCategory>,
+        <StatCategory
+          key="position">
+          {position}
         </StatCategory>,
         ...rosterSpotStatCategories
       ]}
@@ -52,9 +80,10 @@ export const DraftRoomTeamsTeam = ({
 //-----------------------------------------------------------------------------
 export interface IDraftRoomTeamsTeam {
   draftId: IDraft['id']
+  statsId: IBattingStats['ID'] | IPitchingStats['ID']
   teamId: ITeam['id']
   hasBackground: boolean
-  rosterSpot: IDraftRosterSpotBatting | IDraftRosterSpotPitching
+  position: IDraftRosterSpotBatting | IDraftRosterSpotPitching
   statCategories: IStatCategoryBatting[] | IStatCategoryPitching[]
 }
 

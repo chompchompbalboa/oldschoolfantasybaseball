@@ -23,7 +23,7 @@ export const DraftRoomSettingsStatCategoriesPitching = ({
   const dispatch = useDispatch()
   const draftStatCategoriesPitching = useSelector((state: IAppState) => state.draft.allDrafts[draftId].statCategoriesPitching)
 
-  const statCategoriesPitching: IStatCategoryPitching[] = [ 'ERA', 'IP', 'K', 'QS', 'SV', 'WHIP' ]
+  const statCategoriesPitching: IStatCategoryPitching[] = [ 'ERA', 'IPouts', 'SO', 'QS', 'SV', 'WHIP' ]
 
   const toggleStatCategory = (statCategory: IStatCategoryPitching) => {
     const nextDraftStatCategoriesPitching =

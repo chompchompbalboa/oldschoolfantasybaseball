@@ -10,9 +10,9 @@ export interface IAllBattingStats { [battingStatsId: string]: IBattingStats }
 export interface IAllPitchingStats { [pitchingStatsId: string]: IPitchingStats }
 
 export interface IBattingStats {
-  id: string
-  playerId: IPlayer['playerId']
-  yearId: number
+  ID: string
+  playerID: IPlayer['id']
+  yearID: number
   AVG: number
   OPS: number
   HR: number
@@ -22,11 +22,11 @@ export interface IBattingStats {
 }
 
 export interface IPitchingStats {
-  id: string
-  playerId: IPlayer['playerId']
-  yearId: number
-  IP: number
-  K: number
+  ID: string
+  playerID: IPlayer['id']
+  yearID: number
+  IPouts: number
+  SO: number
   ERA: number
   WHIP: number
   QS: number
@@ -42,8 +42,8 @@ export type IStatCategoryBatting =
   'SB'
 
 export type IStatCategoryPitching = 
-  'IP' |
-  'K' |
+  'IPouts' |
+  'SO' |
   'ERA' | 
   'WHIP' |
   'QS' |

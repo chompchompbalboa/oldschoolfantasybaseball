@@ -32,10 +32,13 @@ export const defaultDraft: () => IReturnValue = () => {
 
   const newDraft: IDraft = {
     id: createUuid(),
-    statCategoriesBatting: [ 'AVG', 'HR', 'R', 'RBI', 'SB' ],
-    statCategoriesPitching: [ 'ERA', 'IP', 'K', 'SV', 'WHIP' ],
+    currentRound: 1,
+    currentPick: 1,
+    statCategoriesBatting: [ 'HR', 'R', 'RBI', 'SB' ],
+    statCategoriesPitching: [ 'ERA', 'IPouts', 'SO', 'SV' ],
     teams: newTeamIds,
     roster: defaultDraftRoster(),
+    picks: {},
     timePeriod: {
       startYear: 1950,
       endYear: 2019

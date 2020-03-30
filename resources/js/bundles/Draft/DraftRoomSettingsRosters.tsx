@@ -36,7 +36,8 @@ export const DraftRoomSettingsRosters = ({
         const rosterSpotValue = draftRoster.batting[rosterSpot]
         const rosterSpotName = allDraftRosterSpotNames[rosterSpot]
         return (
-          <DraftRoomContentTile>
+          <DraftRoomContentTile
+            key={rosterSpot}>
             <RosterSpotName>
               {rosterSpotName}
             </RosterSpotName>
@@ -62,7 +63,8 @@ export const DraftRoomSettingsRosters = ({
         const rosterSpotValue = draftRoster.pitching[rosterSpot]
         const rosterSpotName = allDraftRosterSpotNames[rosterSpot]
         return (
-          <DraftRoomContentTile>
+          <DraftRoomContentTile
+            key={rosterSpot}>
             <RosterSpotName>
               {rosterSpotName}
             </RosterSpotName>

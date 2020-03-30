@@ -2,51 +2,48 @@
 // Initial
 //-----------------------------------------------------------------------------
 import { 
-  IDraftActions,
-  SET_ALL_DRAFTS,
-  UPDATE_DRAFT
-} from '@/state/draft/actions'
+  IStatsActions,
+  SET_ALL_BATTING_STATS,
+  SET_ALL_PITCHING_STATS
+} from '@/state/stats/actions'
 
-import { IAllDrafts } from '@/state/draft/types'
+import { 
+  IAllBattingStats,
+  IAllPitchingStats
+} from '@/state/stats/types'
 
 //-----------------------------------------------------------------------------
 // Initial State
 //-----------------------------------------------------------------------------
-export type IDraftState = {
-  activeDraft: string | null
-  allDrafts: IAllDrafts
+export type IStatsState = {
+  allBattingStats: IAllBattingStats,
+  allPitchingStats: IAllPitchingStats
 }
 
-export const initialDraftState: IDraftState = {
-  activeDraft: null,
-  allDrafts: {}
+export const initialDraftState: IStatsState = {
+  allBattingStats: {},
+  allPitchingStats: {}
 }
 
 //-----------------------------------------------------------------------------
 // Reducers
 //-----------------------------------------------------------------------------
-export const userReducer = (state = initialDraftState, action: IDraftActions): IDraftState => {
+export const userReducer = (state = initialDraftState, action: IStatsActions): IStatsState => {
 	switch (action.type) {
 
-    case SET_ALL_DRAFTS: {
-      const { nextAllDrafts } = action
+    case SET_ALL_BATTING_STATS: {
+      const { nextAllBattingStats } = action
       return {
         ...state,
-        allDrafts: nextAllDrafts
+        allBattingStats: nextAllBattingStats
       }
     }
 
-    case UPDATE_DRAFT: {
-      const { draftId, updates } = action
+    case SET_ALL_PITCHING_STATS: {
+      const { nextAllPitchingStats } = action
       return {
         ...state,
-        allDrafts: {
-          ...state.allDrafts,
-          [draftId]: {
-            ...state.allDrafts[draftId],
-            ...updates
-          }
-        }
+        allPitchingStats: nextAllPitchingStats
       }
     }
 

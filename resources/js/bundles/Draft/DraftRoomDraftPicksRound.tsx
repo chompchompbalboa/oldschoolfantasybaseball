@@ -1,31 +1,37 @@
 //-----------------------------------------------------------------------------
 // Imports
 //-----------------------------------------------------------------------------
-import React, { useState } from 'react'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
+import _ from 'lodash'
 
+import { IAppState } from '@/state'
 import { IDraft } from '@/state/draft/types'
 
-import DraftRoomActiveContent from '@draft/DraftRoomActiveContent'
-import DraftRoomTabs from '@draft/DraftRoomTabs'
+import DraftRoomDraftPicksRoundPick from '@draft/DraftRoomDraftPicksRoundPick'
 
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-export const DraftRoom = ({
-  draftId
-}: IDraftRoom) => {
+export const DraftRoomDraftPicksRound = ({
+  draftId,
+  round
+}: IDraftRoomDraftPicksRound) => {
 
-  const [ activeContent, setActiveContent ] = useState('DRAFT_PICKS' as IDraftRoomActiveContent)
+  const draftTeams = useSelector((state: IAppState) => state.draft.allDrafts[draftId].teams)
+  const numberOfPicksPerRound = draftTeams.length
 
   return (
     <Container>
-      <DraftRoomTabs
-        activeContent={activeContent}
-        setActiveContent={setActiveContent}/>
-      <DraftRoomActiveContent
-        draftId={draftId}
-        activeContent={activeContent}/>
+      {_.times(numberOfPicksPerRound, pickNumber => (
+        <DraftRoomDraftPicksRoundPick
+          key={pickNumber}
+          draftId={draftId}
+          round={round}
+          pick={pickNumber + 1}
+          teamId={draftTeams[pickNumber]}/>
+      ))}
     </Container>
   )
 }
@@ -33,17 +39,10 @@ export const DraftRoom = ({
 //-----------------------------------------------------------------------------
 // Props
 //-----------------------------------------------------------------------------
-export interface IDraftRoom {
+export interface IDraftRoomDraftPicksRound {
   draftId: IDraft['id']
+  round: number
 }
-
-//-----------------------------------------------------------------------------
-// Types
-//-----------------------------------------------------------------------------
-export type IDraftRoomActiveContent = 
-  'DRAFT_SETTINGS' |
-  'DRAFT_TEAMS' | 
-  'DRAFT_PICKS'
 
 //-----------------------------------------------------------------------------
 // Styled Components
@@ -51,4 +50,4 @@ export type IDraftRoomActiveContent =
 const Container = styled.div`
 `
 
-export default DraftRoom
+export default DraftRoomDraftPicksRound

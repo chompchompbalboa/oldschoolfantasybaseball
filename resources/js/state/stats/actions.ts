@@ -9,7 +9,7 @@ import {
 //-----------------------------------------------------------------------------
 // Exports
 //-----------------------------------------------------------------------------
-export type IDraftActions = 
+export type IStatsActions = 
   ISetAllBattingStats |
   ISetAllPitchingStats
 
@@ -22,7 +22,7 @@ interface ISetAllBattingStats {
   nextAllBattingStats: IAllBattingStats
 }
 
-export const setAllBattingStats = (nextAllBattingStats: IAllBattingStats): IDraftActions => {
+export const setAllBattingStats = (nextAllBattingStats: IAllBattingStats): IStatsActions => {
 	return {
 		type: SET_ALL_BATTING_STATS,
 		nextAllBattingStats
@@ -38,7 +38,7 @@ interface ISetAllPitchingStats {
   nextAllPitchingStats: IAllPitchingStats
 }
 
-export const setAllPitchingStats = (nextAllPitchingStats: IAllPitchingStats): IDraftActions => {
+export const setAllPitchingStats = (nextAllPitchingStats: IAllPitchingStats): IStatsActions => {
 	return {
 		type: SET_ALL_PITCHING_STATS,
 		nextAllPitchingStats

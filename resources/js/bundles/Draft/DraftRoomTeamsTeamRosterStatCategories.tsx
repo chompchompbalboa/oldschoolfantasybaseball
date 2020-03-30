@@ -11,6 +11,7 @@ export const DraftRoomTeamsTeamRosterStats = ({
   header,
   rosterSpots,
   statCategories,
+  totals
 }: IDraftRoomTeamsTeamRosterStats) => {
 
   return (
@@ -23,6 +24,14 @@ export const DraftRoomTeamsTeamRosterStats = ({
           <StatCategories>
             {[
               <StatCategoryLabel
+                key="Name">
+                Name
+              </StatCategoryLabel>,
+              <StatCategoryLabel
+                key="Year">
+                Year
+              </StatCategoryLabel>,
+              <StatCategoryLabel
                 key="Position">
                 Position
               </StatCategoryLabel>,
@@ -32,6 +41,20 @@ export const DraftRoomTeamsTeamRosterStats = ({
         </RosterTableHead>
         <RosterSpots>
           {rosterSpots}
+          <Totals>
+            {[
+              <StatCategoryLabel
+                key="Name">
+              </StatCategoryLabel>,
+              <StatCategoryLabel
+                key="Year">
+              </StatCategoryLabel>,
+              <StatCategoryLabel
+                key="Position">
+              </StatCategoryLabel>,
+              ...totals
+            ]}
+          </Totals>
         </RosterSpots>
       </RosterTable>
     </Container>
@@ -45,6 +68,7 @@ export interface IDraftRoomTeamsTeamRosterStats {
   header: string
   rosterSpots: React.ReactElement[]
   statCategories: React.ReactElement[]
+  totals: React.ReactElement[]
 }
 
 //-----------------------------------------------------------------------------
@@ -74,5 +98,7 @@ const StatCategoryLabel = styled.th``
 
 const RosterSpots = styled.tbody`
 `
+
+const Totals = styled.tr``
 
 export default DraftRoomTeamsTeamRosterStats
