@@ -2,6 +2,10 @@
 // Imports
 //-----------------------------------------------------------------------------
 import {
+  Moment
+} from 'moment'
+
+import {
   IBattingStats,
   IPitchingStats,
   IStatCategoryBatting,
@@ -18,6 +22,10 @@ export interface IAllDrafts { [draftId: string]: IDraft }
 
 export interface IDraft {
   id: string
+  type: IDraftType
+  startTime: Moment
+  hasDraftStarted: boolean
+  hasDraftEnded: boolean
   currentRound: number
   currentPick: number
   statCategoriesBatting: IStatCategoryBatting[]
@@ -29,6 +37,8 @@ export interface IDraft {
 }
 
 export interface IDraftUpdates {
+  hasDraftStarted?: IDraft['hasDraftStarted']
+  hasDraftEnded?: IDraft['hasDraftEnded']
   currentRound?: IDraft['currentRound']
   currentPick?: IDraft['currentPick']
   statCategoriesBatting?: IDraft['statCategoriesBatting']
@@ -38,6 +48,11 @@ export interface IDraftUpdates {
   timePeriod?: IDraft['timePeriod']
   picks?: IDraft['picks']
 }
+
+export type IDraftType = 
+  'SOLO' |
+  'LIVE' |
+  'ONLINE'
 
 export interface IDraftRoster {
   batting: IDraftRosterBatting

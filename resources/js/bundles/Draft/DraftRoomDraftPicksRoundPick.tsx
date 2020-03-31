@@ -125,7 +125,7 @@ export const DraftRoomDraftPicksRoundPick = ({
               </option>
             ))
           : null
-      }
+        }
       </datalist>
     )
   }

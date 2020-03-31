@@ -5,7 +5,10 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { IAppState } from '@/state'
-import { IDraft } from '@/state/draft/types'
+import { 
+  IDraft,
+  IDraftType
+} from '@/state/draft/types'
 
 import { 
   setAllDrafts,
@@ -20,7 +23,7 @@ import { defaultDraft } from '@/state/draft/defaults'
 //-----------------------------------------------------------------------------
 // Imports
 //-----------------------------------------------------------------------------
-export const useLoadDraft = (): IReturnValue => {
+export const useLoadDraft = (draftType: IDraftType): IReturnValue => {
 
   const dispatch = useDispatch()
   const draftId = useSelector((state: IAppState) => state.draft.activeDraftId)
@@ -32,7 +35,7 @@ export const useLoadDraft = (): IReturnValue => {
       const { 
         newDraft,
         newTeams
-      } = defaultDraft()
+      } = defaultDraft(draftType)
       
       dispatch(setAllDrafts({
         ...allDrafts,

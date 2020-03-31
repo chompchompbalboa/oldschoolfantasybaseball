@@ -9,7 +9,8 @@ import {
   IDraftRosterBatting,
   IDraftRosterPitching,
   IDraftRosterSpotBatting,
-  IDraftRosterSpotPitching
+  IDraftRosterSpotPitching,
+  IDraftType
 } from '@/state/draft/types'
 import { 
   IAllTeams,
@@ -17,11 +18,12 @@ import {
 } from '@/state/team/types'
 
 import { defaultTeams } from '@/state/team/defaults'
+import moment from 'moment'
 
 //-----------------------------------------------------------------------------
 // Default Draft
 //-----------------------------------------------------------------------------
-export const defaultDraft: () => IReturnValue = () => {
+export const defaultDraft = (draftType: IDraftType) => {
 
   const newTeams: IAllTeams = {}
   const newTeamIds: ITeam['id'][] = []
@@ -32,6 +34,10 @@ export const defaultDraft: () => IReturnValue = () => {
 
   const newDraft: IDraft = {
     id: createUuid(),
+    type: draftType,
+    startTime: moment().add(11, 's'),
+    hasDraftStarted: false,
+    hasDraftEnded: false,
     currentRound: 1,
     currentPick: 1,
     statCategoriesBatting: [ 'HR', 'R', 'RBI', 'SB' ],
@@ -48,7 +54,7 @@ export const defaultDraft: () => IReturnValue = () => {
   return {
     newDraft,
     newTeams
-  }
+  } as IReturnValue
 }
 
 interface IReturnValue {

@@ -4,36 +4,34 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { useLoadDraft } from '@/hooks'
-
-import DraftSoloHeader from '@draft/DraftSoloHeader'
-import DraftSoloRoster from '@draft/DraftSoloRoster'
-
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-export const DraftSolo = () => {
+export const Button = ({
+  children,
+  onClick
+}: IButton) => (
+  <Container
+    onClick={onClick}>
+    {children}
+  </Container>
+)
 
-  const { draftId } = useLoadDraft('SOLO')
-
-  return (
-    <Container>
-      {draftId &&
-        <>
-          <DraftSoloHeader
-            draftId={draftId}/>
-          <DraftSoloRoster
-            draftId={draftId}/>
-        </>
-      }
-    </Container>
-  )
+//-----------------------------------------------------------------------------
+// Props
+//-----------------------------------------------------------------------------
+export interface IButton {
+  children?: any
+  onClick(...args: any): void
 }
 
 //-----------------------------------------------------------------------------
 // Styled Components
 //-----------------------------------------------------------------------------
 const Container = styled.div`
+  padding: 1rem;
+  border: 1px solid black;
+  border-radius: 3px;
 `
 
-export default DraftSolo
+export default Button

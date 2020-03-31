@@ -4,31 +4,24 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { useLoadDraft } from '@/hooks'
-
-import DraftSoloHeader from '@draft/DraftSoloHeader'
-import DraftSoloRoster from '@draft/DraftSoloRoster'
+import Button from '@/components/Button'
 
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-export const DraftSolo = () => {
-
-  const { draftId } = useLoadDraft('SOLO')
-
-  return (
-    <Container>
-      {draftId &&
-        <>
-          <DraftSoloHeader
-            draftId={draftId}/>
-          <DraftSoloRoster
-            draftId={draftId}/>
-        </>
-      }
-    </Container>
-  )
-}
+export const Site = () => (
+  <Container>
+    <SiteTile>
+      <Header>
+        Old School Fantasy Baseball
+      </Header>
+      <Button
+        onClick={() => window.location.href='/draft/solo'}>
+        Start a Draft
+      </Button>
+    </SiteTile>
+  </Container>
+)
 
 //-----------------------------------------------------------------------------
 // Styled Components
@@ -36,4 +29,15 @@ export const DraftSolo = () => {
 const Container = styled.div`
 `
 
-export default DraftSolo
+const SiteTile = styled.div`
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
+
+const Header = styled.h1``
+
+export default Site

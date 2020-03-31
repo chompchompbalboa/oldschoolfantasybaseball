@@ -2,33 +2,25 @@
 // Imports
 //-----------------------------------------------------------------------------
 import React from 'react'
-import styled from 'styled-components'
+import { IDraft } from '@/state/draft/types'
 
-import { useLoadDraft } from '@/hooks'
-
-import DraftRoom from '@draft/DraftRoom'
+import DraftSoloHeaderStartTime from '@draft/DraftSoloHeaderStartTime'
 
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-export const DraftLive = () => {
+export const DraftSoloHeaderPreDraft = ({
+  draftId
+}: IDraftSoloHeaderPreDraft) => (
+  <DraftSoloHeaderStartTime
+    draftId={draftId}/>
+)
 
-  const { draftId } = useLoadDraft('LIVE')
-
-  return (
-    <Container>
-      {draftId && 
-        <DraftRoom
-          draftId={draftId}/>
-      }
-    </Container>
-  )
+//-----------------------------------------------------------------------------
+// Props
+//-----------------------------------------------------------------------------
+export interface IDraftSoloHeaderPreDraft {
+  draftId: IDraft['id']
 }
 
-//-----------------------------------------------------------------------------
-// Styled Components
-//-----------------------------------------------------------------------------
-const Container = styled.div`
-`
-
-export default DraftLive
+export default DraftSoloHeaderPreDraft

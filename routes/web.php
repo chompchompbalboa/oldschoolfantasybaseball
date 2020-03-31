@@ -23,12 +23,10 @@ Route::get('/draft/{type?}', function () {
 });
 
 Route::get('/', function () {
-    return redirect('/draft');
+    return view('site');
 });
 
 Route::group(['prefix' => 'api'], function () {
-  
-    // Resource Controllers
     Route::resources([
         'draft/pick' => 'DraftPickController',
         'players' => 'PlayerController',

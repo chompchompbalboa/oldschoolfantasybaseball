@@ -2,33 +2,18 @@
 // Imports
 //-----------------------------------------------------------------------------
 import React from 'react'
-import styled from 'styled-components'
+import ReactDOM from 'react-dom'
 
-import { useLoadDraft } from '@/hooks'
-
-import DraftRoom from '@draft/DraftRoom'
+import Site from '@site/Site'
 
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-export const DraftLive = () => {
+export const Root = () => <Site />
 
-  const { draftId } = useLoadDraft('LIVE')
-
-  return (
-    <Container>
-      {draftId && 
-        <DraftRoom
-          draftId={draftId}/>
-      }
-    </Container>
-  )
+//-----------------------------------------------------------------------------
+// Mount to DOM
+//-----------------------------------------------------------------------------
+if (document.getElementById('react-container')) {
+	ReactDOM.render(<Root />, document.getElementById('react-container'))
 }
-
-//-----------------------------------------------------------------------------
-// Styled Components
-//-----------------------------------------------------------------------------
-const Container = styled.div`
-`
-
-export default DraftLive

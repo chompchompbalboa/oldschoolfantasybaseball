@@ -23,6 +23,7 @@
         "@testing-library/react": "^9.4.0",
         "@types/fetch-mock": "^7.3.2",
         "@types/jest": "^24.0.23",
+        "@types/moment": "^2.13.0",
         "@types/react": "^16.9.16",
         "@types/react-color": "^3.0.1",
         "@types/react-csv": "^1.1.1",
@@ -102,7 +103,8 @@
     "jest": {
         "moduleNameMapper": {
             "^@/(.*)$": "<rootDir>resources/js/$1",
-            "^@draft/(.*)$": "<rootDir>resources/js/bundles/Draft/$1"
+            "^@draft/(.*)$": "<rootDir>resources/js/bundles/Draft/$1",
+            "^@site/(.*)$": "<rootDir>resources/js/bundles/Site/$1"
         }
     }
 }
