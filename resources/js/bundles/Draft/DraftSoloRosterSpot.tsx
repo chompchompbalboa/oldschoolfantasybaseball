@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 // Imports
 //-----------------------------------------------------------------------------
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
@@ -25,41 +25,65 @@ export const IDraftSoloRosterSpot = ({
   rosterSpot 
 }: IIDraftSoloRosterSpot) => {
 
+  // Refs
+  const container = useRef()
+
   // Redux
-  const allPlayerIds = useSelector((state: IAppState) => state.player.allPlayerIds)
-  const allPlayers = useSelector((state: IAppState) => state.player.allPlayers)
+  const allPlayerSeasonsEligibleAtRosterSpot = useSelector((state: IAppState) => state.player.allPlayerSeasonsByPosition[rosterSpot])
 
   // State
+  const [ activeDropdownOptionIndex, setActiveDropdownIndex ] = useState(0)
   const [ inputValue, setInputValue ] = useState('')
   const [ isDropdownVisible, setIsDropdownVisible ] = useState(false)
 
+  // Visible Player Seasons
+  const visiblePlayerSeasons = inputValue && allPlayerSeasonsEligibleAtRosterSpot.filter(playerSeason => 
+    (playerSeason.name + playerSeason.year).split(' ').join('').toLowerCase().includes(inputValue.split(' ').join('').toLowerCase())
+  ).filter((_, index) => index < 25)
 
-  const dropdownOptions = inputValue
-    ? allPlayerIds.filter(playerId => 
-          allPlayers[playerId].name.toLowerCase().includes(inputValue.toLowerCase())
-        ).filter((_, index) => index < 5).map(playerId => (
-        <div 
-          key={playerId}>
-          {allPlayers[playerId].name}
-        </div>
-      ))
-    : <div>Start typing to see available players</div>
+  const handleDraftPick = () => {
+    const playerSeason = visiblePlayerSeasons[activeDropdownOptionIndex]
+    setIsDropdownVisible(false)
+    setInputValue(playerSeason.name + " " + playerSeason.year)
+  }
 
   return (
-    <Container>
+    <Container
+      ref={container}>
       <RosterSpot>
         {allDraftRosterSpotNames[rosterSpot]}
       </RosterSpot>
       <DraftPickContainer>
         <DraftPickInput
           onBlur={() => setIsDropdownVisible(false)}
-          onChange={nextInputValue => setInputValue(nextInputValue)}
+          onChange={nextInputValue => {
+            setIsDropdownVisible(true)
+            setInputValue(nextInputValue)
+          }}
           onFocus={() => setIsDropdownVisible(true)}
           value={inputValue}/>
         <DraftPickDropdown
+          activeDropdownOptionIndex={activeDropdownOptionIndex}
           closeDropdown={() => setIsDropdownVisible(false)}
-          isDropdownVisible={isDropdownVisible}>
-          {dropdownOptions}
+          containerRef={container}
+          dropdownOptionsLength={visiblePlayerSeasons.length}
+          isDropdownVisible={isDropdownVisible}
+          selectDropdownOption={handleDraftPick}
+          setActiveDropdownOptionIndex={setActiveDropdownIndex}>
+          {visiblePlayerSeasons 
+            ? visiblePlayerSeasons.map((playerSeason, index) => (
+                <DraftPickDropdownOption 
+                  key={playerSeason.name + playerSeason.year}
+                  isActive={activeDropdownOptionIndex === index}
+                  onMouseEnter={() => setActiveDropdownIndex(index)}>
+                  {playerSeason.name} {playerSeason.year}
+                </DraftPickDropdownOption>
+              ))
+            : <DraftPickDropdownOption
+                isActive={false}>
+                Start typing to see available players
+              </DraftPickDropdownOption>
+          }
         </DraftPickDropdown>
       </DraftPickContainer>
     </Container>
@@ -106,7 +130,15 @@ const DraftPickInput = styled(Input)`
 
 const DraftPickDropdown = styled(Dropdown)`
   background-color: rgb(250, 250, 250);
-  padding: 1rem 0.5rem; 
 `
+
+const DraftPickDropdownOption = styled.div`
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: ${ ({ isActive }: IDraftPickDropdownOption) => isActive ? 'rgb(240, 240, 240)'  : 'transparent' };
+`
+interface IDraftPickDropdownOption {
+  isActive: boolean
+}
 
 export default IDraftSoloRosterSpot

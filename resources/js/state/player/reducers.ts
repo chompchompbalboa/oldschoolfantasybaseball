@@ -8,12 +8,15 @@ import {
 
 import { 
   IAllPlayers,
+  IAllPlayerSeasonsByPosition,
   IPlayer
 } from '@/state/player/types'
 
 //-----------------------------------------------------------------------------
 // Initial State
 //-----------------------------------------------------------------------------
+// @ts-ignore
+const initialDataAllPlayerSeasonByPosition = initialDraftData.allPlayerSeasonsByPosition
 // @ts-ignore
 const initialDataPlayers = initialDraftData.players as IPlayer[]
 const initialDataAllPlayers = {} as IAllPlayers
@@ -26,11 +29,13 @@ initialDataPlayers.forEach((player: IPlayer) => {
 export type IPlayerState = {
   allPlayerIds: IPlayer['id'][]
   allPlayers: IAllPlayers
+  allPlayerSeasonsByPosition: IAllPlayerSeasonsByPosition
 }
 
 export const initialDraftState: IPlayerState = {
   allPlayerIds: initialDataAllPlayerIds,
-  allPlayers: initialDataAllPlayers
+  allPlayers: initialDataAllPlayers,
+  allPlayerSeasonsByPosition: initialDataAllPlayerSeasonByPosition
 }
 
 //-----------------------------------------------------------------------------

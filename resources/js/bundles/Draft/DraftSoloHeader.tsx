@@ -46,7 +46,7 @@ export interface IDraftSoloHeader {
 // Styled Components
 //-----------------------------------------------------------------------------
 const Container = styled.div`
-  z-index: 10;
+  z-index: 10000;
   position: fixed;
   top: 0;
   left: 0;

@@ -1,37 +1,68 @@
 //-----------------------------------------------------------------------------
 // Imports
 //-----------------------------------------------------------------------------
-import React, { useEffect, useRef } from 'react'
+import React, { RefObject, useEffect } from 'react'
 import styled from 'styled-components'
 
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
 export const Dropdown = ({ 
+  activeDropdownOptionIndex,
   children,
   className,
+  containerRef,
   closeDropdown,
-  isDropdownVisible
+  dropdownOptionsLength,
+  isDropdownVisible,
+  selectDropdownOption,
+  setActiveDropdownOptionIndex
 }: IDropdown) => {
 
-  // Refs
-  const dropdown = useRef(null)
-
-  // Effects
+  // Add event listeners when the dropdown is visible
   useEffect(() => {
     if(isDropdownVisible) {
       addEventListener('click', closeDropdownOnClickOutside)
+      addEventListener('keydown', updateActiveDropdownOptionIndexOnKeydown)
     }
     else {
       removeEventListener('click', closeDropdownOnClickOutside)
+      removeEventListener('keydown', updateActiveDropdownOptionIndexOnKeydown)
     }
-    return () => removeEventListener('click', closeDropdownOnClickOutside)
-  }, [ isDropdownVisible ])
+    return () => {
+      removeEventListener('click', closeDropdownOnClickOutside)
+      removeEventListener('keydown', updateActiveDropdownOptionIndexOnKeydown)
+    }
+  }, [ activeDropdownOptionIndex, dropdownOptionsLength, isDropdownVisible ])
+
+  // Update the activeDropdownIndex when dropdownOptionsLength is 0
+  useEffect(() => {
+    if(dropdownOptionsLength === 0 && activeDropdownOptionIndex !== 0) {
+      setActiveDropdownOptionIndex(0)
+    }
+  }, [ activeDropdownOptionIndex, dropdownOptionsLength ])
 
   // Close Dropdown On Click Outside
   const closeDropdownOnClickOutside = (e: MouseEvent) => {
-    if(dropdown && dropdown.current && !dropdown.current.contains(e.target)) {
+    if(containerRef && containerRef.current && !containerRef.current.contains(e.target as Node)) {
       closeDropdown()
+    }
+  }
+
+  // Update Active Dropdown Option Index On Keydown
+  const updateActiveDropdownOptionIndexOnKeydown = (e: KeyboardEvent) => {
+    if(setActiveDropdownOptionIndex) {
+      if(e.key === 'ArrowUp') {
+        e.preventDefault()
+        setActiveDropdownOptionIndex(Math.max(0, activeDropdownOptionIndex - 1))
+      }
+      if(e.key === 'ArrowDown') {
+        e.preventDefault()
+        setActiveDropdownOptionIndex(Math.min(dropdownOptionsLength - 1, activeDropdownOptionIndex + 1))
+      }
+    }
+    if(selectDropdownOption && e.key === 'Enter') {
+      selectDropdownOption()
     }
   }
 
@@ -48,10 +79,15 @@ export const Dropdown = ({
 // Props
 //-----------------------------------------------------------------------------
 export interface IDropdown {
+  activeDropdownOptionIndex?: number
   className?: string
+  containerRef: RefObject<HTMLElement>
   children?: any
   closeDropdown(): void
+  dropdownOptionsLength?: number
   isDropdownVisible: boolean
+  selectDropdownOption?(): void 
+  setActiveDropdownOptionIndex?(nextActiveDropdownOptionIndex: number): void
 }
 
 //-----------------------------------------------------------------------------
