@@ -1,19 +1,14 @@
 //-----------------------------------------------------------------------------
 // Imports
 //-----------------------------------------------------------------------------
-import {
-  Moment
-} from 'moment'
+import { Moment } from 'moment'
 
 import {
-  IBattingStats,
-  IPitchingStats,
+  IPlayerSeason,
   IStatCategoryBatting,
   IStatCategoryPitching
-} from '@/state/stats/types'
-import {
-  ITeam
-} from '@/state/team/types'
+} from '@/state/playerSeason/types'
+import { ITeam } from '@/state/team/types'
 
 //-----------------------------------------------------------------------------
 // Types
@@ -22,71 +17,51 @@ export interface IAllDrafts { [draftId: string]: IDraft }
 
 export interface IDraft {
   id: string
-  type: IDraftType
   startTime: Moment
   hasDraftStarted: boolean
   hasDraftEnded: boolean
-  currentRound: number
-  currentPick: number
-  statCategoriesBatting: IStatCategoryBatting[]
-  statCategoriesPitching: IStatCategoryPitching[]
   teams: ITeam['id'][]
-  roster: IDraftRoster
-  timePeriod: IDraftTimePeriod
-  picks: { [draftPickId: string]: IDraftPick }
+  statCategoriesBatting: IStatCategoryBatting[],
+  statCategoriesPitching: IStatCategoryPitching[]
+  rosterSpotsBatting: {
+    CATCHER: number
+    FIRST_BASEMAN: number
+    SECOND_BASEMAN: number
+    THIRD_BASEMAN: number
+    SHORTSTOP: number
+    OUTFIELD: number
+    DESIGNATED_HITTER: number
+  }
+  rosterSpotsPitching: {
+    STARTING_PITCHER: number
+    RELIEF_PITCHER: number
+  }
+  allDraftPicksBatting: { [ playerSeasonId: string ]: ITeam['id'] }
+  allDraftPicksPitching: { [ playerSeasonId: string ]: ITeam['id'] }
+  draftPicksByTeamBatting: {
+    [ teamId: string ]: {
+      CATCHER: IPlayerSeason['playerSeasonId'][]
+      FIRST_BASEMAN: IPlayerSeason['playerSeasonId'][]
+      SECOND_BASEMAN: IPlayerSeason['playerSeasonId'][]
+      THIRD_BASEMAN: IPlayerSeason['playerSeasonId'][]
+      SHORTSTOP: IPlayerSeason['playerSeasonId'][]
+      OUTFIELD: IPlayerSeason['playerSeasonId'][]
+      DESIGNATED_HITTER: IPlayerSeason['playerSeasonId'][]
+    }
+  }
+  draftPicksByTeamPitching: {
+    [ teamId: string ]: {
+      STARTING_PITCHER: IPlayerSeason['playerSeasonId'][]
+      RELIEF_PITCHER: IPlayerSeason['playerSeasonId'][]
+    }
+  }
 }
 
 export interface IDraftUpdates {
   hasDraftStarted?: IDraft['hasDraftStarted']
   hasDraftEnded?: IDraft['hasDraftEnded']
-  currentRound?: IDraft['currentRound']
-  currentPick?: IDraft['currentPick']
-  statCategoriesBatting?: IDraft['statCategoriesBatting']
-  statCategoriesPitching?: IDraft['statCategoriesPitching']
-  teams?: IDraft['teams']
-  roster?: IDraft['roster']
-  timePeriod?: IDraft['timePeriod']
-  picks?: IDraft['picks']
-}
-
-export type IDraftType = 
-  'SOLO' |
-  'LIVE' |
-  'ONLINE'
-
-export interface IDraftRoster {
-  batting: IDraftRosterBatting
-  pitching: IDraftRosterPitching
-}
-
-export interface IDraftRosterBatting {
-  CATCHER: number
-  FIRST_BASEMAN: number
-  SECOND_BASEMAN: number
-  THIRD_BASEMAN: number
-  SHORTSTOP: number
-  OUTFIELD: number
-  UTIL: number
-}
-
-export interface IDraftRosterPitching {
-  PITCHER: number
-  STARTING_PITCHER: number
-  RELIEF_PITCHER: number
-}
-
-export type IDraftRosterSpotBatting = keyof IDraftRosterBatting
-export type IDraftRosterSpotPitching = keyof IDraftRosterPitching
-
-export interface IDraftTimePeriod {
-  startYear: number
-  endYear: number
-}
-
-export interface IDraftPick {
-  id: string // Round # - Pick #
-  isLocked: boolean
-  teamId: ITeam['id']
-  position: IDraftRosterSpotBatting | IDraftRosterSpotPitching
-  statsId: IBattingStats['ID'] | IPitchingStats['ID']
+  allDraftPicksBatting?: IDraft['allDraftPicksBatting']
+  allDraftPicksPitching?: IDraft['allDraftPicksPitching']
+  draftPicksByTeamBatting?: IDraft['draftPicksByTeamBatting']
+  draftPicksByTeamPitching?: IDraft['draftPicksByTeamPitching']
 }

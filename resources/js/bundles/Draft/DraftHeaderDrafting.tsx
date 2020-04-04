@@ -4,18 +4,23 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { IDraft } from '@/state/draft/types'
+import { ITeam } from '@/state/team/types'
+
+import DraftHeaderDraftingBatting from '@/bundles/Draft/DraftHeaderDraftingBatting'
+
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-export const DraftRoomContentTile = ({
-  children,
-  width = "10rem"
-}: IDraftRoomContentTile) => {
-
+export const DraftHeaderDrafting = ({
+  draftId,
+  teamId
+}: IDraftHeaderDrafting) => {
   return (
-    <Container
-      containerWidth={width}>
-      {children}
+    <Container>
+      <DraftHeaderDraftingBatting
+        draftId={draftId}
+        teamId={teamId}/>
     </Container>
   )
 }
@@ -23,26 +28,14 @@ export const DraftRoomContentTile = ({
 //-----------------------------------------------------------------------------
 // Props
 //-----------------------------------------------------------------------------
-export interface IDraftRoomContentTile {
-  children?: any
-  width?: string
+export interface IDraftHeaderDrafting {
+  draftId: IDraft['id']
+  teamId: ITeam['id']
 }
 
 //-----------------------------------------------------------------------------
 // Styled Components
 //-----------------------------------------------------------------------------
-const Container = styled.div`
-  width: ${ ({ containerWidth }: IContainer ) => containerWidth };
-  padding: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  &:hover {
-    background-color: rgb(240, 240, 240);
-  }
-`
-interface IContainer {
-  containerWidth: string
-}
+const Container = styled.div``
 
-export default DraftRoomContentTile
+export default DraftHeaderDrafting

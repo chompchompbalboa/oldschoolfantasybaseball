@@ -29,6 +29,7 @@ export interface IButton {
 // Styled Components
 //-----------------------------------------------------------------------------
 const Container = styled.div`
+  cursor: pointer;
   padding: 1rem;
   border: 1px solid black;
   border-radius: 3px;

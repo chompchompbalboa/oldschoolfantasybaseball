@@ -23,13 +23,15 @@ export const DraftSoloHeaderStartTime = ({
   // Redux
   const dispatch = useDispatch()
   const draftStartTime = useSelector((state: IAppState) => state.draft.allDrafts[draftId].startTime)
+
+  // Local Variables
   const initialTimeUntilDraftStarts = draftStartTime.diff(moment(), 's')
   
   // State
   const [ isDraftStarting, setIsDraftStarting ] = useState(false)
   const [ timeUntilDraftStarts, setTimeUntilDraftStarts ] = useState(initialTimeUntilDraftStarts)
   
-  // Update the time until the draft starts every second
+  // Update timeUntilDraftStarts every second
   useInterval(() => {
     const nextTime = timeUntilDraftStarts - 1
     setTimeUntilDraftStarts(nextTime)

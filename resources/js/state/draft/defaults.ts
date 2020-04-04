@@ -3,15 +3,13 @@
 //-----------------------------------------------------------------------------
 import { v4 as createUuid } from 'uuid'
 
+import { IDraft } from '@/state/draft/types'
 import { 
-  IDraft, 
-  IDraftRoster, 
-  IDraftRosterBatting,
-  IDraftRosterPitching,
-  IDraftRosterSpotBatting,
-  IDraftRosterSpotPitching,
-  IDraftType
-} from '@/state/draft/types'
+  IPositionBatting,
+  IPositionPitching,
+  IStatCategoryBatting, 
+  IStatCategoryPitching
+} from '@/state/playerSeason/types'
 import { 
   IAllTeams,
   ITeam
@@ -23,7 +21,7 @@ import moment from 'moment'
 //-----------------------------------------------------------------------------
 // Default Draft
 //-----------------------------------------------------------------------------
-export const defaultDraft = (draftType: IDraftType) => {
+export const defaultDraft = () => {
 
   const newTeams: IAllTeams = {}
   const newTeamIds: ITeam['id'][] = []
@@ -32,72 +30,110 @@ export const defaultDraft = (draftType: IDraftType) => {
     newTeamIds.push(newTeam.id)
   })
 
+  const userTeam = newTeams[newTeamIds[0]]
+
   const newDraft: IDraft = {
     id: createUuid(),
-    type: draftType,
-    startTime: moment().add(11, 's'),
+    startTime: moment().add(1, 's'),
     hasDraftStarted: false,
     hasDraftEnded: false,
-    currentRound: 1,
-    currentPick: 1,
-    statCategoriesBatting: [ 'HR', 'R', 'RBI', 'SB' ],
-    statCategoriesPitching: [ 'ERA', 'IPouts', 'SO', 'SV' ],
     teams: newTeamIds,
-    roster: defaultDraftRoster(),
-    picks: {},
-    timePeriod: {
-      startYear: 1950,
-      endYear: 2019
-    }
+    statCategoriesBatting: defaultStatCategoriesBatting,
+    statCategoriesPitching: defaultStatCategoriesPitching,
+    rosterSpotsBatting: defaultDraftRosterBatting,
+    rosterSpotsPitching: defaultDraftRosterPitching,
+    allDraftPicksBatting: {},
+    allDraftPicksPitching: {},
+    draftPicksByTeamBatting: defaultAllDraftPicksByTeamBatting(newTeamIds),
+    draftPicksByTeamPitching: defaultAllDraftPicksByTeamPitching(newTeamIds)
   }
   
   return {
     newDraft,
-    newTeams
+    newTeams,
+    userTeam
   } as IReturnValue
 }
 
 interface IReturnValue {
   newDraft: IDraft
   newTeams: IAllTeams
+  userTeam: ITeam
 }
 
 //-----------------------------------------------------------------------------
-// Default Draft Roster
+// Defaults
 //-----------------------------------------------------------------------------
-export const defaultDraftRoster = () => ({
-  batting: defaultDraftRosterBatting(),
-  pitching: defaultDraftRosterPitching()
-} as IDraftRoster)
-
-export const defaultDraftRosterBatting = () => ({
+const defaultDraftRosterBatting = {
   CATCHER: 1,
   FIRST_BASEMAN: 1,
   SECOND_BASEMAN: 1,
   SHORTSTOP: 1,
   THIRD_BASEMAN: 1,
   OUTFIELD: 3,
-  UTIL: 1,
-} as IDraftRosterBatting)
+  DESIGNATED_HITTER: 1,
+}
 
-export const defaultDraftRosterPitching = () => ({
-  PITCHER: 6,
-  STARTING_PITCHER: 0,
-  RELIEF_PITCHER: 0
-} as IDraftRosterPitching)
+const defaultDraftRosterPitching = {
+  STARTING_PITCHER: 5,
+  RELIEF_PITCHER: 2
+}
 
-export const allDraftRosterSpotsBatting = Object.keys(defaultDraftRosterBatting()) as IDraftRosterSpotBatting[]
-export const allDraftRosterSpotsPitching = Object.keys(defaultDraftRosterPitching()) as IDraftRosterSpotPitching[]
+const defaultStatCategoriesBatting: IStatCategoryBatting[] = [ 'HR', 'R', 'RBI', 'SB', 'AVG' ]
+const defaultStatCategoriesPitching: IStatCategoryPitching[] = [ 'ERA', 'SO', 'SV' ]
 
-export const allDraftRosterSpotNames = {
+const defaultAllDraftPicksByTeamBatting = (teamIds: ITeam['id'][]) => {
+  const draftPicksByTeamBatting: IDraft['draftPicksByTeamBatting'] = {}
+  teamIds.forEach(teamId => {
+    draftPicksByTeamBatting[teamId] = {
+      CATCHER: defaultStatCategoriesBatting.map(() => null),
+      FIRST_BASEMAN: defaultStatCategoriesBatting.map(() => null),
+      SECOND_BASEMAN: defaultStatCategoriesBatting.map(() => null),
+      SHORTSTOP: defaultStatCategoriesBatting.map(() => null),
+      THIRD_BASEMAN: defaultStatCategoriesBatting.map(() => null),
+      OUTFIELD: defaultStatCategoriesBatting.map(() => null),
+      DESIGNATED_HITTER: defaultStatCategoriesBatting.map(() => null),
+    }
+  })
+  return draftPicksByTeamBatting
+}
+
+const defaultAllDraftPicksByTeamPitching = (teamIds: ITeam['id'][]) => {
+  const draftPicksByTeamPitching: IDraft['draftPicksByTeamPitching'] = {}
+  teamIds.forEach(teamId => {
+    draftPicksByTeamPitching[teamId] = {
+      STARTING_PITCHER: defaultStatCategoriesPitching.map(() => null),
+      RELIEF_PITCHER: defaultStatCategoriesPitching.map(() => null),
+    }
+  })
+  return draftPicksByTeamPitching
+}
+
+export const allPositionsBatting: IPositionBatting[] = [ 
+  'CATCHER',
+  'FIRST_BASEMAN',
+  'SECOND_BASEMAN',
+  'SHORTSTOP',
+  'THIRD_BASEMAN',
+  'OUTFIELD',
+  'DESIGNATED_HITTER'
+]
+export const allPositionsPitching: IPositionPitching[] = [
+  'STARTING_PITCHER',
+  'RELIEF_PITCHER'
+]
+
+export const allPositionsBattingNames = {
   CATCHER: "C",
   FIRST_BASEMAN: "1B",
   SECOND_BASEMAN: "2B",
   SHORTSTOP: "SS",
   THIRD_BASEMAN: "3B",
   OUTFIELD: "OF",
-  UTIL: "UTIL",
-  PITCHER: "P",
+  DESIGNATED_HITTER: "DH",
+}
+
+export const allPositionsPitchingNames = {
   STARTING_PITCHER: "RP",
   RELIEF_PITCHER: "SP"
 }

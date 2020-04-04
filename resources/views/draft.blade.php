@@ -2,9 +2,11 @@
 
 @section('react-script')
   <script>
-    const initialDraftData = {
-      players: @json($players),
-      allPlayerSeasonsByPosition: @json($allPlayerSeasonsByPosition)
+    const initialData = {
+      allPlayerSeasonsBatting: @json($allPlayerSeasonsBatting),
+      allPlayerSeasonsPitching: @json($allPlayerSeasonsPitching),
+      playerSeasonsByPositionBatting: @json($playerSeasonsByPositionBatting),
+      playerSeasonsByPositionPitching: @json($playerSeasonsByPositionPitching)
     }
   </script>
   <script src="{{ mix('js/draft.js') }}"></script>

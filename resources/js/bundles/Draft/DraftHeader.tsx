@@ -7,17 +7,19 @@ import styled from 'styled-components'
 
 import { IAppState } from '@/state'
 import { IDraft } from '@/state/draft/types'
+import { ITeam } from '@/state/team/types'
 
-import DraftSoloHeaderDrafting from '@draft/DraftSoloHeaderDrafting'
-import DraftSoloHeaderPostDraft from '@draft/DraftSoloHeaderPostDraft'
-import DraftSoloHeaderPreDraft from '@draft/DraftSoloHeaderPreDraft'
+import DraftHeaderDrafting from '@draft/DraftHeaderDrafting'
+import DraftHeaderPostDraft from '@draft/DraftHeaderPostDraft'
+import DraftHeaderPreDraft from '@draft/DraftHeaderPreDraft'
 
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-export const DraftSoloHeader = ({
-  draftId
-}: IDraftSoloHeader) => {
+export const DraftHeader = ({
+  draftId,
+  teamId
+}: IDraftHeader) => {
 
   // Redux
   const hasDraftStarted = useSelector((state: IAppState) => state.draft.allDrafts[draftId].hasDraftStarted)
@@ -27,9 +29,13 @@ export const DraftSoloHeader = ({
     <Container>
       {hasDraftStarted 
         ? hasDraftEnded
-          ? <DraftSoloHeaderPostDraft draftId={draftId}/>
-          : <DraftSoloHeaderDrafting draftId={draftId}/>
-        : <DraftSoloHeaderPreDraft draftId={draftId}/>
+          ? <DraftHeaderPostDraft 
+              draftId={draftId}/>
+          : <DraftHeaderDrafting 
+              draftId={draftId}
+              teamId={teamId}/>
+        : <DraftHeaderPreDraft 
+            draftId={draftId}/>
       }
     </Container>
   )
@@ -38,8 +44,9 @@ export const DraftSoloHeader = ({
 //-----------------------------------------------------------------------------
 // Props
 //-----------------------------------------------------------------------------
-export interface IDraftSoloHeader {
+export interface IDraftHeader {
   draftId: IDraft['id']
+  teamId: ITeam['id']
 }
 
 //-----------------------------------------------------------------------------
@@ -59,4 +66,4 @@ const Container = styled.div`
   border-bottom: 1px solid black;
 `
 
-export default DraftSoloHeader
+export default DraftHeader

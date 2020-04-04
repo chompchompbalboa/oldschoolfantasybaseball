@@ -9,10 +9,7 @@ import { applyMiddleware, createStore } from 'redux'
 import thunkMiddleware, { ThunkMiddleware } from 'redux-thunk'
 import { appReducer, IAppState } from '@/state'
 
-import DraftLive from '@draft/DraftLive'
-import DraftLinks from '@draft/DraftLinks'
-import DraftOnline from '@draft/DraftOnline'
-import DraftSolo from '@draft/DraftSolo'
+import Draft from '@/bundles/Draft/Draft'
 
 //-----------------------------------------------------------------------------
 // Component
@@ -24,17 +21,8 @@ export const Root = () => {
   return (
     <ReduxProvider store={store}>
       <Router>
-        <Route path="/draft/solo">
-          <DraftSolo />
-        </Route>
-        <Route path="/draft/live">
-          <DraftLive />
-        </Route>
-        <Route path="/draft/online">
-          <DraftOnline />
-        </Route>
-        <Route exact path="/draft">
-          <DraftLinks />
+        <Route path="/draft">
+          <Draft />
         </Route>
       </Router>
     </ReduxProvider>

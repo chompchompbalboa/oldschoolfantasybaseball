@@ -4,34 +4,35 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { IDraft } from '@/state/draft/types'
-import { ITeam } from '@/state/team/types'
+import { useLoadDraft } from '@/hooks'
 
-import DraftRoomTeamsTeamRoster from '@draft/DraftRoomTeamsTeamRoster'
+import DraftHeader from '@draft/DraftHeader'
+import DraftRoster from '@draft/DraftRoster'
 
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-export const DraftRoomTeamsTeam = ({
-  draftId,
-  teamId
-}: IDraftRoomTeamsTeam) => {
+export const Draft = () => {
+
+  const { 
+    draftId, 
+    userTeamId
+  } = useLoadDraft()
 
   return (
     <Container>
-      <DraftRoomTeamsTeamRoster
-        draftId={draftId}
-        teamId={teamId}/>
+      {draftId &&
+        <>
+          <DraftHeader
+            draftId={draftId}
+            teamId={userTeamId}/>
+          <DraftRoster
+            draftId={draftId}
+            teamId={userTeamId}/>
+        </>
+      }
     </Container>
   )
-}
-
-//-----------------------------------------------------------------------------
-// Props
-//-----------------------------------------------------------------------------
-export interface IDraftRoomTeamsTeam {
-  draftId: IDraft['id']
-  teamId: ITeam['id']
 }
 
 //-----------------------------------------------------------------------------
@@ -40,4 +41,4 @@ export interface IDraftRoomTeamsTeam {
 const Container = styled.div`
 `
 
-export default DraftRoomTeamsTeam
+export default Draft

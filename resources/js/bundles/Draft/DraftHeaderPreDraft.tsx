@@ -4,23 +4,23 @@
 import React from 'react'
 import { IDraft } from '@/state/draft/types'
 
-import DraftSoloHeaderStartTime from '@draft/DraftSoloHeaderStartTime'
+import DraftHeaderStartTime from '@draft/DraftHeaderStartTime'
 
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-export const DraftSoloHeaderPreDraft = ({
+export const DraftHeaderPreDraft = ({
   draftId
-}: IDraftSoloHeaderPreDraft) => (
-  <DraftSoloHeaderStartTime
+}: IDraftHeaderPreDraft) => (
+  <DraftHeaderStartTime
     draftId={draftId}/>
 )
 
 //-----------------------------------------------------------------------------
 // Props
 //-----------------------------------------------------------------------------
-export interface IDraftSoloHeaderPreDraft {
+export interface IDraftHeaderPreDraft {
   draftId: IDraft['id']
 }
 
-export default DraftSoloHeaderPreDraft
+export default DraftHeaderPreDraft

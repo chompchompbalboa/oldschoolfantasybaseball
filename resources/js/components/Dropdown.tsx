@@ -33,7 +33,12 @@ export const Dropdown = ({
       removeEventListener('click', closeDropdownOnClickOutside)
       removeEventListener('keydown', updateActiveDropdownOptionIndexOnKeydown)
     }
-  }, [ activeDropdownOptionIndex, dropdownOptionsLength, isDropdownVisible ])
+  }, [ 
+    activeDropdownOptionIndex, 
+    containerRef && containerRef.current, 
+    dropdownOptionsLength, 
+    isDropdownVisible 
+  ])
 
   // Update the activeDropdownIndex when dropdownOptionsLength is 0
   useEffect(() => {
@@ -61,7 +66,7 @@ export const Dropdown = ({
         setActiveDropdownOptionIndex(Math.min(dropdownOptionsLength - 1, activeDropdownOptionIndex + 1))
       }
     }
-    if(selectDropdownOption && e.key === 'Enter') {
+    if(selectDropdownOption && ([ 'Enter', 'Tab' ].includes(e.key))) {
       selectDropdownOption()
     }
   }
