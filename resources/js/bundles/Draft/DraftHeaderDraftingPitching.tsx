@@ -14,19 +14,19 @@ import Stats from '@/components/Stats'
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-export const DraftSoloHeaderDraftingBatting = ({
+export const DraftSoloHeaderDraftingPitching = ({
   draftId,
   teamId
-}: IDraftSoloHeaderDraftingBatting) => {
+}: IDraftSoloHeaderDraftingPitching) => {
 
   const {
-    teamStatsBatting
+    teamStatsPitching
   } = useGetTeamStats(draftId, teamId)
 
   return (
     <Container>
       <Stats
-        stats={teamStatsBatting}/>
+        stats={teamStatsPitching}/>
     </Container>
   )
 }
@@ -34,7 +34,7 @@ export const DraftSoloHeaderDraftingBatting = ({
 //-----------------------------------------------------------------------------
 // Props
 //-----------------------------------------------------------------------------
-export interface IDraftSoloHeaderDraftingBatting {
+export interface IDraftSoloHeaderDraftingPitching {
   draftId: IDraft['id']
   teamId: ITeam['id']
 }
@@ -42,8 +42,6 @@ export interface IDraftSoloHeaderDraftingBatting {
 //-----------------------------------------------------------------------------
 // Styled Components
 //-----------------------------------------------------------------------------
-const Container = styled.div`
-  display: flex;
-`
+const Container = styled.div``
 
-export default DraftSoloHeaderDraftingBatting
+export default DraftSoloHeaderDraftingPitching

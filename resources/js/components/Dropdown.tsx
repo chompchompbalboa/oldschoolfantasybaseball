@@ -13,7 +13,7 @@ export const Dropdown = ({
   className,
   containerRef,
   closeDropdown,
-  dropdownOptionsLength,
+  dropdownOptions,
   isDropdownVisible,
   selectDropdownOption,
   setActiveDropdownOptionIndex
@@ -23,29 +23,29 @@ export const Dropdown = ({
   useEffect(() => {
     if(isDropdownVisible) {
       addEventListener('click', closeDropdownOnClickOutside)
-      addEventListener('keydown', updateActiveDropdownOptionIndexOnKeydown)
+      addEventListener('keydown', handleDropdownKeydown)
     }
     else {
       removeEventListener('click', closeDropdownOnClickOutside)
-      removeEventListener('keydown', updateActiveDropdownOptionIndexOnKeydown)
+      removeEventListener('keydown', handleDropdownKeydown)
     }
     return () => {
       removeEventListener('click', closeDropdownOnClickOutside)
-      removeEventListener('keydown', updateActiveDropdownOptionIndexOnKeydown)
+      removeEventListener('keydown', handleDropdownKeydown)
     }
   }, [ 
     activeDropdownOptionIndex, 
     containerRef && containerRef.current, 
-    dropdownOptionsLength, 
+    dropdownOptions, 
     isDropdownVisible 
   ])
 
   // Update the activeDropdownIndex when dropdownOptionsLength is 0
   useEffect(() => {
-    if(dropdownOptionsLength === 0 && activeDropdownOptionIndex !== 0) {
+    if(dropdownOptions.length === 0 && activeDropdownOptionIndex !== 0) {
       setActiveDropdownOptionIndex(0)
     }
-  }, [ activeDropdownOptionIndex, dropdownOptionsLength ])
+  }, [ activeDropdownOptionIndex, dropdownOptions.length ])
 
   // Close Dropdown On Click Outside
   const closeDropdownOnClickOutside = (e: MouseEvent) => {
@@ -55,7 +55,12 @@ export const Dropdown = ({
   }
 
   // Update Active Dropdown Option Index On Keydown
-  const updateActiveDropdownOptionIndexOnKeydown = (e: KeyboardEvent) => {
+  const handleDropdownKeydown = (e: KeyboardEvent) => {
+    // Close the dropdown when 'Escape' is pressed
+    if(e.key === 'Escape') {
+      closeDropdown()
+    }
+    // Update the active dropdown option index when 'ArrowUp' or 'ArrowDown' is pressed
     if(setActiveDropdownOptionIndex) {
       if(e.key === 'ArrowUp') {
         e.preventDefault()
@@ -63,9 +68,10 @@ export const Dropdown = ({
       }
       if(e.key === 'ArrowDown') {
         e.preventDefault()
-        setActiveDropdownOptionIndex(Math.min(dropdownOptionsLength - 1, activeDropdownOptionIndex + 1))
+        setActiveDropdownOptionIndex(Math.min(dropdownOptions.length - 1, activeDropdownOptionIndex + 1))
       }
     }
+    // Select the active dropdown option when 'Enter' or 'Tab' is pressed
     if(selectDropdownOption && ([ 'Enter', 'Tab' ].includes(e.key))) {
       selectDropdownOption()
     }
@@ -89,7 +95,7 @@ export interface IDropdown {
   containerRef: RefObject<HTMLElement>
   children?: any
   closeDropdown(): void
-  dropdownOptionsLength?: number
+  dropdownOptions?: any[]
   isDropdownVisible: boolean
   selectDropdownOption?(): void 
   setActiveDropdownOptionIndex?(nextActiveDropdownOptionIndex: number): void
@@ -105,7 +111,10 @@ const StyledDropdown = styled.div`
   top: 0;
   left: 0;
   width: 100%;
+  max-height: 50vh;
+  overflow-y: scroll;
   background-color: white;
+  box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.25);
 `
 interface IStyledDropdown {
   isDropdownVisible: boolean

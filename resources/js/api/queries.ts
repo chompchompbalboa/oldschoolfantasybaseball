@@ -6,6 +6,6 @@ import axios from '@/api/axios'
 //-----------------------------------------------------------------------------
 // Queries
 //-----------------------------------------------------------------------------
-export const getAllPlayers = async () => {
-	return axios.get('/api/players')
+export const getAllPlayerSeasons = async () => {
+	return axios.get('/api/players/seasons')
 }

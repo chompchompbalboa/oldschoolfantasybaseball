@@ -4,29 +4,22 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { useGetTeamStats } from '@/hooks/useGetTeamStats'
-
-import { IDraft } from '@/state/draft/types'
-import { ITeam } from '@/state/team/types'
-
-import Stats from '@/components/Stats'
-
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-export const DraftSoloHeaderDraftingBatting = ({
-  draftId,
-  teamId
-}: IDraftSoloHeaderDraftingBatting) => {
-
-  const {
-    teamStatsBatting
-  } = useGetTeamStats(draftId, teamId)
+export const Stats = ({ 
+  stats
+}: IStats) => {
 
   return (
     <Container>
-      <Stats
-        stats={teamStatsBatting}/>
+      {stats.map(stat => (
+        <Stat
+          key={stat.name}>
+          <StatName>{stat.name}: </StatName>
+          <StatValue>{stat.value}</StatValue>
+        </Stat>
+      ))}
     </Container>
   )
 }
@@ -34,9 +27,11 @@ export const DraftSoloHeaderDraftingBatting = ({
 //-----------------------------------------------------------------------------
 // Props
 //-----------------------------------------------------------------------------
-export interface IDraftSoloHeaderDraftingBatting {
-  draftId: IDraft['id']
-  teamId: ITeam['id']
+export interface IStats {
+  stats: {
+    name: string
+    value: string | number
+  }[]
 }
 
 //-----------------------------------------------------------------------------
@@ -46,4 +41,18 @@ const Container = styled.div`
   display: flex;
 `
 
-export default DraftSoloHeaderDraftingBatting
+const Stat = styled.div`
+  width: 7rem;
+  display: flex;
+`
+
+const StatName = styled.div`
+  font-weight: bold;
+`
+
+const StatValue = styled.div`
+  flex-grow: 1;
+  text-align: center;
+`
+
+export default Stats

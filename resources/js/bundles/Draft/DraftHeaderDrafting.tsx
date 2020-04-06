@@ -8,6 +8,7 @@ import { IDraft } from '@/state/draft/types'
 import { ITeam } from '@/state/team/types'
 
 import DraftHeaderDraftingBatting from '@/bundles/Draft/DraftHeaderDraftingBatting'
+import DraftHeaderDraftingPitching from '@/bundles/Draft/DraftHeaderDraftingPitching'
 
 //-----------------------------------------------------------------------------
 // Component
@@ -19,6 +20,9 @@ export const DraftHeaderDrafting = ({
   return (
     <Container>
       <DraftHeaderDraftingBatting
+        draftId={draftId}
+        teamId={teamId}/>
+      <DraftHeaderDraftingPitching
         draftId={draftId}
         teamId={teamId}/>
     </Container>

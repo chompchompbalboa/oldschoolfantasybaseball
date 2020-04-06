@@ -4,29 +4,22 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { useGetTeamStats } from '@/hooks/useGetTeamStats'
-
-import { IDraft } from '@/state/draft/types'
-import { ITeam } from '@/state/team/types'
-
 import Stats from '@/components/Stats'
 
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-export const DraftSoloHeaderDraftingBatting = ({
-  draftId,
-  teamId
-}: IDraftSoloHeaderDraftingBatting) => {
-
-  const {
-    teamStatsBatting
-  } = useGetTeamStats(draftId, teamId)
+export const DraftRosterSpotMakeDraftPick = ({ 
+  playerSeason
+}: IDraftRosterSpotMakeDraftPick) => {
 
   return (
     <Container>
+      <Player>
+        {playerSeason.name} {playerSeason.year}
+      </Player>
       <Stats
-        stats={teamStatsBatting}/>
+        stats={playerSeason.stats}/>
     </Container>
   )
 }
@@ -34,16 +27,24 @@ export const DraftSoloHeaderDraftingBatting = ({
 //-----------------------------------------------------------------------------
 // Props
 //-----------------------------------------------------------------------------
-export interface IDraftSoloHeaderDraftingBatting {
-  draftId: IDraft['id']
-  teamId: ITeam['id']
+export interface IDraftRosterSpotMakeDraftPick {
+  playerSeason: {
+    name: string
+    year: number
+    stats: {
+      name: string
+      value: string | number
+    }[]
+  }
 }
 
 //-----------------------------------------------------------------------------
 // Styled Components
 //-----------------------------------------------------------------------------
-const Container = styled.div`
-  display: flex;
+const Container = styled.div``
+
+const Player = styled.div`
+  width: 20rem;
 `
 
-export default DraftSoloHeaderDraftingBatting
+export default DraftRosterSpotMakeDraftPick

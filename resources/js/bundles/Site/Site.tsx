@@ -16,7 +16,7 @@ export const Site = () => (
         Old School Fantasy Baseball
       </Header>
       <Button
-        onClick={() => window.location.href='/draft/solo'}>
+        onClick={() => window.location.href='/draft'}>
         Start a Draft
       </Button>
     </SiteTile>

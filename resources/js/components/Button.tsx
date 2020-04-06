@@ -8,10 +8,12 @@ import styled from 'styled-components'
 // Component
 //-----------------------------------------------------------------------------
 export const Button = ({
+  className,
   children,
   onClick
 }: IButton) => (
   <Container
+    className={className}
     onClick={onClick}>
     {children}
   </Container>
@@ -21,6 +23,7 @@ export const Button = ({
 // Props
 //-----------------------------------------------------------------------------
 export interface IButton {
+  className?: string
   children?: any
   onClick(...args: any): void
 }

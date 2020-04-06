@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 // Imports
 //-----------------------------------------------------------------------------
-import React, { useRef, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import {
@@ -16,13 +16,16 @@ import {
   IPlayerSeasonPitching,
 } from '@/state/playerSeason/types'
 
-import Dropdown from '@/components/Dropdown'
-import Input from '@/components/Input'
+import DraftRosterSpotMakeDraftPick from '@draft/DraftRosterSpotMakeDraftPick'
+import DraftRosterSpotPlayerSeason from '@draft/DraftRosterSpotPlayerSeason'
 
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
 export const DraftRosterSpot = ({ 
+  draftId,
+  draftPickId,
+  deleteDraftPick,
   eligiblePlayerSeasons,
   makeDraftPick,
   position,
@@ -30,82 +33,26 @@ export const DraftRosterSpot = ({
   playerSeasons,
   rosterSpotIndex
 }: IDraftRosterSpot) => {
-
-  // Refs
-  const container = useRef()
-
-  // State
-  const [ activeDropdownOptionIndex, setActiveDropdownIndex ] = useState(0)
-  const [ inputValue, setInputValue ] = useState('')
-  const [ isDropdownVisible, setIsDropdownVisible ] = useState(false)
-  const [ isDraftPickMade, setIsDraftPickMade ] = useState(false)
-
-  // Handle Make Draft Pick
-  const handleMakeDraftPick = () => {
-    setIsDropdownVisible(false)
-    if(visiblePlayerSeasons) {
-      const playerSeason = playerSeasons[visiblePlayerSeasons[activeDropdownOptionIndex]]
-      setInputValue(playerSeason.name + " " + playerSeason.year)
-      makeDraftPick(position, rosterSpotIndex, playerSeason)
-      setIsDraftPickMade(true)
-    }
-  }
-
-  // Visible Player Seasons
-  const visiblePlayerSeasons = inputValue && [ ...eligiblePlayerSeasons ].filter(playerSeasonId => {
-      const playerSeason = playerSeasons[playerSeasonId]
-      return playerSeason && playerSeason.name && playerSeason.year &&
-      (playerSeason.name + playerSeason.year).split(' ').join('').toLowerCase().includes(inputValue.split(' ').join('').toLowerCase())
-    }
-  ).filter((_, index) => index < 25)
-
   return (
-    <Container
-      ref={container}>
+    <Container>
       <RosterSpot>
         {positionNames[position]}
       </RosterSpot>
       <DraftPickContainer>
-        {isDraftPickMade
-          ? <DraftPick>
-              Draft Pick
-            </DraftPick>
-          : <>
-              <DraftPickInput
-                onChange={nextInputValue => {
-                  setIsDropdownVisible(true)
-                  setInputValue(nextInputValue)
-                }}
-                onFocus={() => setIsDropdownVisible(true)}
-                value={inputValue}/>
-              <DraftPickDropdown
-                activeDropdownOptionIndex={activeDropdownOptionIndex}
-                closeDropdown={() => setIsDropdownVisible(false)}
-                containerRef={container}
-                dropdownOptionsLength={visiblePlayerSeasons.length}
-                isDropdownVisible={isDropdownVisible}
-                selectDropdownOption={handleMakeDraftPick}
-                setActiveDropdownOptionIndex={setActiveDropdownIndex}>
-                {visiblePlayerSeasons 
-                  ? visiblePlayerSeasons.map((playerSeasonId, index) => {
-                      const playerSeason = playerSeasons[playerSeasonId]
-                      return (
-                        <DraftPickDropdownOption 
-                          key={playerSeason.name + playerSeason.year}
-                          isActive={activeDropdownOptionIndex === index}
-                          onClick={handleMakeDraftPick}
-                          onMouseEnter={() => setActiveDropdownIndex(index)}>
-                          {playerSeason.name} {playerSeason.year}
-                        </DraftPickDropdownOption>
-                      )
-                    })
-                  : <DraftPickDropdownOption
-                      isActive={false}>
-                      Start typing to see available players
-                    </DraftPickDropdownOption>
-                }
-              </DraftPickDropdown>
-            </>
+        {draftPickId !== null
+          ? <DraftRosterSpotPlayerSeason 
+              draftId={draftId}
+              playerSeasonId={draftPickId}
+              deleteDraftPick={deleteDraftPick}
+              position={position}/>
+          : <DraftRosterSpotMakeDraftPick
+              draftId={draftId}
+              draftPickId={draftPickId}
+              eligiblePlayerSeasons={eligiblePlayerSeasons}
+              makeDraftPick={makeDraftPick}
+              position={position}
+              playerSeasons={playerSeasons}
+              rosterSpotIndex={rosterSpotIndex}/>
         }
       </DraftPickContainer>
     </Container>
@@ -117,6 +64,11 @@ export const DraftRosterSpot = ({
 //-----------------------------------------------------------------------------
 export interface IDraftRosterSpot {
   draftId: IDraft['id']
+  draftPickId: IPlayerSeasonBatting['playerSeasonId'] | IPlayerSeasonPitching['playerSeasonId'] | null
+  deleteDraftPick(
+    position: IPositionBatting | IPositionPitching, 
+    playerSeason: IPlayerSeasonBatting['playerSeasonId'] | IPlayerSeasonPitching['playerSeasonId']
+  ): void
   eligiblePlayerSeasons: IPlayerSeasonBatting['playerSeasonId'][] | IPlayerSeasonPitching['playerSeasonId'][]
   makeDraftPick(
     position: IPositionBatting | IPositionPitching,
@@ -156,26 +108,5 @@ const DraftPickContainer = styled.div`
   width: 100%;
   height: 100%;
 `
-
-const DraftPick = styled.div`
-`
-
-const DraftPickInput = styled(Input)`
-  width: 100%;
-  height: 100%;
-`
-
-const DraftPickDropdown = styled(Dropdown)`
-  background-color: rgb(250, 250, 250);
-`
-
-const DraftPickDropdownOption = styled.div`
-  cursor: pointer;
-  padding: 0.5rem;
-  background-color: ${ ({ isActive }: IDraftPickDropdownOption) => isActive ? 'rgb(240, 240, 240)'  : 'transparent' };
-`
-interface IDraftPickDropdownOption {
-  isActive: boolean
-}
 
 export default DraftRosterSpot

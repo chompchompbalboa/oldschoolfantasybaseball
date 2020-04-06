@@ -2,6 +2,7 @@
 // Imports
 //-----------------------------------------------------------------------------
 import { v4 as createUuid } from 'uuid'
+import _ from 'lodash'
 
 import { IDraft } from '@/state/draft/types'
 import { 
@@ -34,7 +35,7 @@ export const defaultDraft = () => {
 
   const newDraft: IDraft = {
     id: createUuid(),
-    startTime: moment().add(1, 's'),
+    startTime: moment().add(5, 's'),
     hasDraftStarted: false,
     hasDraftEnded: false,
     teams: newTeamIds,
@@ -79,20 +80,20 @@ const defaultDraftRosterPitching = {
   RELIEF_PITCHER: 2
 }
 
-const defaultStatCategoriesBatting: IStatCategoryBatting[] = [ 'HR', 'R', 'RBI', 'SB', 'AVG' ]
-const defaultStatCategoriesPitching: IStatCategoryPitching[] = [ 'ERA', 'SO', 'SV' ]
+const defaultStatCategoriesBatting: IStatCategoryBatting[] = [  'AVG', 'HR', 'R', 'RBI', 'SB' ]
+const defaultStatCategoriesPitching: IStatCategoryPitching[] = [ 'W', 'ERA', 'WHIP', 'SO', 'SV' ]
 
 const defaultAllDraftPicksByTeamBatting = (teamIds: ITeam['id'][]) => {
   const draftPicksByTeamBatting: IDraft['draftPicksByTeamBatting'] = {}
   teamIds.forEach(teamId => {
     draftPicksByTeamBatting[teamId] = {
-      CATCHER: defaultStatCategoriesBatting.map(() => null),
-      FIRST_BASEMAN: defaultStatCategoriesBatting.map(() => null),
-      SECOND_BASEMAN: defaultStatCategoriesBatting.map(() => null),
-      SHORTSTOP: defaultStatCategoriesBatting.map(() => null),
-      THIRD_BASEMAN: defaultStatCategoriesBatting.map(() => null),
-      OUTFIELD: defaultStatCategoriesBatting.map(() => null),
-      DESIGNATED_HITTER: defaultStatCategoriesBatting.map(() => null),
+      CATCHER: _.times(defaultDraftRosterBatting['CATCHER'], () => null),
+      FIRST_BASEMAN: _.times(defaultDraftRosterBatting['FIRST_BASEMAN'], () => null),
+      SECOND_BASEMAN: _.times(defaultDraftRosterBatting['SECOND_BASEMAN'], () => null),
+      SHORTSTOP: _.times(defaultDraftRosterBatting['SHORTSTOP'], () => null),
+      THIRD_BASEMAN: _.times(defaultDraftRosterBatting['THIRD_BASEMAN'], () => null),
+      OUTFIELD: _.times(defaultDraftRosterBatting['OUTFIELD'], () => null),
+      DESIGNATED_HITTER: _.times(defaultDraftRosterBatting['DESIGNATED_HITTER'], () => null),
     }
   })
   return draftPicksByTeamBatting
@@ -102,8 +103,8 @@ const defaultAllDraftPicksByTeamPitching = (teamIds: ITeam['id'][]) => {
   const draftPicksByTeamPitching: IDraft['draftPicksByTeamPitching'] = {}
   teamIds.forEach(teamId => {
     draftPicksByTeamPitching[teamId] = {
-      STARTING_PITCHER: defaultStatCategoriesPitching.map(() => null),
-      RELIEF_PITCHER: defaultStatCategoriesPitching.map(() => null),
+      STARTING_PITCHER: _.times(defaultDraftRosterPitching['STARTING_PITCHER'], () => null),
+      RELIEF_PITCHER: _.times(defaultDraftRosterPitching['RELIEF_PITCHER'], () => null),
     }
   })
   return draftPicksByTeamPitching
@@ -134,6 +135,51 @@ export const allPositionsBattingNames = {
 }
 
 export const allPositionsPitchingNames = {
-  STARTING_PITCHER: "RP",
-  RELIEF_PITCHER: "SP"
+  STARTING_PITCHER: "SP",
+  RELIEF_PITCHER: "RP"
+}
+
+export const allStatCategoriesBatting: IStatCategoryBatting[] = [ 
+  'AB',
+  'AVG',
+  'H',
+  'HR',
+  'R',
+  'RBI',
+  'SB'
+]
+export const allStatCategoriesPitching: IStatCategoryPitching[] = [
+  'IPouts',
+  'W',
+  'SV',
+  'ERA',
+  'WHIP',
+  'SO',
+  'BB',
+  'ER',
+  'H',
+  'IBB'
+]
+
+export const allStatCategoriesBattingNames = {
+  AB: "AB",
+  AVG: "AVG",
+  H: "H",
+  HR: "HR",
+  R: "R",
+  RBI: "RBI",
+  SB: "SB"
+}
+
+export const allStatCategoriesPitchingNames = {
+  IPouts: "IP",
+  W: "W",
+  SV: "SV",
+  ERA: "ERA",
+  WHIP: "WHIP",
+  SO: "SO",
+  BB: "BB",
+  ER: "ER",
+  H: "H",
+  IBB: "IBB"
 }

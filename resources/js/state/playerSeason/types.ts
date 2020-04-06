@@ -20,6 +20,8 @@ export interface IPlayerSeasonsByPositionPitching {
 export interface IPlayerSeason {
   playerSeasonId: string
   name: string
+  nameFirst: string
+  nameLast: string
   year: number
 }
 
@@ -39,9 +41,16 @@ export interface IPlayerSeasonBatting extends IPlayerSeason {
 export type IStatCategoryPitching = keyof IPlayerSeasonPitching['stats']
 export interface IPlayerSeasonPitching extends IPlayerSeason {
   stats: {
-    ERA: number
-    SO: number
+    IPouts: number
+    W: number
     SV: number
+    ERA: number
+    WHIP: number
+    SO: number
+    BB: number
+    ER: number
+    H: number
+    IBB: number
   }
 }
 
