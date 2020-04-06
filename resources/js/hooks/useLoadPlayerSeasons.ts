@@ -1,8 +1,8 @@
 //-----------------------------------------------------------------------------
 // Imports
 //-----------------------------------------------------------------------------
-import { useState } from 'react'
-import { batch, useDispatch, useSelector } from 'react-redux'
+import { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { query } from '@/api'
 
@@ -31,20 +31,27 @@ export const useLoadPlayerSeasons = (): IReturnValue => {
     allPlayerSeasonsPitching !== null && 
     playerSeasonsByPositionPitching !== null && 
     playerSeasonsByPositionBatting !== null
+
+  useEffect(() => {
+    if(havePlayerSeasonsLoaded) {
+      setIsPlayerSeasonsLoading(false)
+    }
+  }, [ havePlayerSeasonsLoaded ])
   
   if(!havePlayerSeasonsLoaded && !isPlayerSeasonsLoading) {
     setIsPlayerSeasonsLoading(true)
-    query.getAllPlayerSeasons()
-      .then(response => {
-        const playerSeasons = response.data
-        batch(() => {
-          dispatch(setAllPlayerSeasonsBatting(playerSeasons.allPlayerSeasonsBatting))
-          dispatch(setAllPlayerSeasonsPitching(playerSeasons.allPlayerSeasonsPitching))
-          dispatch(setPlayerSeasonsByPositionBatting(playerSeasons.playerSeasonsByPositionBatting))
-          dispatch(setPlayerSeasonsByPositionPitching(playerSeasons.playerSeasonsByPositionPitching))
-        })
-        setIsPlayerSeasonsLoading(false)
-      })
+    query.getAllPlayerSeasonsBatting().then(response => {
+        dispatch(setAllPlayerSeasonsBatting(response.data))
+    })
+    query.getAllPlayerSeasonsPitching().then(response => {
+        dispatch(setAllPlayerSeasonsPitching(response.data))
+    })
+    query.getPlayerSeasonsByPositionBatting().then(response => {
+        dispatch(setPlayerSeasonsByPositionBatting(response.data))
+    })
+    query.getPlayerSeasonsByPositionPitching().then(response => {
+        dispatch(setPlayerSeasonsByPositionPitching(response.data))
+    })
   }
 
   return {

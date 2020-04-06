@@ -5,6 +5,7 @@ environments:
         domain: oldschoolfantasybaseball.com
         memory: 1024
         cli-memory: 512
+        cache: oldschoolfantasybaseball-production
         database: oldschoolfantasybaseball-production
         storage: oldschoolfantasybaseball-production
         build:

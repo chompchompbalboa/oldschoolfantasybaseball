@@ -13,6 +13,9 @@ Route::get('/draft', function () {
 Route::group([
   'prefix' => 'api'
 ], function () {
-    Route::get('/players/seasons', 'PlayerSeasonController@playerSeasons');
+    Route::get('/players/seasons/batting/all', 'PlayerSeasonController@allPlayerSeasonsBatting');
+    Route::get('/players/seasons/batting/positions', 'PlayerSeasonController@playerSeasonsByPositionBatting');
+    Route::get('/players/seasons/pitching/all', 'PlayerSeasonController@allPlayerSeasonsPitching');
+    Route::get('/players/seasons/pitching/positions', 'PlayerSeasonController@playerSeasonsByPositionPitching');
 });
 

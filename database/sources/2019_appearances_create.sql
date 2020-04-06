@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS appearances;
 CREATE TABLE `appearances` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `yearID` smallint NOT NULL,

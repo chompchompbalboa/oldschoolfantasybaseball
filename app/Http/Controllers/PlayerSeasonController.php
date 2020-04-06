@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\Appearances;
 use App\Models\Batting;
@@ -12,29 +13,9 @@ use App\Models\Player;
 
 class PlayerSeasonController extends Controller
 {
-
-    public function playerSeasons()
-    {
-        /*    
-        // Batting
-        Cache::forget('allPlayerSeasonsBatting');
-        Cache::forget('playerSeasonsByPositionBatting');
-    
-        // Pitching
-        Cache::forget('allPlayerSeasonsPitching');
-        Cache::forget('playerSeasonsByPositionPitching');
-        */
-        $playerSeasons = [
-            'allPlayerSeasonsBatting' => $this->allPlayerSeasonsBatting(),
-            'playerSeasonsByPositionBatting' => $this->playerSeasonsByPositionBatting(),
-            'allPlayerSeasonsPitching' => $this->allPlayerSeasonsPitching(),
-            'playerSeasonsByPositionPitching' => $this->playerSeasonsByPositionPitching()
-        ];
-        return response($playerSeasons, 200);
-    }
-
     public function allPlayerSeasonsBatting()
     {
+        //Cache::forget('allPlayerSeasonsBatting');
         $allPlayerSeasonsBatting = Cache::rememberForever('allPlayerSeasonsBatting', function () {
             $playerSeasons = [];
             $rawPlayerSeasons = Batting::selectRaw('
@@ -55,30 +36,37 @@ class PlayerSeasonController extends Controller
                                 ->groupBy('batting.playerID', 'batting.yearId')
                                 ->get();
             foreach($rawPlayerSeasons as $playerSeason) {
-                $playerSeasons[$playerSeason['playerSeasonId']] = [
-                    'playerSeasonId' => $playerSeason['playerSeasonId'],
-                    'name' => $playerSeason['name'],
-                    'nameFirst' => $playerSeason['nameFirst'],
-                    'nameLast' => $playerSeason['nameLast'],
-                    'year' => $playerSeason['year'],
-                    'stats' => [
-                        'AB' => $playerSeason['AB'],
-                        'AVG' => $playerSeason['AVG'],
-                        'H' => $playerSeason['H'],
-                        'HR' => $playerSeason['HR'],
-                        'R' => $playerSeason['R'],
-                        'RBI' => $playerSeason['RBI'],
-                        'SB' => $playerSeason['SB'],
-                    ]
-                ];
+                if(
+                    $playerSeason['AB'] > 300 &&
+                    ($playerSeason['HR'] > 9 || $playerSeason['SB'] > 5)
+                ) {
+                    $playerSeasons[$playerSeason['playerSeasonId']] = [
+                        'playerSeasonId' => $playerSeason['playerSeasonId'],
+                        'name' => $playerSeason['name'],
+                        'nameFirst' => $playerSeason['nameFirst'],
+                        'nameLast' => $playerSeason['nameLast'],
+                        'year' => $playerSeason['year'],
+                        'stats' => [
+                            'AB' => $playerSeason['AB'],
+                            'AVG' => $playerSeason['AVG'],
+                            'H' => $playerSeason['H'],
+                            'HR' => $playerSeason['HR'],
+                            'R' => $playerSeason['R'],
+                            'RBI' => $playerSeason['RBI'],
+                            'SB' => $playerSeason['SB'],
+                        ]
+                    ];
+                }
             }
             return $playerSeasons;
         });
-        return $allPlayerSeasonsBatting;
+        //dd(count($allPlayerSeasonsBatting));
+        return response()->json($allPlayerSeasonsBatting, 200);
     }
 
     public function allPlayerSeasonsPitching()
     {
+        //Cache::forget('allPlayerSeasonsPitching');
         $allPlayerSeasonsPitching = Cache::rememberForever('allPlayerSeasonsPitching', function () {
             $playerSeasons = [];
             $rawPlayerSeasons = Pitching::selectRaw('
@@ -102,56 +90,62 @@ class PlayerSeasonController extends Controller
                                 ->groupBy('pitching.playerID', 'pitching.yearId')
                                 ->get();
             foreach($rawPlayerSeasons as $playerSeason) {
-                $playerSeasons[$playerSeason['playerSeasonId']] = [
-                    'playerSeasonId' => $playerSeason['playerSeasonId'],
-                    'name' => $playerSeason['name'],
-                    'nameFirst' => $playerSeason['nameFirst'],
-                    'nameLast' => $playerSeason['nameLast'],
-                    'year' => $playerSeason['year'],
-                    'stats' => [
-                        'IPouts' => $playerSeason['IPouts'],
-                        'W' => $playerSeason['W'],
-                        'SV' => $playerSeason['SV'],
-                        'ERA' => $playerSeason['ERA'],
-                        'WHIP' => $playerSeason['WHIP'],
-                        'SO' => $playerSeason['SO'],
-                        'BB' => $playerSeason['BB'],
-                        'ER' => $playerSeason['ER'],
-                        'H' => $playerSeason['H'],
-                        'IBB' => $playerSeason['IBB'],
-                    ]
-                ];
+                if(
+                    $playerSeason['IPouts'] > 150 &&
+                    ($playerSeason['SV'] > 10 || $playerSeason['W'] > 5)
+                ) {
+                    $playerSeasons[$playerSeason['playerSeasonId']] = [
+                        'playerSeasonId' => $playerSeason['playerSeasonId'],
+                        'name' => $playerSeason['name'],
+                        'nameFirst' => $playerSeason['nameFirst'],
+                        'nameLast' => $playerSeason['nameLast'],
+                        'year' => $playerSeason['year'],
+                        'stats' => [
+                            'IPouts' => $playerSeason['IPouts'],
+                            'W' => $playerSeason['W'],
+                            'SV' => $playerSeason['SV'],
+                            'ERA' => $playerSeason['ERA'],
+                            'WHIP' => $playerSeason['WHIP'],
+                            'SO' => $playerSeason['SO'],
+                            'BB' => $playerSeason['BB'],
+                            'ER' => $playerSeason['ER'],
+                            'H' => $playerSeason['H'],
+                            'IBB' => $playerSeason['IBB'],
+                        ]
+                    ];
+                }
             }
             return $playerSeasons;
         });
-        return $allPlayerSeasonsPitching;
+        //dd(count($allPlayerSeasonsPitching));
+        return response()->json($allPlayerSeasonsPitching, 200);
     }
 
     public function playerSeasonsByPositionBatting()
     {
         $playerSeasonsByPositionBatting = Cache::rememberForever('playerSeasonsByPositionBatting', function() {
             return [
-                'CATCHER' => getPlayerSeasonsBattingByPosition('c'),
-                'FIRST_BASEMAN' => getPlayerSeasonsBattingByPosition('1b'),
-                'SECOND_BASEMAN' => getPlayerSeasonsBattingByPosition('2b'),
-                'SHORTSTOP' => getPlayerSeasonsBattingByPosition('ss'),
-                'THIRD_BASEMAN' => getPlayerSeasonsBattingByPosition('3b'),
-                'OUTFIELD' => getPlayerSeasonsBattingByPosition('of'),
-                'DESIGNATED_HITTER' => getPlayerSeasonsBattingByPosition('dh')
+                'CATCHER' => $this->getPlayerSeasonsBattingByPosition('c'),
+                'FIRST_BASEMAN' => $this->getPlayerSeasonsBattingByPosition('1b'),
+                'SECOND_BASEMAN' => $this->getPlayerSeasonsBattingByPosition('2b'),
+                'SHORTSTOP' => $this->getPlayerSeasonsBattingByPosition('ss'),
+                'THIRD_BASEMAN' => $this->getPlayerSeasonsBattingByPosition('3b'),
+                'OUTFIELD' => $this->getPlayerSeasonsBattingByPosition('of'),
+                'DESIGNATED_HITTER' => $this->getPlayerSeasonsBattingByPosition('dh')
             ];
         });
-        return $playerSeasonsByPositionBatting;
+        return response()->json($playerSeasonsByPositionBatting, 200);
     }
 
     public function playerSeasonsByPositionPitching()
     {
         $playerSeasonsByPositionPitching = Cache::rememberForever('playerSeasonsByPositionPitching', function() {
             return [
-                'STARTING_PITCHER' => getPlayerSeasonsPitchingByPosition('SP'),
-                'RELIEF_PITCHER' => getPlayerSeasonsPitchingByPosition('RP')
+                'STARTING_PITCHER' => $this->getPlayerSeasonsPitchingByPosition('SP'),
+                'RELIEF_PITCHER' => $this->getPlayerSeasonsPitchingByPosition('RP')
             ];
         });
-        return $playerSeasonsByPositionPitching;
+        return response()->json($playerSeasonsByPositionPitching, 200);
     }
 
     private function getPlayerSeasonsBattingByPosition($position)
