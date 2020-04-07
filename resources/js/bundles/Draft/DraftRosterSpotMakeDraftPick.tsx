@@ -29,7 +29,7 @@ export const DraftRosterSpotMakeDraftPick = ({
   makeDraftPick,
   position,
   playerSeasons,
-  rosterSpotIndex
+  positionIndex
 }: IDraftRosterSpotMakeDraftPick) => {
 
   // Refs
@@ -69,7 +69,7 @@ export const DraftRosterSpotMakeDraftPick = ({
       const playerSeason = playerSeasons[visiblePlayerSeasons[activeDropdownOptionIndex]]
       if(playerSeason) {
         setInputValue(playerSeason.name + " " + playerSeason.year)
-        makeDraftPick(position, rosterSpotIndex, playerSeason)
+        makeDraftPick(position, positionIndex, playerSeason)
       }
     }
   }
@@ -150,12 +150,12 @@ export interface IDraftRosterSpotMakeDraftPick {
   eligiblePlayerSeasons: IPlayerSeasonBatting['playerSeasonId'][] | IPlayerSeasonPitching['playerSeasonId'][]
   makeDraftPick(
     position: IPositionBatting | IPositionPitching,
-    rosterSpotIndex: number,
+    positionIndex: number,
     playerSeason: IPlayerSeasonBatting | IPlayerSeasonPitching
   ): void
   position: IPositionBatting | IPositionPitching
   playerSeasons: IAllPlayerSeasonsBatting | IAllPlayerSeasonsPitching
-  rosterSpotIndex: number
+  positionIndex: number
 }
 
 //-----------------------------------------------------------------------------

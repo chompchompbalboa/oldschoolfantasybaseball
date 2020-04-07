@@ -31,7 +31,7 @@ export const DraftRosterSpot = ({
   position,
   positionNames,
   playerSeasons,
-  rosterSpotIndex
+  positionIndex
 }: IDraftRosterSpot) => {
   return (
     <Container>
@@ -52,7 +52,7 @@ export const DraftRosterSpot = ({
               makeDraftPick={makeDraftPick}
               position={position}
               playerSeasons={playerSeasons}
-              rosterSpotIndex={rosterSpotIndex}/>
+              positionIndex={positionIndex}/>
         }
       </DraftPickContainer>
     </Container>
@@ -72,7 +72,7 @@ export interface IDraftRosterSpot {
   eligiblePlayerSeasons: IPlayerSeasonBatting['playerSeasonId'][] | IPlayerSeasonPitching['playerSeasonId'][]
   makeDraftPick(
     position: IPositionBatting | IPositionPitching,
-    rosterSpotIndex: number,
+    positionIndex: number,
     playerSeason: IPlayerSeasonBatting | IPlayerSeasonPitching
   ): void
   position: IPositionBatting | IPositionPitching
@@ -80,7 +80,7 @@ export interface IDraftRosterSpot {
     [position: string]: string
   }
   playerSeasons: IAllPlayerSeasonsBatting | IAllPlayerSeasonsPitching
-  rosterSpotIndex: number
+  positionIndex: number
 }
 
 //-----------------------------------------------------------------------------

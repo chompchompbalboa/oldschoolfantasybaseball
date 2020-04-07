@@ -38,6 +38,7 @@ export const DraftRoster = ({
   const draftRosterSpotsBatting = useSelector((state: IAppState) => state.draft.allDrafts[draftId].rosterSpotsBatting)
   const playerSeasonsByPositionBatting = useSelector((state: IAppState) => state.playerSeason.playerSeasonsByPositionBatting)
 
+  // Delete Draft Pick Batting
   const deleteDraftPickBatting = (
     position: IPositionBatting, 
     playerSeasonId: IPlayerSeasonBatting['playerSeasonId']
@@ -70,7 +71,7 @@ export const DraftRoster = ({
   // Make Draft Pick Batting
   const makeDraftPickBatting = (
     position: IPositionBatting, 
-    rosterSpotIndex: number,
+    positionIndex: number,
     playerSeasonBatting: IPlayerSeasonBatting
   ) => {
     dispatch(updateDraft(draftId, {
@@ -83,7 +84,7 @@ export const DraftRoster = ({
         [teamId]: {
           ...draftPicksByTeamBatting[teamId],
           [position]: draftPicksByTeamBatting[teamId][position].map((playerSeasonId, index) => 
-            index === rosterSpotIndex 
+            index === positionIndex 
               ? playerSeasonBatting.playerSeasonId
               : playerSeasonId
           )
@@ -112,7 +113,7 @@ export const DraftRoster = ({
           playerSeasons={allPlayerSeasonsBatting}
           position={position}
           positionNames={allPositionsBattingNames}
-          rosterSpotIndex={i}/>
+          positionIndex={i}/>
       )
     }
   })
