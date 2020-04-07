@@ -18,6 +18,7 @@ export interface IAllDrafts { [draftId: string]: IDraft }
 export interface IDraft {
   id: string
   startTime: Moment
+  duration: number
   hasDraftStarted: boolean
   hasDraftEnded: boolean
   teams: ITeam['id'][]

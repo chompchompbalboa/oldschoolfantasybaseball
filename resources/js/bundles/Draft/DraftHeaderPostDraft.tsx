@@ -2,17 +2,29 @@
 // Imports
 //-----------------------------------------------------------------------------
 import React from 'react'
+import styled from 'styled-components'
+
 import { IDraft } from '@/state/draft/types'
+import { ITeam } from '@/state/team/types'
+
+import DraftHeaderStatsBatting from '@/bundles/Draft/DraftHeaderStatsBatting'
+import DraftHeaderStatsPitching from '@/bundles/Draft/DraftHeaderStatsPitching'
 
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
 export const DraftSoloHeaderPostDraft = ({
-  draftId
+  draftId,
+  teamId
 }: IDraftSoloHeaderPostDraft) => (
-  <>
-    PostDraft
-  </>
+  <Container>
+    <DraftHeaderStatsBatting
+      draftId={draftId}
+      teamId={teamId}/>
+    <DraftHeaderStatsPitching
+      draftId={draftId}
+      teamId={teamId}/>
+  </Container>
 )
 
 //-----------------------------------------------------------------------------
@@ -20,6 +32,12 @@ export const DraftSoloHeaderPostDraft = ({
 //-----------------------------------------------------------------------------
 export interface IDraftSoloHeaderPostDraft {
   draftId: IDraft['id']
+  teamId: ITeam['id']
 }
+
+//-----------------------------------------------------------------------------
+// Styled Components
+//-----------------------------------------------------------------------------
+const Container = styled.div``
 
 export default DraftSoloHeaderPostDraft

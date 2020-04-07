@@ -30,7 +30,8 @@ export const DraftHeader = ({
       {hasDraftStarted 
         ? hasDraftEnded
           ? <DraftHeaderPostDraft 
-              draftId={draftId}/>
+              draftId={draftId}
+              teamId={teamId}/>
           : <DraftHeaderDrafting 
               draftId={draftId}
               teamId={teamId}/>
