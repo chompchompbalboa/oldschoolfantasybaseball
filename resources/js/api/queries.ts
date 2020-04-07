@@ -18,3 +18,6 @@ export const getPlayerSeasonsByPositionBatting = async () => {
 export const getPlayerSeasonsByPositionPitching = async () => {
 	return axios.get('/api/players/seasons/pitching/positions')
 }
+export const getPlayerSeasonsVersion = async () => {
+	return axios.get('/api/players/seasons/version')
+}

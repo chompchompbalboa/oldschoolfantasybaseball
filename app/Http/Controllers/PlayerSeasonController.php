@@ -13,9 +13,15 @@ use App\Models\Player;
 
 class PlayerSeasonController extends Controller
 {
+
+    public function version() 
+    {
+        return response('2020.04.06.1');
+    }
+
     public function allPlayerSeasonsBatting()
     {
-        //Cache::forget('allPlayerSeasonsBatting');
+        Cache::forget('allPlayerSeasonsBatting');
         $allPlayerSeasonsBatting = Cache::rememberForever('allPlayerSeasonsBatting', function () {
             $playerSeasons = [];
             $rawPlayerSeasons = Batting::selectRaw('
@@ -38,7 +44,9 @@ class PlayerSeasonController extends Controller
             foreach($rawPlayerSeasons as $playerSeason) {
                 if(
                     $playerSeason['AB'] > 300 &&
-                    ($playerSeason['HR'] > 9 || $playerSeason['SB'] > 5)
+                    ($playerSeason['HR'] > 15 || $playerSeason['SB'] > 10) &&
+                    $playerSeason['AVG'] > .250 &&
+                    ($playerSeason['R'] > 65 || $playerSeason['RBI'] > 65)
                 ) {
                     $playerSeasons[$playerSeason['playerSeasonId']] = [
                         'playerSeasonId' => $playerSeason['playerSeasonId'],
@@ -66,7 +74,7 @@ class PlayerSeasonController extends Controller
 
     public function allPlayerSeasonsPitching()
     {
-        //Cache::forget('allPlayerSeasonsPitching');
+        Cache::forget('allPlayerSeasonsPitching');
         $allPlayerSeasonsPitching = Cache::rememberForever('allPlayerSeasonsPitching', function () {
             $playerSeasons = [];
             $rawPlayerSeasons = Pitching::selectRaw('
@@ -92,7 +100,9 @@ class PlayerSeasonController extends Controller
             foreach($rawPlayerSeasons as $playerSeason) {
                 if(
                     $playerSeason['IPouts'] > 150 &&
-                    ($playerSeason['SV'] > 10 || $playerSeason['W'] > 5)
+                    ($playerSeason['SV'] > 15 || $playerSeason['W'] > 7) &&
+                    ($playerSeason['SV'] > 15 || $playerSeason['SO'] > 100) &&
+                    $playerSeason['ERA'] < 4.5
                 ) {
                     $playerSeasons[$playerSeason['playerSeasonId']] = [
                         'playerSeasonId' => $playerSeason['playerSeasonId'],
@@ -123,6 +133,7 @@ class PlayerSeasonController extends Controller
 
     public function playerSeasonsByPositionBatting()
     {
+        Cache::forget('playerSeasonsByPositionBatting');
         $playerSeasonsByPositionBatting = Cache::rememberForever('playerSeasonsByPositionBatting', function() {
             return [
                 'CATCHER' => $this->getPlayerSeasonsBattingByPosition('c'),
@@ -139,6 +150,7 @@ class PlayerSeasonController extends Controller
 
     public function playerSeasonsByPositionPitching()
     {
+        Cache::forget('playerSeasonsByPositionPitching');
         $playerSeasonsByPositionPitching = Cache::rememberForever('playerSeasonsByPositionPitching', function() {
             return [
                 'STARTING_PITCHER' => $this->getPlayerSeasonsPitchingByPosition('SP'),

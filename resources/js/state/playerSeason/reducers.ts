@@ -19,7 +19,7 @@ import {
 //-----------------------------------------------------------------------------
 // Initial State
 //-----------------------------------------------------------------------------
-export type IPlayerState = {
+export interface IPlayerState {
   allPlayerSeasonsBatting: IAllPlayerSeasonsBatting
   playerSeasonsByPositionBatting: IPlayerSeasonsByPositionBatting
   allPlayerSeasonsPitching: IAllPlayerSeasonsPitching

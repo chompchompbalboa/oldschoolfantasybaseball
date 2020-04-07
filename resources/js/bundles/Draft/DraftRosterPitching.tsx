@@ -103,7 +103,11 @@ export const DraftRoster = ({
           draftId={draftId}
           draftPickId={draftPicksByTeamPitching[teamId][position][i]}
           deleteDraftPick={deleteDraftPickPitching}
-          eligiblePlayerSeasons={playerSeasonsByPositionPitching[position]}
+          eligiblePlayerSeasons={
+            playerSeasonsByPositionPitching[position].filter(playerSeasonId => 
+              allDraftPicksPitching[playerSeasonId] === undefined
+            )
+          }
           makeDraftPick={makeDraftPickPitching}
           playerSeasons={allPlayerSeasonsPitching}
           position={position}

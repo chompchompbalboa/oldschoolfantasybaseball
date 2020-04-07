@@ -25,6 +25,10 @@ export interface IPlayerSeason {
   year: number
 }
 
+export type IPlayerSeasonVersion = 
+  null |
+  '2012.04.06.1'
+
 export type IStatCategoryBatting = keyof IPlayerSeasonBatting['stats']
 export interface IPlayerSeasonBatting extends IPlayerSeason {
   stats: {
