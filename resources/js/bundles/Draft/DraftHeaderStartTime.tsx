@@ -48,8 +48,7 @@ export const DraftHeaderStartTime = ({
         : <DraftHeaderTime
             initialTime={initialTimeUntilDraftStarts}
             onTimeEnd={() => setIsDraftStarting(true)}
-            textBefore="Draft is starting in "
-            textAfter=" seconds"/>
+            textBefore="Draft starts in "/>
       }
     </Container>
   )

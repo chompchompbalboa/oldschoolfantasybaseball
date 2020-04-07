@@ -46,7 +46,7 @@ export const Draft = () => {
                   teamId={userTeamId}/>
               : <>
                   <DraftRosterOverlay
-                    preventClicks={!hasDraftStarted || hasDraftEnded}>
+                    preventClicks>
                     {!hasDraftStarted
                       ? "The draft is starting soon..."
                       : "The draft has ended"
@@ -57,7 +57,7 @@ export const Draft = () => {
                     teamId={userTeamId}/>
                 </>
             : <DraftRosterOverlay
-                preventClicks={!hasDraftStarted || hasDraftEnded}>
+                preventClicks>
                 The draft is starting soon...
               </DraftRosterOverlay>
           }

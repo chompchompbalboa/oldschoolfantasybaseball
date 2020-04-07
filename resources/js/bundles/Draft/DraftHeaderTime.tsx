@@ -32,9 +32,12 @@ export const DraftHeaderTime = ({
     }
   }, [ timeRemaining ])
 
+  const minutes = Math.floor(timeRemaining / 60)
+  const seconds = ("0" + (timeRemaining % 60)).slice(-2)
+
   return (
     <Container>
-      {textBefore + timeRemaining + textAfter}
+      {textBefore + minutes + ":" + seconds + textAfter}
     </Container>
   )
 }

@@ -35,7 +35,7 @@ export const DraftHeaderDraftingTimeRemaining = ({
       <DraftHeaderTime
         initialTime={draftDuration}
         onTimeEnd={() => endDraft()}
-        textAfter=" seconds remaining"/>
+        textAfter=" remaining"/>
     </Container>
   )
 }
