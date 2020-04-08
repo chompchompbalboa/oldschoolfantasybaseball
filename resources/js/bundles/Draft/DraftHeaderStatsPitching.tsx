@@ -21,12 +21,12 @@ export const DraftSoloHeaderDraftingPitching = ({
 
   const {
     teamStatsPitching
-  } = useGetTeamStats(draftId, teamId)
+  } = useGetTeamStats(draftId)
 
   return (
     <Container>
       <Stats
-        stats={teamStatsPitching}/>
+        stats={teamStatsPitching[teamId]}/>
     </Container>
   )
 }

@@ -7,23 +7,19 @@ import styled from 'styled-components'
 import { IDraft } from '@/state/draft/types'
 import { ITeam } from '@/state/team/types'
 
-import DraftRosterBatting from '@/bundles/Draft/DraftRosterBatting'
-import DraftRosterPitching from '@/bundles/Draft/DraftRosterPitching'
+import Standings from '@/components/Standings'
 
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-export const DraftRoster = ({
+export const DraftHeaderStandings = ({
   draftId,
   teamId
-}: IDraftRoster) => {
+}: IDraftHeaderStandings) => {
 
   return (
     <Container>
-      <DraftRosterBatting
-        draftId={draftId}
-        teamId={teamId}/>
-      <DraftRosterPitching
+      <Standings
         draftId={draftId}
         teamId={teamId}/>
     </Container>
@@ -33,7 +29,7 @@ export const DraftRoster = ({
 //-----------------------------------------------------------------------------
 // Props
 //-----------------------------------------------------------------------------
-export interface IDraftRoster {
+export interface IDraftHeaderStandings {
   draftId: IDraft['id']
   teamId: ITeam['id']
 }
@@ -42,12 +38,7 @@ export interface IDraftRoster {
 // Styled Components
 //-----------------------------------------------------------------------------
 const Container = styled.div`
-  position: fixed;
-  top: 4rem;
-  left: 0;
-  width: 50vw;
-  height: calc(100vh - 4rem);
-  overflow-y: scroll;
+  height: calc(50vh - 2rem);
 `
 
-export default DraftRoster
+export default DraftHeaderStandings

@@ -20,6 +20,7 @@ export const DraftHeaderDraftingTimeRemaining = ({
 
   // Redux
   const dispatch = useDispatch()
+  const isDraftPaused = useSelector((state: IAppState) => state.draft.allDrafts[draftId].isDraftPaused)
   const draftDuration = useSelector((state: IAppState) => state.draft.allDrafts[draftId].duration)
 
   // End Draft
@@ -32,6 +33,7 @@ export const DraftHeaderDraftingTimeRemaining = ({
   return (
     <DraftHeaderTime
       initialTime={draftDuration}
+      isPaused={isDraftPaused}
       onTimeEnd={() => endDraft()}/>
   )
 }

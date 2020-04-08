@@ -12,8 +12,10 @@ import {
 
 import { IAppState } from '@/state'
 
+import DraftComputerPicks from '@draft/DraftComputerPicks'
 import DraftHeader from '@draft/DraftHeader'
 import DraftRoster from '@draft/DraftRoster'
+import DraftOverview from '@draft/DraftOverview'
 
 //-----------------------------------------------------------------------------
 // Component
@@ -41,12 +43,20 @@ export const Draft = () => {
             teamId={userTeamId}/>
           {havePlayerSeasonsLoaded 
             ? hasDraftStarted && !hasDraftEnded
-              ? <DraftRoster
-                  draftId={draftId}
-                  teamId={userTeamId}/>
+              ? <>
+                  <DraftComputerPicks
+                    draftId={draftId}/>
+                  <DraftRoster
+                    draftId={draftId}
+                    teamId={userTeamId}/>
+                  <DraftOverview
+                    draftId={draftId}
+                    teamId={userTeamId}/>
+                </>
               : <>
                   <DraftRosterOverlay
-                    preventClicks>
+                    isVisible
+                    preventClicks={!hasDraftStarted}>
                     {!hasDraftStarted
                       ? "The draft is starting soon..."
                       : "The draft has ended"
@@ -55,8 +65,12 @@ export const Draft = () => {
                   <DraftRoster
                     draftId={draftId}
                     teamId={userTeamId}/>
+                  <DraftOverview
+                    draftId={draftId}
+                    teamId={userTeamId}/>
                 </>
             : <DraftRosterOverlay
+                isVisible
                 preventClicks>
                 The draft is starting soon...
               </DraftRosterOverlay>
@@ -74,7 +88,8 @@ const Container = styled.div`
 `
 
 const DraftRosterOverlay = styled.div`
-  display: ${ ({ preventClicks }: IDraftRosterOverlay ) => preventClicks ? 'block' : 'none' };
+  display: ${ ({ isVisible }: IDraftRosterOverlay ) => isVisible ? 'block' : 'none' };
+  pointer-events: ${ ({ preventClicks }: IDraftRosterOverlay ) => preventClicks ? 'auto' : 'none' };
   z-index: 10;
   position: fixed;
   top: 0;
@@ -87,6 +102,7 @@ const DraftRosterOverlay = styled.div`
   align-items: center;
 `
 interface IDraftRosterOverlay {
+  isVisible: boolean
   preventClicks: boolean
 }
 

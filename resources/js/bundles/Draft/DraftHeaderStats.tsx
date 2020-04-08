@@ -38,6 +38,10 @@ export interface IDraftSoloHeaderPostDraft {
 //-----------------------------------------------------------------------------
 // Styled Components
 //-----------------------------------------------------------------------------
-const Container = styled.div``
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 
 export default DraftSoloHeaderPostDraft

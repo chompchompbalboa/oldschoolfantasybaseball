@@ -26,7 +26,7 @@ export const defaultDraft = () => {
 
   const newTeams: IAllTeams = {}
   const newTeamIds: ITeam['id'][] = []
-  defaultTeams(4).forEach(newTeam => {
+  defaultTeams(10).forEach(newTeam => {
     newTeams[newTeam.id] = newTeam
     newTeamIds.push(newTeam.id)
   })
@@ -35,10 +35,11 @@ export const defaultDraft = () => {
 
   const newDraft: IDraft = {
     id: createUuid(),
-    startTime: moment().add(2, 's'),
-    duration: 30,
+    startTime: moment().add(10, 's'),
+    duration: 180,
     hasDraftStarted: false,
     hasDraftEnded: false,
+    isDraftPaused: false,
     teams: newTeamIds,
     statCategoriesBatting: defaultStatCategoriesBatting,
     statCategoriesPitching: defaultStatCategoriesPitching,
@@ -140,6 +141,11 @@ export const allPositionsPitchingNames = {
   RELIEF_PITCHER: "RP"
 }
 
+export const allPositionsNames = {
+  ...allPositionsBattingNames,
+  ...allPositionsPitchingNames
+}
+
 export const allStatCategoriesBatting: IStatCategoryBatting[] = [ 
   'AB',
   'AVG',
@@ -183,4 +189,23 @@ export const allStatCategoriesPitchingNames = {
   ER: "ER",
   H: "H",
   IBB: "IBB"
+}
+
+export const formatStatValue = {
+  AB: (statValue: number) => statValue,
+  H: (statValue: number) => statValue,
+  R: (statValue: number) => statValue,
+  HR: (statValue: number) => statValue,
+  RBI: (statValue: number) => statValue,
+  SB: (statValue: number) => statValue,
+  AVG: (statValue: number) => Number(statValue).toFixed(3).replace("0.", "."),
+  IPouts: (statValue: number) => (Number(statValue) / 3).toFixed(1),
+  W: (statValue: number) => statValue,
+  SV: (statValue: number) => statValue,
+  ER: (statValue: number) => statValue,
+  ERA: (statValue: number) => Number(statValue).toFixed(2),
+  WHIP: (statValue: number) => Number(statValue).toFixed(3),
+  SO: (statValue: number) => statValue,
+  BB: (statValue: number) => statValue,
+  IBB: (statValue: number) => statValue,
 }

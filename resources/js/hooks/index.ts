@@ -1,4 +1,5 @@
 export { useGetPlayerSeason } from '@/hooks/useGetPlayerSeason'
+export { useGetStandings } from '@/hooks/useGetStandings'
 export { useGetTeamStats } from '@/hooks/useGetTeamStats'
 export { useInterval } from '@/hooks/useInterval'
 export { useLoadDraft } from '@/hooks/useLoadDraft'

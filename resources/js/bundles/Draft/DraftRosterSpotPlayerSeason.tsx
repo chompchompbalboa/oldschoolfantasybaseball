@@ -35,7 +35,7 @@ export const DraftRosterSpot = ({
         playerSeason={playerSeason}/>
       <DeleteDraftPick
         onClick={() => deleteDraftPick(position, playerSeasonId)}>
-        Delete Draft Pick
+        Delete
       </DeleteDraftPick>
     </Container>
   )

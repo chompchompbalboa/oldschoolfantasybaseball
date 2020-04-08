@@ -10,7 +10,6 @@ import { IDraft } from '@/state/draft/types'
 import { ITeam } from '@/state/team/types'
 
 import DraftHeaderStartTime from '@draft/DraftHeaderStartTime'
-import DraftHeaderStandings from '@draft/DraftHeaderStandings'
 import DraftHeaderStats from '@draft/DraftHeaderStats'
 import DraftHeaderTimeRemaining from '@draft/DraftHeaderTimeRemaining'
 
@@ -28,7 +27,7 @@ export const DraftHeader = ({
   return (
     <Container>
       <Wrapper
-        width="40%">
+        width="80%">
         <DraftHeaderStats
           draftId={draftId}
           teamId={teamId}/>
@@ -41,12 +40,6 @@ export const DraftHeader = ({
         : <DraftHeaderTimeRemaining
             draftId={draftId}/>
       }
-      </Wrapper>
-      <Wrapper
-        width="40%">
-        <DraftHeaderStandings
-          draftId={draftId}
-          teamId={teamId}/>
       </Wrapper>
     </Container>
   )
@@ -79,6 +72,7 @@ const Container = styled.div`
 
 const Wrapper = styled.div`
   width: ${ ({ width }: IWrapper ) => width };
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items; center;

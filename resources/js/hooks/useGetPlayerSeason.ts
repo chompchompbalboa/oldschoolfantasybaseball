@@ -49,7 +49,7 @@ export const useGetPlayerSeason = (
     statCategory: IStatCategoryBatting | IStatCategoryPitching
   ) => {
     return isBattingOrPitching === 'BATTING'
-      ? ((allPlayerSeasonsBatting[playerSeasonId].stats[statCategory as IStatCategoryBatting] || '-') + "").replace("0.", ".")
+      ? allPlayerSeasonsBatting[playerSeasonId].stats[statCategory as IStatCategoryBatting]
       : allPlayerSeasonsPitching[playerSeasonId].stats[statCategory as IStatCategoryPitching]
   }
 
@@ -64,6 +64,7 @@ export const useGetPlayerSeason = (
       year: playerSeason.year,
       stats: [ ...draftStatCategories ].map(statCategory => {
         return {
+          category: statCategory,
           name: getStatCategoryName(statCategory),
           value: getStatCategoryValue(statCategory)
         }

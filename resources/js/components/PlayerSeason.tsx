@@ -4,14 +4,19 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { 
+  IStatCategoryBatting, 
+  IStatCategoryPitching 
+} from '@/state/playerSeason/types'
+
 import Stats from '@/components/Stats'
 
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-export const DraftRosterSpotMakeDraftPick = ({ 
+export const PlayerSeason = ({ 
   playerSeason
-}: IDraftRosterSpotMakeDraftPick) => {
+}: IPlayerSeason) => {
 
   return (
     <Container>
@@ -27,13 +32,14 @@ export const DraftRosterSpotMakeDraftPick = ({
 //-----------------------------------------------------------------------------
 // Props
 //-----------------------------------------------------------------------------
-export interface IDraftRosterSpotMakeDraftPick {
+export interface IPlayerSeason {
   playerSeason: {
     name: string
     year: number
     stats: {
+      category: IStatCategoryBatting | IStatCategoryPitching
       name: string
-      value: string | number
+      value: number
     }[]
   }
 }
@@ -47,4 +53,4 @@ const Player = styled.div`
   width: 20rem;
 `
 
-export default DraftRosterSpotMakeDraftPick
+export default PlayerSeason

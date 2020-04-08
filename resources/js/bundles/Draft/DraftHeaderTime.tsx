@@ -11,6 +11,7 @@ import { useInterval } from '@/hooks'
 //-----------------------------------------------------------------------------
 export const DraftHeaderTime = ({
   initialTime,
+  isPaused = false,
   onTimeEnd,
   textAfter = "",
   textBefore = ""
@@ -21,8 +22,10 @@ export const DraftHeaderTime = ({
   
   // Update timeRemaining every second
   useInterval(() => {
-    const nextTime = Math.max(0, timeRemaining - 1)
-    setTimeRemaining(nextTime)
+    if(!isPaused) {
+      const nextTime = Math.max(0, timeRemaining - 1)
+      setTimeRemaining(nextTime)
+    }
   }, 1000)
 
   // Start the draft
@@ -47,6 +50,7 @@ export const DraftHeaderTime = ({
 //-----------------------------------------------------------------------------
 export interface IDraftHeaderTime {
   initialTime: number
+  isPaused?: boolean
   onTimeEnd(...args: any): void
   textAfter?: string
   textBefore?: string

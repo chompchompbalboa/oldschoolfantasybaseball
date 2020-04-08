@@ -2,6 +2,7 @@
 // Imports
 //-----------------------------------------------------------------------------
 import React, { ReactElement } from 'react'
+import moment from 'moment'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { IAppState } from '@/state'
@@ -77,7 +78,13 @@ export const DraftRoster = ({
     dispatch(updateDraft(draftId, {
       allDraftPicksBatting: {
         ...allDraftPicksBatting,
-        [playerSeasonBatting.playerSeasonId]: teamId
+        [playerSeasonBatting.playerSeasonId]: {
+          teamId: teamId,
+          playerSeasonId: playerSeasonBatting.playerSeasonId,
+          position: position,
+          positionIndex: positionIndex,
+          timestamp: moment()
+        }
       },
       draftPicksByTeamBatting: {
         ...draftPicksByTeamBatting,

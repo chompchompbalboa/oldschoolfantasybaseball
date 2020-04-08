@@ -4,6 +4,15 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { 
+  IStatCategoryBatting,
+  IStatCategoryPitching 
+} from '@/state/playerSeason/types'
+
+import {
+  formatStatValue
+} from '@/state/draft/defaults'
+
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
@@ -17,7 +26,7 @@ export const Stats = ({
         <Stat
           key={stat.name}>
           <StatName>{stat.name}: </StatName>
-          <StatValue>{stat.value}</StatValue>
+          <StatValue>{formatStatValue[stat.category](stat.value)}</StatValue>
         </Stat>
       ))}
     </Container>
@@ -29,8 +38,9 @@ export const Stats = ({
 //-----------------------------------------------------------------------------
 export interface IStats {
   stats: {
+    category: IStatCategoryBatting | IStatCategoryPitching
     name: string
-    value: string | number
+    value: number
   }[]
 }
 

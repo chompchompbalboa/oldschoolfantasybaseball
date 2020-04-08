@@ -5,6 +5,8 @@ import { Moment } from 'moment'
 
 import {
   IPlayerSeason,
+  IPositionBatting,
+  IPositionPitching,
   IStatCategoryBatting,
   IStatCategoryPitching
 } from '@/state/playerSeason/types'
@@ -21,6 +23,7 @@ export interface IDraft {
   duration: number
   hasDraftStarted: boolean
   hasDraftEnded: boolean
+  isDraftPaused: boolean
   teams: ITeam['id'][]
   statCategoriesBatting: IStatCategoryBatting[],
   statCategoriesPitching: IStatCategoryPitching[]
@@ -37,8 +40,20 @@ export interface IDraft {
     STARTING_PITCHER: number
     RELIEF_PITCHER: number
   }
-  allDraftPicksBatting: { [ playerSeasonId: string ]: ITeam['id'] }
-  allDraftPicksPitching: { [ playerSeasonId: string ]: ITeam['id'] }
+  allDraftPicksBatting: { [ playerSeasonId: string ]: {
+    teamId: ITeam['id']
+    playerSeasonId: IPlayerSeason['playerSeasonId']
+    position: IPositionBatting
+    positionIndex: number
+    timestamp: Moment
+  }}
+  allDraftPicksPitching: { [ playerSeasonId: string ]: {
+    teamId: ITeam['id']
+    playerSeasonId: IPlayerSeason['playerSeasonId']
+    position: IPositionPitching
+    positionIndex: number
+    timestamp: Moment
+  }}
   draftPicksByTeamBatting: {
     [ teamId: string ]: {
       CATCHER: IPlayerSeason['playerSeasonId'][]
@@ -61,6 +76,7 @@ export interface IDraft {
 export interface IDraftUpdates {
   hasDraftStarted?: IDraft['hasDraftStarted']
   hasDraftEnded?: IDraft['hasDraftEnded']
+  isDraftPaused?: IDraft['isDraftPaused']
   allDraftPicksBatting?: IDraft['allDraftPicksBatting']
   allDraftPicksPitching?: IDraft['allDraftPicksPitching']
   draftPicksByTeamBatting?: IDraft['draftPicksByTeamBatting']

@@ -1,0 +1,135 @@
+//-----------------------------------------------------------------------------
+// Imports
+//-----------------------------------------------------------------------------
+import React, { useState } from 'react'
+import styled from 'styled-components'
+
+import { useGetStandings } from '@/hooks'
+
+import { IDraft } from '@/state/draft/types'
+import { ITeam } from '@/state/team/types'
+
+//-----------------------------------------------------------------------------
+// Component
+//-----------------------------------------------------------------------------
+export const Standings = ({
+  draftId
+}: IStandings) => {
+
+  const [ displayStandingsOrStats, setDisplayStandingsOrStats ] = useState('STANDINGS' as 'STANDINGS' | 'STATS')
+
+  const { 
+    standings,
+    statCategories
+  } = useGetStandings(draftId)
+
+  return (
+    <Container>
+      <ToggleStandingsOrStats>
+        <ToggleButton
+          isActive={displayStandingsOrStats === 'STANDINGS'}
+          onClick={() => setDisplayStandingsOrStats('STANDINGS')}>
+          Standings
+        </ToggleButton>
+        <ToggleButton
+          isActive={displayStandingsOrStats === 'STATS'}
+          onClick={() => setDisplayStandingsOrStats('STATS')}>
+          Stats
+        </ToggleButton>
+      </ToggleStandingsOrStats>
+      <StyledTable>
+        <thead>
+          <StatCategories>
+            {[ "Rank", "Team", ...statCategories, "Total" ].map(statCategory => (
+              <StatCategory
+                key={statCategory}>
+                {statCategory}
+              </StatCategory>
+            )
+            )}
+          </StatCategories>
+        </thead>
+        <tbody>
+          {standings.map((team, index) => (
+            <Team
+              key={team.id}>
+              <TeamRank>
+                {index + 1}
+              </TeamRank>
+              <TeamName>
+                {team.name}
+              </TeamName>
+              {displayStandingsOrStats === 'STANDINGS'
+                ? team.stats.map((stat, index) => (
+                    <TeamStatRank
+                      key={index}>
+                      {stat.rank}
+                    </TeamStatRank>
+                  ))
+                : team.stats.map((stat, index) => (
+                  <TeamStatRank
+                    key={index}>
+                    {stat.value}
+                  </TeamStatRank>
+                ))
+              }
+              <TeamTotal>
+                {team.total}
+              </TeamTotal>
+            </Team>
+          ))}
+        </tbody>
+      </StyledTable>
+    </Container>
+  )
+}
+
+//-----------------------------------------------------------------------------
+// Props
+//-----------------------------------------------------------------------------
+export interface IStandings {
+  draftId: IDraft['id']
+  teamId: ITeam['id']
+}
+
+//-----------------------------------------------------------------------------
+// Styled Components
+//-----------------------------------------------------------------------------
+const Container = styled.div`
+  width: 100%;
+`
+
+const StyledTable = styled.table`
+  width: 100%;
+`
+
+const ToggleStandingsOrStats = styled.div`
+  width: 100%;
+  display: flex;
+`
+const ToggleButton = styled.div`
+  cursor: pointer;
+  width: 50%;
+  padding: 0.5rem;
+  text-align: center;
+  background-color: ${ ({ isActive }: IToggleButton ) => isActive ? 'rgb(240, 240, 240)' : 'transparent' };
+`
+interface IToggleButton {
+  isActive: boolean
+}
+
+const StatCategories = styled.tr``
+const StatCategory = styled.th``
+
+
+const Team = styled.tr`
+`
+const TeamCell = styled.td`
+  text-align: center;
+`
+const TeamRank = styled(TeamCell)``
+const TeamName = styled(TeamCell)``
+const TeamStatRank = styled(TeamCell)``
+const TeamTotal = styled(TeamCell)``
+
+export default Standings
