@@ -3,7 +3,6 @@
 //-----------------------------------------------------------------------------
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components'
 
 import { IAppState } from '@/state'
 import { IDraft } from '@/state/draft/types'
@@ -31,12 +30,9 @@ export const DraftHeaderDraftingTimeRemaining = ({
   }
 
   return (
-    <Container>
-      <DraftHeaderTime
-        initialTime={draftDuration}
-        onTimeEnd={() => endDraft()}
-        textAfter=" remaining"/>
-    </Container>
+    <DraftHeaderTime
+      initialTime={draftDuration}
+      onTimeEnd={() => endDraft()}/>
   )
 }
 
@@ -46,11 +42,5 @@ export const DraftHeaderDraftingTimeRemaining = ({
 export interface IDraftHeaderDraftingTimeRemaining {
   draftId: IDraft['id']
 }
-
-//-----------------------------------------------------------------------------
-// Styled Components
-//-----------------------------------------------------------------------------
-const Container = styled.div`
-`
 
 export default DraftHeaderDraftingTimeRemaining

@@ -21,7 +21,7 @@ export const DraftHeaderTime = ({
   
   // Update timeRemaining every second
   useInterval(() => {
-    const nextTime = timeRemaining - 1
+    const nextTime = Math.max(0, timeRemaining - 1)
     setTimeRemaining(nextTime)
   }, 1000)
 
@@ -56,6 +56,8 @@ export interface IDraftHeaderTime {
 // Styled Components
 //-----------------------------------------------------------------------------
 const Container = styled.div`
+  font-size: 2.5rem;
+  font-weight: bold;
 `
 
 export default DraftHeaderTime

@@ -9,9 +9,10 @@ import { IAppState } from '@/state'
 import { IDraft } from '@/state/draft/types'
 import { ITeam } from '@/state/team/types'
 
-import DraftHeaderDrafting from '@draft/DraftHeaderDrafting'
-import DraftHeaderPostDraft from '@draft/DraftHeaderPostDraft'
-import DraftHeaderPreDraft from '@draft/DraftHeaderPreDraft'
+import DraftHeaderStartTime from '@draft/DraftHeaderStartTime'
+import DraftHeaderStandings from '@draft/DraftHeaderStandings'
+import DraftHeaderStats from '@draft/DraftHeaderStats'
+import DraftHeaderTimeRemaining from '@draft/DraftHeaderTimeRemaining'
 
 //-----------------------------------------------------------------------------
 // Component
@@ -23,21 +24,30 @@ export const DraftHeader = ({
 
   // Redux
   const hasDraftStarted = useSelector((state: IAppState) => state.draft.allDrafts[draftId].hasDraftStarted)
-  const hasDraftEnded = useSelector((state: IAppState) => state.draft.allDrafts[draftId].hasDraftEnded)
 
   return (
     <Container>
-      {hasDraftStarted 
-        ? hasDraftEnded
-          ? <DraftHeaderPostDraft 
-              draftId={draftId}
-              teamId={teamId}/>
-          : <DraftHeaderDrafting 
-              draftId={draftId}
-              teamId={teamId}/>
-        : <DraftHeaderPreDraft 
+      <Wrapper
+        width="40%">
+        <DraftHeaderStats
+          draftId={draftId}
+          teamId={teamId}/>
+      </Wrapper>
+      <Wrapper
+        width="20%">
+      {!hasDraftStarted 
+        ? <DraftHeaderStartTime
+            draftId={draftId}/>
+        : <DraftHeaderTimeRemaining
             draftId={draftId}/>
       }
+      </Wrapper>
+      <Wrapper
+        width="40%">
+        <DraftHeaderStandings
+          draftId={draftId}
+          teamId={teamId}/>
+      </Wrapper>
     </Container>
   )
 }
@@ -66,5 +76,15 @@ const Container = styled.div`
   background-color: white;
   border-bottom: 1px solid black;
 `
+
+const Wrapper = styled.div`
+  width: ${ ({ width }: IWrapper ) => width };
+  display: flex;
+  justify-content: center;
+  align-items; center;
+`
+interface IWrapper {
+  width: string
+}
 
 export default DraftHeader

@@ -41,17 +41,11 @@ export const DraftHeaderStartTime = ({
     }
   }, [ isDraftStarting ])
 
-  return (
-    <Container>
-      {isDraftStarting 
-        ? "Draft Is Starting..."
-        : <DraftHeaderTime
-            initialTime={initialTimeUntilDraftStarts}
-            onTimeEnd={() => setIsDraftStarting(true)}
-            textBefore="Draft starts in "/>
-      }
-    </Container>
-  )
+  return isDraftStarting 
+    ? <StartMessage>-</StartMessage>
+    : <DraftHeaderTime
+        initialTime={initialTimeUntilDraftStarts}
+        onTimeEnd={() => setIsDraftStarting(true)}/>
 }
 
 //-----------------------------------------------------------------------------
@@ -62,9 +56,16 @@ export interface IDraftHeaderStartTime {
 }
 
 //-----------------------------------------------------------------------------
-// Styled Components
+// Props
 //-----------------------------------------------------------------------------
-const Container = styled.div`
+const StartMessage = styled.div`
+  font-size: 2.25rem;
+  font-weight: bold;
+  letter-spacing: 0.125rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 export default DraftHeaderStartTime

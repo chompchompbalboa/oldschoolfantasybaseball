@@ -125,16 +125,20 @@ export const DraftRosterSpotMakeDraftPick = ({
         isDropdownVisible={isDropdownVisible}
         selectDropdownOption={handleMakeDraftPick}
         setActiveDropdownOptionIndex={setActiveDropdownOptionIndex}>
-        {visiblePlayerSeasons && visiblePlayerSeasons.map((playerSeasonId, index) => {
-          return (
-            <DraftPickDropdownOption 
-              key={playerSeasonId}
-              draftId={draftId}
-              playerSeasonId={playerSeasonId}
-              isActive={activeDropdownOptionIndex === index}
-              onClick={handleMakeDraftPick}
-              onMouseEnter={() => setActiveDropdownOptionIndex(index)}/>
-          )})
+        {visiblePlayerSeasons
+          ? visiblePlayerSeasons.map((playerSeasonId, index) => {
+            return (
+              <DraftPickDropdownOption 
+                key={playerSeasonId}
+                draftId={draftId}
+                playerSeasonId={playerSeasonId}
+                isActive={activeDropdownOptionIndex === index}
+                onClick={handleMakeDraftPick}
+                onMouseEnter={() => setActiveDropdownOptionIndex(index)}/>
+            )})
+          : <DropdownOptionPlaceholder>
+              Start typing to see eligible players...
+            </DropdownOptionPlaceholder>
         }
       </DraftPickDropdown>
     </Container>
@@ -174,5 +178,11 @@ const DraftPickInput = styled(Input)`
 const DraftPickDropdown = styled(Dropdown)`
   background-color: rgb(250, 250, 250);
 `
+
+const DropdownOptionPlaceholder = styled.div`
+  width: 100%;
+  padding: 0.5rem;
+`
+
 
 export default DraftRosterSpotMakeDraftPick
