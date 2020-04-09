@@ -59,7 +59,7 @@ export const Draft = () => {
                     preventClicks={!hasDraftStarted}>
                     {!hasDraftStarted
                       ? "The draft is starting soon..."
-                      : "The draft has ended"
+                      : ""
                     }
                   </DraftRosterOverlay>
                   <DraftRoster

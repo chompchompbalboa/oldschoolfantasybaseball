@@ -52,7 +52,8 @@ export const useGetStandings = (
         : teamsByStatValue[statValue] = [ teamId ]
     })
 
-    const rankedStatValues = Object.keys(teamsByStatValue).map(statValue => Number(statValue)).sort().reverse()
+    const rankedStatValues = Object.keys(teamsByStatValue).map(statValue => Number(statValue)).sort((a, b) => b - a)
+
 
     let points = draftTeams.length
     rankedStatValues.forEach(statValue => {
@@ -97,10 +98,10 @@ export const useGetStandings = (
         : teamsByStatValue[statValue] = [ teamId ]
     })
 
-    const sortedStatValues = Object.keys(teamsByStatValue).map(statValue => Number(statValue)).sort()
+    const sortedStatValues = Object.keys(teamsByStatValue).map(statValue => Number(statValue)).sort((a, b) => b - a)
     const rankedStatValues = [ 'ERA', 'WHIP' ].includes(statCategory) 
-      ? sortedStatValues
-      : sortedStatValues.reverse()
+      ? [ ...sortedStatValues ].reverse()
+      : sortedStatValues
 
     let points = draftTeams.length
     rankedStatValues.forEach(statValue => {

@@ -13,7 +13,8 @@ import { ITeam } from '@/state/team/types'
 // Component
 //-----------------------------------------------------------------------------
 export const Standings = ({
-  draftId
+  draftId,
+  teamId
 }: IStandings) => {
 
   const [ displayStandingsOrStats, setDisplayStandingsOrStats ] = useState('STANDINGS' as 'STANDINGS' | 'STATS')
@@ -52,7 +53,8 @@ export const Standings = ({
         <tbody>
           {standings.map((team, index) => (
             <Team
-              key={team.id}>
+              key={team.id}
+              isUsersTeam={team.id === teamId}>
               <TeamRank>
                 {index + 1}
               </TeamRank>
@@ -123,7 +125,13 @@ const StatCategory = styled.th``
 
 
 const Team = styled.tr`
+  font-weight: ${ ({ isUsersTeam }: IStyledTeam ) => isUsersTeam ? 'bold' : 'inherit' };
+  background-color: ${ ({ isUsersTeam }: IStyledTeam ) => isUsersTeam ? 'rgb(240, 240, 240)' : 'transparent' };
 `
+interface IStyledTeam {
+  isUsersTeam: boolean
+}
+
 const TeamCell = styled.td`
   text-align: center;
 `
