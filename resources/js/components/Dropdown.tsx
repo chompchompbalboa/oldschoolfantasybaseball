@@ -95,7 +95,7 @@ export interface IDropdown {
   containerRef: RefObject<HTMLElement>
   children?: any
   closeDropdown(): void
-  dropdownOptions?: any[]
+  dropdownOptions: any[]
   isDropdownVisible: boolean
   selectDropdownOption?(): void 
   setActiveDropdownOptionIndex?(nextActiveDropdownOptionIndex: number): void

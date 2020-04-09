@@ -13,14 +13,17 @@ export const Input = ({
   onChange,
   onFocus,
   placeholder,
+  readOnly = false,
   value 
 }: IInput) => (
   <StyledInput
     className={className}
+    cursor={readOnly ? 'default' : 'auto'}
     onBlur={onBlur}
     onChange={e => onChange(e.target.value)}
     onFocus={onFocus}
     placeholder={placeholder}
+    readOnly={readOnly}
     value={value}/>
 )
 
@@ -33,6 +36,7 @@ export interface IInput {
   onChange(nextInputValue: string): void
   onFocus?(): void
   placeholder?: string
+  readOnly?: boolean
   value: string
 }
 
@@ -40,9 +44,13 @@ export interface IInput {
 // Styled Components
 //-----------------------------------------------------------------------------
 const StyledInput = styled.input`
+  cursor: ${ ({ cursor }: IStyledInput ) => cursor };
   border: none;
   outline: none;
   padding: 0.25rem;
 `
+interface IStyledInput {
+  cursor?: 'default' | 'auto'
+}
 
 export default Input

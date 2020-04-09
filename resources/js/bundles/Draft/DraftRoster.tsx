@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 // Imports
 //-----------------------------------------------------------------------------
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import { IDraft } from '@/state/draft/types'
@@ -9,6 +9,7 @@ import { ITeam } from '@/state/team/types'
 
 import DraftRosterBatting from '@/bundles/Draft/DraftRosterBatting'
 import DraftRosterPitching from '@/bundles/Draft/DraftRosterPitching'
+import DraftRosterChooseVisibleRoster from '@/bundles/Draft/DraftRosterChooseVisibleRoster'
 
 //-----------------------------------------------------------------------------
 // Component
@@ -18,14 +19,23 @@ export const DraftRoster = ({
   teamId
 }: IDraftRoster) => {
 
+  const [ visibleTeamId, setVisibleTeamId ] = useState(teamId)
+
   return (
     <Container>
+      <DraftRosterChooseVisibleRoster
+        draftId={draftId}
+        setVisibleTeamId={setVisibleTeamId}
+        visibleTeamId={visibleTeamId}
+        usersTeamId={teamId}/>
       <DraftRosterBatting
         draftId={draftId}
-        teamId={teamId}/>
+        teamId={visibleTeamId}
+        isUsersTeam={visibleTeamId === teamId}/>
       <DraftRosterPitching
         draftId={draftId}
-        teamId={teamId}/>
+        teamId={visibleTeamId}
+        isUsersTeam={visibleTeamId === teamId}/>
     </Container>
   )
 }

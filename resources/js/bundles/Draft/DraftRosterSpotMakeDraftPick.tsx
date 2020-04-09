@@ -26,6 +26,7 @@ export const DraftRosterSpotMakeDraftPick = ({
   draftId,
   draftPickId,
   eligiblePlayerSeasons,
+  isUsersTeam,
   makeDraftPick,
   position,
   playerSeasons,
@@ -111,6 +112,7 @@ export const DraftRosterSpotMakeDraftPick = ({
     <Container
       ref={container}>
       <DraftPickInput
+        readOnly={!isUsersTeam}
         onChange={nextInputValue => {
           setIsDropdownVisible(true)
           setInputValue(nextInputValue)
@@ -122,7 +124,7 @@ export const DraftRosterSpotMakeDraftPick = ({
         closeDropdown={() => setIsDropdownVisible(false)}
         containerRef={container}
         dropdownOptions={visiblePlayerSeasons}
-        isDropdownVisible={isDropdownVisible}
+        isDropdownVisible={isUsersTeam && isDropdownVisible}
         selectDropdownOption={handleMakeDraftPick}
         setActiveDropdownOptionIndex={setActiveDropdownOptionIndex}>
         {visiblePlayerSeasons
@@ -152,6 +154,7 @@ export interface IDraftRosterSpotMakeDraftPick {
   draftId: IDraft['id']
   draftPickId: IPlayerSeasonBatting['playerSeasonId'] | IPlayerSeasonPitching['playerSeasonId'] | null
   eligiblePlayerSeasons: IPlayerSeasonBatting['playerSeasonId'][] | IPlayerSeasonPitching['playerSeasonId'][]
+  isUsersTeam: boolean
   makeDraftPick(
     position: IPositionBatting | IPositionPitching,
     positionIndex: number,

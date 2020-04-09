@@ -28,7 +28,8 @@ import DraftRosterSpot from '@/bundles/Draft/DraftRosterSpot'
 //-----------------------------------------------------------------------------
 export const DraftRoster = ({
   draftId,
-  teamId
+  teamId,
+  isUsersTeam
 }: IDraftRoster) => {
 
   // Redux
@@ -116,6 +117,7 @@ export const DraftRoster = ({
               allDraftPicksBatting[playerSeasonId] === undefined
             )
           }
+          isUsersTeam={isUsersTeam}
           makeDraftPick={makeDraftPickBatting}
           playerSeasons={allPlayerSeasonsBatting}
           position={position}
@@ -138,6 +140,7 @@ export const DraftRoster = ({
 export interface IDraftRoster {
   draftId: IDraft['id']
   teamId: ITeam['id']
+  isUsersTeam: boolean
 }
 
 export default DraftRoster

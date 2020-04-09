@@ -27,6 +27,7 @@ export const DraftRosterSpot = ({
   draftPickId,
   deleteDraftPick,
   eligiblePlayerSeasons,
+  isUsersTeam,
   makeDraftPick,
   position,
   positionNames,
@@ -49,6 +50,7 @@ export const DraftRosterSpot = ({
               draftId={draftId}
               draftPickId={draftPickId}
               eligiblePlayerSeasons={eligiblePlayerSeasons}
+              isUsersTeam={isUsersTeam}
               makeDraftPick={makeDraftPick}
               position={position}
               playerSeasons={playerSeasons}
@@ -70,6 +72,7 @@ export interface IDraftRosterSpot {
     playerSeason: IPlayerSeasonBatting['playerSeasonId'] | IPlayerSeasonPitching['playerSeasonId']
   ): void
   eligiblePlayerSeasons: IPlayerSeasonBatting['playerSeasonId'][] | IPlayerSeasonPitching['playerSeasonId'][]
+  isUsersTeam: boolean
   makeDraftPick(
     position: IPositionBatting | IPositionPitching,
     positionIndex: number,

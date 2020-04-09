@@ -7,10 +7,10 @@ import styled from 'styled-components'
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-export const DraftSoloRosterGroup = ({
+export const DraftRosterGroup = ({
   header,
   rosterSpots
-}: IDraftSoloRosterGroup) => {
+}: IDraftRosterGroup) => {
 
   return (
     <Container>
@@ -27,7 +27,7 @@ export const DraftSoloRosterGroup = ({
 //-----------------------------------------------------------------------------
 // Props
 //-----------------------------------------------------------------------------
-export interface IDraftSoloRosterGroup {
+export interface IDraftRosterGroup {
   header: string
   rosterSpots: ReactElement[]
 }
@@ -44,4 +44,4 @@ const Header = styled.div`
 
 const RosterSpots = styled.div``
 
-export default DraftSoloRosterGroup
+export default DraftRosterGroup
