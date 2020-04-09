@@ -44,6 +44,7 @@ export const DraftRosterSpot = ({
           ? <DraftRosterSpotPlayerSeason 
               draftId={draftId}
               playerSeasonId={draftPickId}
+              isUsersTeam={isUsersTeam}
               deleteDraftPick={deleteDraftPick}
               position={position}/>
           : <DraftRosterSpotMakeDraftPick

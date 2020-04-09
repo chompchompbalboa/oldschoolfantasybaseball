@@ -23,8 +23,9 @@ import PlayerSeason from '@/components/PlayerSeason'
 export const DraftRosterSpot = ({
   draftId,
   playerSeasonId,
+  deleteDraftPick,
+  isUsersTeam,
   position,
-  deleteDraftPick
 }: IDraftRosterSpot) => {
 
   const { playerSeason } = useGetPlayerSeason(draftId, playerSeasonId)
@@ -33,10 +34,12 @@ export const DraftRosterSpot = ({
     <Container>
       <PlayerSeason
         playerSeason={playerSeason}/>
-      <DeleteDraftPick
-        onClick={() => deleteDraftPick(position, playerSeasonId)}>
-        Delete
-      </DeleteDraftPick>
+      {isUsersTeam &&
+        <DeleteDraftPick
+          onClick={() => deleteDraftPick(position, playerSeasonId)}>
+          Delete
+        </DeleteDraftPick>
+      }
     </Container>
   )
 }
@@ -50,6 +53,7 @@ export interface IDraftRosterSpot {
     position: IPositionBatting | IPositionPitching, 
     playerSeasonId: IPlayerSeasonBatting['playerSeasonId'] | IPlayerSeasonPitching['playerSeasonId']
   ): void
+  isUsersTeam: boolean
   position: IPositionBatting | IPositionPitching
   playerSeasonId: IPlayerSeasonBatting['playerSeasonId'] | IPlayerSeasonPitching['playerSeasonId'] | null
 }
