@@ -35,9 +35,11 @@ export const Dropdown = ({
     }
   }, [ 
     activeDropdownOptionIndex, 
+    closeDropdown,
     containerRef && containerRef.current, 
     dropdownOptions, 
-    isDropdownVisible 
+    isDropdownVisible,
+    selectDropdownOption
   ])
 
   // Update the activeDropdownIndex when dropdownOptionsLength is 0

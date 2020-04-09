@@ -21,7 +21,7 @@ export const DraftRosterChooseVisibleRoster = ({
   setVisibleTeamId
 }: IDraftRosterChooseVisibleRoster) => {
 
-  const container = useRef(null)
+  const container = useRef()
 
   const [ activeDropdownOptionIndex, setActiveDropdownOptionIndex ] = useState(0)
   const [ isDropdownVisible, setIsDropdownVisible ] = useState(false)
@@ -33,9 +33,9 @@ export const DraftRosterChooseVisibleRoster = ({
     setIsDropdownVisible(false)
     setVisibleTeamId(draftTeams[activeDropdownOptionIndex])
   }
-
   return (
-    <Container>
+    <Container
+      ref={container}>
       <CurrentTeam
         isUsersTeam={visibleTeamId === usersTeamId}
         onClick={() => setIsDropdownVisible(true)}>
