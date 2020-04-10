@@ -12,10 +12,10 @@ import Standings from '@/components/Standings'
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
-export const DraftHeaderStandings = ({
+export const DraftStandings = ({
   draftId,
   teamId
-}: IDraftHeaderStandings) => {
+}: IDraftStandings) => {
 
   return (
     <Container>
@@ -29,7 +29,7 @@ export const DraftHeaderStandings = ({
 //-----------------------------------------------------------------------------
 // Props
 //-----------------------------------------------------------------------------
-export interface IDraftHeaderStandings {
+export interface IDraftStandings {
   draftId: IDraft['id']
   teamId: ITeam['id']
 }
@@ -38,7 +38,7 @@ export interface IDraftHeaderStandings {
 // Styled Components
 //-----------------------------------------------------------------------------
 const Container = styled.div`
-  height: calc(50vh - 2rem);
+  padding-bottom: 1rem;
 `
 
-export default DraftHeaderStandings
+export default DraftStandings

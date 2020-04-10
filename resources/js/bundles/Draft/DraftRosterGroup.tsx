@@ -14,9 +14,7 @@ export const DraftRosterGroup = ({
 
   return (
     <Container>
-      <Header>
-        {header}
-      </Header>
+      {header && <Header />}
       <RosterSpots>
         {rosterSpots}
       </RosterSpots>
@@ -28,7 +26,7 @@ export const DraftRosterGroup = ({
 // Props
 //-----------------------------------------------------------------------------
 export interface IDraftRosterGroup {
-  header: string
+  header: boolean
   rosterSpots: ReactElement[]
 }
 
@@ -38,7 +36,7 @@ export interface IDraftRosterGroup {
 const Container = styled.div``
 
 const Header = styled.div`
-  padding: 1rem 0.5rem;
+  height: 1rem;
   background-color: rgb(240, 240, 240);
 `
 

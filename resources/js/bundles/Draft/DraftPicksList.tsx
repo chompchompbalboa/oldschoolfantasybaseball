@@ -48,7 +48,7 @@ export const DraftPicksList = ({
         return (
           <DraftPick
             key={playerSeason.playerSeasonId}>
-            {team.name} drafted {playerSeason.name}'s {playerSeason.year} season at {allPositionsNames[draftPick.position]}-{draftPick.positionIndex + 1}
+            {team.name} drafted <b>{playerSeason.name}'s {playerSeason.year}</b> season at {allPositionsNames[draftPick.position]}-{draftPick.positionIndex + 1}
           </DraftPick>
         )
       }
@@ -69,11 +69,15 @@ export interface IDraftPicksList {
 // Styled Components
 //-----------------------------------------------------------------------------
 const Container = styled.div`
+  flex-grow: 1;
   position: relative;
   height: calc(50vh - 2rem);
   overflow-y: scroll;
 `
 
-const DraftPick = styled.div``
+const DraftPick = styled.div`
+  padding: 0.25rem;
+  text-align: center;
+`
 
 export default DraftPicksList

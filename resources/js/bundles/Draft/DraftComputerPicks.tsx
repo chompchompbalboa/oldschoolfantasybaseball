@@ -4,7 +4,6 @@
 import React, { useState } from 'react'
 import moment from 'moment'
 import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components'
 import _ from 'lodash'
 
 import { useInterval } from '@/hooks'
@@ -177,14 +176,7 @@ export const DraftComputerPicks = ({
     }
   }, pickInterval)
 
-  return (
-    <Container
-      onClick={() => dispatch(updateDraft(draftId, { isDraftPaused: !isDraftPaused }))}>
-      {!isDraftPaused
-        ? "Pause"
-        : "Resume"}
-    </Container>
-  )
+  return <></>
 }
 
 //-----------------------------------------------------------------------------
@@ -193,15 +185,5 @@ export const DraftComputerPicks = ({
 export interface IDraftComputerPicks {
   draftId: IDraft['id']
 }
-
-const Container = styled.div`
-  z-index: 10;
-  cursor: pointer;
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  padding: 1rem;
-  background-color: rgb(240, 240, 240);
-`
 
 export default DraftComputerPicks

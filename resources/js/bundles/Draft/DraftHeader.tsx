@@ -9,6 +9,7 @@ import { IAppState } from '@/state'
 import { IDraft } from '@/state/draft/types'
 import { ITeam } from '@/state/team/types'
 
+import DraftHeaderPause from '@draft/DraftHeaderPause'
 import DraftHeaderStartTime from '@draft/DraftHeaderStartTime'
 import DraftHeaderStats from '@draft/DraftHeaderStats'
 import DraftHeaderTimeRemaining from '@draft/DraftHeaderTimeRemaining'
@@ -26,20 +27,22 @@ export const DraftHeader = ({
 
   return (
     <Container>
-      <Wrapper
-        width="80%">
+      <Wrapper>
         <DraftHeaderStats
           draftId={draftId}
           teamId={teamId}/>
       </Wrapper>
-      <Wrapper
-        width="20%">
+      <Wrapper>
       {!hasDraftStarted 
         ? <DraftHeaderStartTime
             draftId={draftId}/>
         : <DraftHeaderTimeRemaining
             draftId={draftId}/>
       }
+      </Wrapper>
+      <Wrapper>
+        <DraftHeaderPause
+          draftId={draftId}/>
       </Wrapper>
     </Container>
   )
@@ -61,24 +64,21 @@ const Container = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: calc(100vw - 7rem);
   height: 4rem;
   padding: 0 0.5rem;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   background-color: white;
   border-bottom: 1px solid black;
 `
 
 const Wrapper = styled.div`
-  width: ${ ({ width }: IWrapper ) => width };
   height: 100%;
   display: flex;
   justify-content: center;
   align-items; center;
 `
-interface IWrapper {
-  width: string
-}
 
 export default DraftHeader

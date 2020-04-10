@@ -129,7 +129,7 @@ export const DraftRoster = ({
 
   return (
     <DraftRosterGroup
-      header="Pitching"
+      header
       rosterSpots={rosterSpotsPitching}/>
   )
 }

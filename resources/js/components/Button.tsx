@@ -33,9 +33,12 @@ export interface IButton {
 //-----------------------------------------------------------------------------
 const Container = styled.div`
   cursor: pointer;
-  padding: 1rem;
-  border: 1px solid black;
+  padding: 0.9rem;
+  background-color: rgb(240, 240, 240);
   border-radius: 3px;
+  &:hover {
+    background-color: rgb(230, 230, 230);
+  }
 `
 
 export default Button

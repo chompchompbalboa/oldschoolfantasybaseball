@@ -107,7 +107,7 @@ export interface IDropdown {
 // Styled Components
 //-----------------------------------------------------------------------------
 const StyledDropdown = styled.div`
-  z-index: 1000;
+  z-index: 10;
   position: relative;
   display: ${ ({ isDropdownVisible }: IStyledDropdown ) => isDropdownVisible ? 'block' : 'none' };
   top: 0;
@@ -116,7 +116,7 @@ const StyledDropdown = styled.div`
   max-height: 50vh;
   overflow-y: scroll;
   background-color: white;
-  box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.25);
+  box-shadow: 0px 4px 7px 0px rgba(0,0,0,0.25);
 `
 interface IStyledDropdown {
   isDropdownVisible: boolean

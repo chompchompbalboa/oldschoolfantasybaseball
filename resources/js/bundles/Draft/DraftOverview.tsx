@@ -47,7 +47,8 @@ const Container = styled.div`
   left: 50vw;
   width: 50vw;
   height: calc(100vh - 4rem);
-  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
 `
 
 export default DraftOverview

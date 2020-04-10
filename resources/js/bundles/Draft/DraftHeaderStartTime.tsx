@@ -23,6 +23,7 @@ export const DraftHeaderStartTime = ({
   // Redux
   const dispatch = useDispatch()
   const draftStartTime = useSelector((state: IAppState) => state.draft.allDrafts[draftId].startTime)
+  const isDraftPaused = useSelector((state: IAppState) => state.draft.allDrafts[draftId].isDraftPaused)
 
   // Local Variables
   const initialTimeUntilDraftStarts = draftStartTime.diff(moment(), 's')
@@ -45,6 +46,7 @@ export const DraftHeaderStartTime = ({
     ? <StartMessage>-</StartMessage>
     : <DraftHeaderTime
         initialTime={initialTimeUntilDraftStarts}
+        isPaused={isDraftPaused}
         onTimeEnd={() => setIsDraftStarting(true)}/>
 }
 

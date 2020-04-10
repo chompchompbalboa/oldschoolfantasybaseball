@@ -17,7 +17,7 @@ export const Site = () => (
       </Header>
       <Button
         onClick={() => window.location.href='/draft'}>
-        Start a Draft
+        Join a Draft
       </Button>
     </SiteTile>
   </Container>

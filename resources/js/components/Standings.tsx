@@ -112,8 +112,10 @@ const ToggleStandingsOrStats = styled.div`
 const ToggleButton = styled.div`
   cursor: pointer;
   width: 50%;
-  padding: 0.5rem;
-  text-align: center;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: ${ ({ isActive }: IToggleButton ) => isActive ? 'rgb(240, 240, 240)' : 'transparent' };
 `
 interface IToggleButton {

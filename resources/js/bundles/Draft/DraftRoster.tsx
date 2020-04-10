@@ -58,6 +58,7 @@ const Container = styled.div`
   width: 50vw;
   height: calc(100vh - 4rem);
   overflow-y: scroll;
+  padding-right: 0.5rem;
 `
 
 export default DraftRoster

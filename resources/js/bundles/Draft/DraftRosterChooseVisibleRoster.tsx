@@ -29,17 +29,20 @@ export const DraftRosterChooseVisibleRoster = ({
   const allTeams = useSelector((state: IAppState) => state.team.allTeams)
   const draftTeams = useSelector((state: IAppState) => state.draft.allDrafts[draftId].teams)
 
+  const isUsersTeam = visibleTeamId === usersTeamId
+
   const handleSetVisibleTeamId = () => {
     setIsDropdownVisible(false)
     setVisibleTeamId(draftTeams[activeDropdownOptionIndex])
   }
+
   return (
     <Container
       ref={container}>
       <CurrentTeam
-        isUsersTeam={visibleTeamId === usersTeamId}
+        isUsersTeam={isUsersTeam}
         onClick={() => setIsDropdownVisible(true)}>
-        {allTeams[visibleTeamId].name}
+        {allTeams[visibleTeamId].name} {isUsersTeam && "(Your Team)"}
       </CurrentTeam>
       <Dropdown
         activeDropdownOptionIndex={activeDropdownOptionIndex}
@@ -76,7 +79,9 @@ export interface IDraftRosterChooseVisibleRoster {
 // Styled Components
 //-----------------------------------------------------------------------------
 const Container = styled.div`
-  position: relative;
+  z-index: 1000;
+  position: sticky;
+  top: 0;
   width: 100%;
   height: 3rem;
   background-color: rgb(240, 240, 240);
