@@ -59,6 +59,13 @@ export const DraftRosterSpotMakeDraftPick = ({
     }
   }, [ draftPickId ])
 
+  // Close the dropdown when the draft has ended
+  useEffect(() => {
+    if(hasDraftEnded) {
+      setIsDropdownVisible(false)
+    }
+  }, [ hasDraftEnded ])
+
   // Update the visiblePlayerSeasons when the input value changes
   useEffect(() => {
     if([0, 1].includes(inputValue.length)) {
