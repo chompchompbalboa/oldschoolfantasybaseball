@@ -168,6 +168,11 @@ export const allStatCategoriesPitching: IStatCategoryPitching[] = [
   'IBB'
 ]
 
+export const allStatCategories = [
+  ...allStatCategoriesBatting,
+  ...allStatCategoriesPitching
+]
+
 export const allStatCategoriesBattingNames = {
   AB: "AB",
   AVG: "AVG",

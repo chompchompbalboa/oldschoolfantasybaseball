@@ -13,7 +13,11 @@ import {
   IPlayerSeason,
   IPlayerSeasonBatting,
   IPlayerSeasonPitching,
+  IStatCategoryBatting,
+  IStatCategoryPitching,
 } from '@/state/playerSeason/types'
+
+import { allStatCategories } from '@/state/draft/defaults'
 
 import DraftPickDropdownOption from '@draft/DraftRosterSpotMakeDraftPickDropdownOption'
 import Dropdown from '@/components/Dropdown'
@@ -77,9 +81,73 @@ export const DraftRosterSpotMakeDraftPick = ({
 
   // Visible Player Seasons
   const getVisiblePlayerSeasons = () => {
+
+    // Search the input value for filter operators
+    const operators = [ ">", "<" ]
+    const inputValueIncludesOperator = operators.some(operator => inputValue.includes(operator))
+    let filterBy = 'NAME' as 'NAME' | 'STAT'
+    let filters: { 
+      statCategory: IStatCategoryBatting | IStatCategoryPitching
+      operator: string
+      statValue: number
+    }[] = []
+
+    // If a filter operator is present, parse the input value and generate the filters
+    if(inputValueIncludesOperator) {
+      const inputValueFilters = inputValue.split(",")
+      inputValueFilters.forEach(inputValueFilter => {
+        const filterOperator = operators.find(operator => inputValueFilter.includes(operator))
+        if(filterOperator) {
+          console.log(inputValueFilter)
+          console.log(filterOperator)
+          const statCategory = allStatCategories.find(statCategory => {
+            const inputValueBeforeOperator = inputValueFilter.split(filterOperator)[0].trim()
+            const inputValueStatCategory = inputValueBeforeOperator.substring(0, statCategory.length)
+            return (
+              statCategory.length === inputValueBeforeOperator.length &&
+              statCategory.toLowerCase() === inputValueStatCategory.toLowerCase()
+            )
+          })
+          if(statCategory) {
+            const inputValueAfterOperator = inputValueFilter.split(filterOperator).slice(-1)[0].trim()
+            const inputValueStatValue = Number(inputValueAfterOperator) 
+            if(!isNaN(inputValueStatValue)) {
+              filterBy = 'STAT'
+              filters.push({
+                operator: operators.find(operator => inputValueFilter.includes(operator)),
+                statCategory: statCategory,
+                statValue: inputValueStatValue
+              })
+            }
+          }
+        }
+      })
+    }
+
+    // Filter the eligibile player seasons
     return inputValue && [ ...eligiblePlayerSeasons ].filter(playerSeasonId => {
+
+        // Get the player season
         const playerSeason = playerSeasons[playerSeasonId]
-        if(playerSeason && playerSeason.name && playerSeason.nameLast && playerSeason.year) {
+
+        // Filter based on the player season stats
+        if(filterBy === 'STAT' && playerSeason && playerSeason.stats) {
+          return filters.every(filter => {
+            switch(filter.operator) {
+              case ">": {
+                // @ts-ignore
+                return playerSeason.stats[filter.statCategory] > filter.statValue
+              }
+              case "<": {
+                // @ts-ignore
+                return playerSeason.stats[filter.statCategory] < filter.statValue
+              }
+            }
+
+          })
+        }
+        // Filter based on the player season name and the year
+        else if(playerSeason && playerSeason.name && playerSeason.nameLast && playerSeason.year) {
           const playerNameSearchTerm = playerSeason.name.split(' ').join('').toLowerCase()
           const playerNameLastSearchTerm = playerSeason.nameLast.split(' ').join('').toLowerCase()
           const playerYearSearchTerm = playerSeason.year + ''
@@ -105,7 +173,7 @@ export const DraftRosterSpotMakeDraftPick = ({
         }
         return false
       }
-    ).filter((_, index) => index < 25)
+    ).slice(0, 20)
   }
 
   return (
@@ -139,7 +207,9 @@ export const DraftRosterSpotMakeDraftPick = ({
                 onMouseEnter={() => setActiveDropdownOptionIndex(index)}/>
             )})
           : <DropdownOptionPlaceholder>
-              Start typing to see eligible players...
+              <Underline>Search For Players By:</Underline><br/>
+              - Name and Year (e.g. "Mike Trout 2011" or "Griffey 99")<br/>
+              - Season Stat Totals (e.g "HR > 30" or "R > 100, SB > 25")
             </DropdownOptionPlaceholder>
         }
       </DraftPickDropdown>
@@ -185,6 +255,11 @@ const DraftPickDropdown = styled(Dropdown)`
 const DropdownOptionPlaceholder = styled.div`
   width: 100%;
   padding: 0.5rem;
+`
+
+const Underline = styled.span`
+  text-decoration: underline;
+  font-weight: bold;
 `
 
 

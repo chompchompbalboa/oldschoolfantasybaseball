@@ -16,7 +16,9 @@ class PlayerSeasonController extends Controller
 
     public function version() 
     {
-        return response('2020.04.06.1');
+        //$version = '2020.04.06.1';
+        $version = '2020.04.09.1';
+        return response($version);
     }
 
     public function allPlayerSeasonsBatting()
@@ -87,7 +89,6 @@ class PlayerSeasonController extends Controller
                                     sum(pitching.W) as W,
                                     sum(pitching.SV) as SV,
                                     round((sum(pitching.ER) / (sum(pitching.IPouts) / 3)) * 9, 2) as ERA,
-                                    round((sum(pitching.H) + sum(pitching.BB) + sum(pitching.IBB)) / (sum(pitching.IPouts) / 3), 2) as WHIP,
                                     sum(pitching.SO) as SO,
                                     sum(pitching.BB) as BB,
                                     sum(pitching.ER) as ER,
@@ -104,6 +105,7 @@ class PlayerSeasonController extends Controller
                     ($playerSeason['SV'] > 15 || $playerSeason['SO'] > 100) &&
                     $playerSeason['ERA'] < 4.5
                 ) {
+                    $whip = round(($playerSeason['H'] + $playerSeason['BB'] + $playerSeason['IBB']) / ($playerSeason['IPouts'] / 3), 3);
                     $playerSeasons[$playerSeason['playerSeasonId']] = [
                         'playerSeasonId' => $playerSeason['playerSeasonId'],
                         'name' => $playerSeason['name'],
@@ -115,7 +117,7 @@ class PlayerSeasonController extends Controller
                             'W' => $playerSeason['W'],
                             'SV' => $playerSeason['SV'],
                             'ERA' => $playerSeason['ERA'],
-                            'WHIP' => $playerSeason['WHIP'],
+                            'WHIP' => $whip,
                             'SO' => $playerSeason['SO'],
                             'BB' => $playerSeason['BB'],
                             'ER' => $playerSeason['ER'],
