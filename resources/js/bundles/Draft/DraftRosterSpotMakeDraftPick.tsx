@@ -208,7 +208,7 @@ export const DraftRosterSpotMakeDraftPick = ({
             )})
           : <DropdownOptionPlaceholder>
               <Underline>Search For Players By:</Underline><br/>
-              - Name and Year (e.g. "Mike Trout 2011" or "Griffey 99")<br/>
+              - Name and Year (e.g. "Mike Trout 2012" or "Griffey 99")<br/>
               - Season Stat Totals (e.g "HR > 30" or "R > 100, SB > 25")
             </DropdownOptionPlaceholder>
         }
