@@ -98,8 +98,6 @@ export const DraftRosterSpotMakeDraftPick = ({
       inputValueFilters.forEach(inputValueFilter => {
         const filterOperator = operators.find(operator => inputValueFilter.includes(operator))
         if(filterOperator) {
-          console.log(inputValueFilter)
-          console.log(filterOperator)
           const statCategory = allStatCategories.find(statCategory => {
             const inputValueBeforeOperator = inputValueFilter.split(filterOperator)[0].trim()
             const inputValueStatCategory = inputValueBeforeOperator.substring(0, statCategory.length)

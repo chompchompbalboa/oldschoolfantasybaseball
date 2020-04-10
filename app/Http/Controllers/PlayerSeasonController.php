@@ -17,7 +17,8 @@ class PlayerSeasonController extends Controller
     public function version() 
     {
         //$version = '2020.04.06.1';
-        $version = '2020.04.09.1';
+        //$version = '2020.04.09.1';
+        $version = '2020.04.09.2';
         return response($version);
     }
 
