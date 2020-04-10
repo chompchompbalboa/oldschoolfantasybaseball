@@ -2,10 +2,12 @@
 // Imports
 //-----------------------------------------------------------------------------
 import React from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import { useGetPlayerSeason } from '@/hooks'
 
+import { IAppState } from '@/state'
 import { IDraft } from '@/state/draft/types'
 import {
   IPlayerSeasonBatting,
@@ -28,13 +30,15 @@ export const DraftRosterSpot = ({
   position,
 }: IDraftRosterSpot) => {
 
+  const hasDraftEnded = useSelector((state: IAppState) => state.draft.allDrafts[draftId].hasDraftEnded)
+
   const { playerSeason } = useGetPlayerSeason(draftId, playerSeasonId)
 
   return (
     <Container>
       <PlayerSeason
         playerSeason={playerSeason}/>
-      {isUsersTeam &&
+      {isUsersTeam && !hasDraftEnded && 
         <DeleteDraftPick
           onClick={() => deleteDraftPick(position, playerSeasonId)}>
           Delete

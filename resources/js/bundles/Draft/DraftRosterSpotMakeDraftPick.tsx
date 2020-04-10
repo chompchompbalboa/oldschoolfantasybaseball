@@ -2,8 +2,10 @@
 // Imports
 //-----------------------------------------------------------------------------
 import React, { useRef, useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
+import { IAppState } from '@/state'
 import { IDraft } from '@/state/draft/types'
 import {
   IAllPlayerSeasonsBatting,
@@ -40,6 +42,9 @@ export const DraftRosterSpotMakeDraftPick = ({
   // Refs
   const container = useRef()
   const updateVisiblePlayerSeasonsTimeout = useRef(null)
+
+  // Redux
+  const hasDraftEnded = useSelector((state: IAppState) => state.draft.allDrafts[draftId].hasDraftEnded)
 
   // State
   const [ activeDropdownOptionIndex, setActiveDropdownOptionIndex ] = useState(0)
@@ -178,7 +183,7 @@ export const DraftRosterSpotMakeDraftPick = ({
     <Container
       ref={container}>
       <DraftPickInput
-        readOnly={!isUsersTeam}
+        readOnly={!isUsersTeam || hasDraftEnded}
         onChange={nextInputValue => {
           setIsDropdownVisible(true)
           setInputValue(nextInputValue)

@@ -19,11 +19,11 @@ export const Input = ({
   <StyledInput
     className={className}
     cursor={readOnly ? 'default' : 'auto'}
+    disabled={readOnly}
     onBlur={onBlur}
     onChange={e => onChange(e.target.value)}
     onFocus={onFocus}
     placeholder={placeholder}
-    readOnly={readOnly}
     value={value}/>
 )
 
