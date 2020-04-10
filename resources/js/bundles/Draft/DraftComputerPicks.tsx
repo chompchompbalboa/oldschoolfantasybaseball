@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 // Imports
 //-----------------------------------------------------------------------------
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import moment from 'moment'
 import { useDispatch, useSelector } from 'react-redux'
 import _ from 'lodash'
@@ -15,21 +15,22 @@ import {
   IPositionBatting,
   IPositionPitching
 } from '@/state/playerSeason/types'
+import { ITeam } from '@/state/team/types'
 
 import {
   updateDraft
 } from '@/state/draft/actions'
 
 import {
-  allPositionsBatting,
-  allPositionsPitching
+  allPositionsBatting
 } from '@/state/draft/defaults'
 
 //-----------------------------------------------------------------------------
 // Component
 //-----------------------------------------------------------------------------
 export const DraftComputerPicks = ({
-  draftId
+  draftId,
+  usersTeamId
 }: IDraftComputerPicks) => {
 
   // Redux
@@ -48,13 +49,37 @@ export const DraftComputerPicks = ({
   const playerSeasonsByPositionBatting = useSelector((state: IAppState) => state.playerSeason.playerSeasonsByPositionBatting)
   const playerSeasonsByPositionPitching = useSelector((state: IAppState) => state.playerSeason.playerSeasonsByPositionPitching)
 
+  const rosterSpots = {
+    ...draftRosterSpotsBatting,
+    ...draftRosterSpotsPitching
+  }
   // State
-  const [ currentTeamId, setCurrentTeamId ] = useState(draftTeams[1])
-  const [ currentTeamNumberOfPicksMade, setCurrentTeamNumberOfPicksMade ] = useState(0)
-  const [ currentPosition, setCurrentPosition ] = useState(allPositionsBatting[0] as IPositionBatting | IPositionPitching)
-  const [ currentPositionRosterSpots, setCurrentPositionRosterSpots ] = useState(draftRosterSpotsBatting[currentPosition as IPositionBatting])
-  const [ currentPositionRosterSpotIndex, setCurrentPositionRosterSpotIndex ] = useState(0)
+  const [ draftPicks, setDraftPicks ] = useState(null as ILocalDraftPick[])
   const [ numberOfPicksMade, setNumberOfPicksMade ] = useState(0)
+
+  // Set the draft picks
+  useEffect(() => {
+    if(draftPicks === null) {
+      let draftPicksCount = 0
+      let initialDraftPicks: ILocalDraftPick[] = []
+      draftTeams.forEach(teamId => {
+        if(teamId !== usersTeamId) {
+          Object.keys(rosterSpots).forEach((position: IPositionBatting | IPositionPitching)  => {
+            for(let i = 0; i < rosterSpots[position]; i++) {
+              initialDraftPicks.push({
+                id: draftPicksCount,
+                teamId: teamId,
+                position: position,
+                positionIndex: i
+              })
+              draftPicksCount++
+            }
+          })
+        }
+      })
+    setDraftPicks(initialDraftPicks)
+    }
+  }, [ draftPicks ])
 
   // Determine how often picks need to be made
   const totalRosterSpotsBatting = Object.keys(draftRosterSpotsBatting).reduce((total, rosterSpot) => 
@@ -70,11 +95,12 @@ export const DraftComputerPicks = ({
   useInterval(() => {
     const nextNumberOfPicksMade = numberOfPicksMade + 1
     if(nextNumberOfPicksMade <= totalPicksNeeded && !isDraftPaused) {
-      const isBattingOrPitching = allPositionsBatting.includes(currentPosition as IPositionBatting)
+      const draftPick = _.sample(draftPicks)
+      const isBattingOrPitching = allPositionsBatting.includes(draftPick.position as IPositionBatting)
         ? 'BATTING'
         : 'PITCHING'
       if(isBattingOrPitching === 'BATTING') {
-        const eligiblePlayerSeasonIds = playerSeasonsByPositionBatting[currentPosition as IPositionBatting]
+        const eligiblePlayerSeasonIds = playerSeasonsByPositionBatting[draftPick.position as IPositionBatting]
         let playerSeasonId: IPlayerSeason['playerSeasonId'] = null
         while(playerSeasonId === null) {
           const randomPlayerSeasonId = eligiblePlayerSeasonIds[(Math.random() * eligiblePlayerSeasonIds.length) | 0]
@@ -86,19 +112,19 @@ export const DraftComputerPicks = ({
           allDraftPicksBatting: {
             ...allDraftPicksBatting,
             [playerSeasonId]: {
-              teamId: currentTeamId,
+              teamId: draftPick.teamId,
               playerSeasonId: playerSeasonId,
-              position: currentPosition as IPositionBatting,
-              positionIndex: currentPositionRosterSpotIndex,
+              position: draftPick.position as IPositionBatting,
+              positionIndex: draftPick.positionIndex,
               timestamp: moment()
             }
           },
           draftPicksByTeamBatting: {
             ...draftPicksByTeamBatting,
-            [currentTeamId]: {
-              ...draftPicksByTeamBatting[currentTeamId],
-              [currentPosition]: draftPicksByTeamBatting[currentTeamId][currentPosition as IPositionBatting].map((currentPlayerSeasonId, index) => 
-                index === currentPositionRosterSpotIndex
+            [draftPick.teamId]: {
+              ...draftPicksByTeamBatting[draftPick.teamId],
+              [draftPick.position]: draftPicksByTeamBatting[draftPick.teamId][draftPick.position as IPositionBatting].map((currentPlayerSeasonId, index) => 
+                index === draftPick.positionIndex
                   ? playerSeasonId
                   : currentPlayerSeasonId
               )
@@ -107,7 +133,7 @@ export const DraftComputerPicks = ({
         }))
       }
       else {
-        const eligiblePlayerSeasonIds = playerSeasonsByPositionPitching[currentPosition as IPositionPitching]
+        const eligiblePlayerSeasonIds = playerSeasonsByPositionPitching[draftPick.position as IPositionPitching]
         let playerSeasonId: IPlayerSeason['playerSeasonId'] = null
         while(playerSeasonId === null) {
           const randomPlayerSeasonId = eligiblePlayerSeasonIds[(Math.random() * eligiblePlayerSeasonIds.length) | 0]
@@ -119,60 +145,28 @@ export const DraftComputerPicks = ({
           allDraftPicksPitching: {
             ...allDraftPicksPitching,
             [playerSeasonId]: {
-              teamId: currentTeamId,
+              teamId: draftPick.teamId,
               playerSeasonId: playerSeasonId,
-              position: currentPosition as IPositionPitching,
-              positionIndex: currentPositionRosterSpotIndex,
+              position: draftPick.position as IPositionPitching,
+              positionIndex: draftPick.positionIndex,
               timestamp: moment()
             }
           },
           draftPicksByTeamPitching: {
             ...draftPicksByTeamPitching,
-            [currentTeamId]: {
-              ...draftPicksByTeamPitching[currentTeamId],
-              [currentPosition]: draftPicksByTeamPitching[currentTeamId][currentPosition as IPositionPitching].map((currentPlayerSeasonId, index) => 
-                index === currentPositionRosterSpotIndex
+            [draftPick.teamId]: {
+              ...draftPicksByTeamPitching[draftPick.teamId],
+              [draftPick.position]: draftPicksByTeamPitching[draftPick.teamId][draftPick.position as IPositionPitching].map((currentPlayerSeasonId, index) => 
+                index === draftPick.positionIndex
                   ? playerSeasonId
                   : currentPlayerSeasonId
               )
             }
           }
         }))
-
       }
-      const positions = [
-        ...allPositionsBatting, 
-        ...allPositionsPitching
-      ]
-      const rosterSpots = {
-        ...draftRosterSpotsBatting,
-        ...draftRosterSpotsPitching
-      }
-      // Update currentTeamId
-      const nextTeamIndex = draftTeams.indexOf(currentTeamId) + 1 === draftTeams.length 
-        ? 1
-        : draftTeams.indexOf(currentTeamId) + 1
-      const nextTeamId = draftTeams[nextTeamIndex]
-
-      setCurrentTeamId(nextTeamId)
-
-      if(nextTeamIndex === 1) {
-        const nextPositionsRosterSpotIndex  = currentPositionRosterSpotIndex + 1
-        if(nextPositionsRosterSpotIndex === currentPositionRosterSpots) {
-          const nextPositionIndex = positions.indexOf(currentPosition) + 1
-          setCurrentPosition(positions[nextPositionIndex])
-          setCurrentPositionRosterSpots(rosterSpots[positions[nextPositionIndex]])
-          setCurrentPositionRosterSpotIndex(0)
-
-        }
-        else {
-          setCurrentPositionRosterSpotIndex(nextPositionsRosterSpotIndex)
-        }
-      }
-
-      // Update the number of picks made
-      setCurrentTeamNumberOfPicksMade(currentTeamNumberOfPicksMade + 1)
       setNumberOfPicksMade(numberOfPicksMade + 1)
+      setDraftPicks(draftPicks.filter(currentDraftPick => currentDraftPick.id !== draftPick.id))
     }
   }, pickInterval)
 
@@ -184,6 +178,14 @@ export const DraftComputerPicks = ({
 //-----------------------------------------------------------------------------
 export interface IDraftComputerPicks {
   draftId: IDraft['id']
+  usersTeamId: ITeam['id']
+}
+
+export interface ILocalDraftPick {
+  id: number,
+  teamId: ITeam['id'],
+  position: IPositionBatting | IPositionPitching
+  positionIndex: number
 }
 
 export default DraftComputerPicks

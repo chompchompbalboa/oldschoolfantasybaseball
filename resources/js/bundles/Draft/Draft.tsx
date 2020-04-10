@@ -45,7 +45,8 @@ export const Draft = () => {
             ? hasDraftStarted && !hasDraftEnded
               ? <>
                   <DraftComputerPicks
-                    draftId={draftId}/>
+                    draftId={draftId}
+                    usersTeamId={userTeamId}/>
                   <DraftRoster
                     draftId={draftId}
                     teamId={userTeamId}/>
