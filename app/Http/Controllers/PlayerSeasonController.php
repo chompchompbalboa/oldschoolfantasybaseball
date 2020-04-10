@@ -23,7 +23,7 @@ class PlayerSeasonController extends Controller
 
     public function allPlayerSeasonsBatting()
     {
-        Cache::forget('allPlayerSeasonsBatting');
+        //Cache::forget('allPlayerSeasonsBatting');
         $allPlayerSeasonsBatting = Cache::rememberForever('allPlayerSeasonsBatting', function () {
             $playerSeasons = [];
             $rawPlayerSeasons = Batting::selectRaw('
@@ -76,7 +76,7 @@ class PlayerSeasonController extends Controller
 
     public function allPlayerSeasonsPitching()
     {
-        Cache::forget('allPlayerSeasonsPitching');
+        //Cache::forget('allPlayerSeasonsPitching');
         $allPlayerSeasonsPitching = Cache::rememberForever('allPlayerSeasonsPitching', function () {
             $playerSeasons = [];
             $rawPlayerSeasons = Pitching::selectRaw('
@@ -135,7 +135,7 @@ class PlayerSeasonController extends Controller
 
     public function playerSeasonsByPositionBatting()
     {
-        Cache::forget('playerSeasonsByPositionBatting');
+        //Cache::forget('playerSeasonsByPositionBatting');
         $playerSeasonsByPositionBatting = Cache::rememberForever('playerSeasonsByPositionBatting', function() {
             return [
                 'CATCHER' => $this->getPlayerSeasonsBattingByPosition('c'),
@@ -152,7 +152,7 @@ class PlayerSeasonController extends Controller
 
     public function playerSeasonsByPositionPitching()
     {
-        Cache::forget('playerSeasonsByPositionPitching');
+        //Cache::forget('playerSeasonsByPositionPitching');
         $playerSeasonsByPositionPitching = Cache::rememberForever('playerSeasonsByPositionPitching', function() {
             return [
                 'STARTING_PITCHER' => $this->getPlayerSeasonsPitchingByPosition('SP'),
