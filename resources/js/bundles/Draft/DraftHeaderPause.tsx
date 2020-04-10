@@ -52,6 +52,10 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-weight: bold;
+  &:hover {
+    background-color: rgb(230, 230, 230);
+  }
 `
 
 export default DraftHeaderPause

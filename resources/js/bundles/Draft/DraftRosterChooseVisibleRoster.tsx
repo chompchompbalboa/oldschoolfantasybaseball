@@ -84,7 +84,6 @@ const Container = styled.div`
   top: 0;
   width: 100%;
   height: 3rem;
-  background-color: rgb(240, 240, 240);
 `
 
 const CurrentTeam = styled.div`
@@ -95,6 +94,10 @@ const CurrentTeam = styled.div`
   justify-content: center;
   align-items: center;
   font-weight: ${ ({ isUsersTeam }: ICurrentTeam ) => isUsersTeam ? 'bold' : 'inherit' };
+  background-color: rgb(240, 240, 240);
+  &:hover{
+    background-color: rgb(230, 230, 230);
+  }
 `
 interface ICurrentTeam {
   isUsersTeam: boolean

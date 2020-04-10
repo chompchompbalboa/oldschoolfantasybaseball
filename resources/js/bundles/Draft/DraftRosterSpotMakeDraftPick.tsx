@@ -256,6 +256,7 @@ const Container = styled.div`
 const DraftPickInput = styled(Input)`
   width: 100%;
   height: 100%;
+  font-size: 1rem;
 `
 
 const DraftPickDropdown = styled(Dropdown)`

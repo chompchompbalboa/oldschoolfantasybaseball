@@ -103,6 +103,7 @@ const Container = styled.div`
 
 const StyledTable = styled.table`
   width: 100%;
+  border-collapse: collapse;
 `
 
 const ToggleStandingsOrStats = styled.div`
@@ -117,6 +118,10 @@ const ToggleButton = styled.div`
   justify-content: center;
   align-items: center;
   background-color: ${ ({ isActive }: IToggleButton ) => isActive ? 'rgb(240, 240, 240)' : 'transparent' };
+  font-weight: ${ ({ isActive }: IToggleButton ) => isActive ? 'bold' : 'inherit' };
+  &:hover {
+    background-color: rgb(240, 240, 240);
+  }
 `
 interface IToggleButton {
   isActive: boolean
@@ -129,6 +134,9 @@ const StatCategory = styled.th``
 const Team = styled.tr`
   font-weight: ${ ({ isUsersTeam }: IStyledTeam ) => isUsersTeam ? 'bold' : 'inherit' };
   background-color: ${ ({ isUsersTeam }: IStyledTeam ) => isUsersTeam ? 'rgb(240, 240, 240)' : 'transparent' };
+  &:hover {
+    background-color: rgb(245, 245, 245);
+  }
 `
 interface IStyledTeam {
   isUsersTeam: boolean
@@ -136,6 +144,7 @@ interface IStyledTeam {
 
 const TeamCell = styled.td`
   text-align: center;
+  border: none;
 `
 const TeamRank = styled(TeamCell)``
 const TeamName = styled(TeamCell)``

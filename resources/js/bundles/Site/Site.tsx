@@ -15,6 +15,10 @@ export const Site = () => (
       <Header>
         Old School Fantasy Baseball
       </Header>
+      <Tagline>
+        Fantasy baseball drafts using historical baseball seasons
+      </Tagline>
+      <Divider />
       <Button
         onClick={() => window.location.href='/draft'}>
         Join a Draft
@@ -38,6 +42,19 @@ const SiteTile = styled.div`
   align-items: center;
 `
 
-const Header = styled.h1``
+const Header = styled.h1`
+  margin-bottom: 0.5rem;
+`
+
+const Divider = styled.div`
+  margin-bottom: 1.5rem;
+  width: 20rem;
+  height: 1px;
+  background-color: black;
+`
+
+const Tagline = styled.div`
+  margin-bottom: 1.5rem;
+`
 
 export default Site
