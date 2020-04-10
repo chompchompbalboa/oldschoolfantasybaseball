@@ -5,6 +5,8 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
+import { CLOSE } from '@/assets/icons'
+
 import { useGetPlayerSeason } from '@/hooks'
 
 import { IAppState } from '@/state'
@@ -17,6 +19,7 @@ import {
 } from '@/state/playerSeason/types'
 
 import Button from '@/components/Button'
+import Icon from '@/components/Icon'
 import PlayerSeason from '@/components/PlayerSeason'
 
 //-----------------------------------------------------------------------------
@@ -41,7 +44,8 @@ export const DraftRosterSpot = ({
       {isUsersTeam && !hasDraftEnded && 
         <DeleteDraftPick
           onClick={() => deleteDraftPick(position, playerSeasonId)}>
-          Delete
+          <Icon
+            icon={CLOSE}/>
         </DeleteDraftPick>
       }
     </Container>
@@ -76,7 +80,14 @@ const Container = styled.div`
 
 const DeleteDraftPick = styled(Button)`
   margin-left: 1rem;
-  padding: 0.25rem;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    color: white;
+    background-color: rgb(200, 0, 0);
+  }
 `
 
 export default DraftRosterSpot
