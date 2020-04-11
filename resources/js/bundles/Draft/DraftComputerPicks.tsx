@@ -40,6 +40,7 @@ export const DraftComputerPicks = ({
   const allPlayerSeasonsBatting = useSelector((state: IAppState) => state.playerSeason.allPlayerSeasonsBatting)
   const allPlayerSeasonsPitching = useSelector((state: IAppState) => state.playerSeason.allPlayerSeasonsPitching)
   const draftDuration = useSelector((state: IAppState) => state.draft.allDrafts[draftId].duration)
+  const draftDifficulty = useSelector((state: IAppState) => state.draft.allDrafts[draftId].difficulty)
   const draftPicksByTeamBatting = useSelector((state: IAppState) => state.draft.allDrafts[draftId].draftPicksByTeamBatting)
   const draftPicksByTeamPitching = useSelector((state: IAppState) => state.draft.allDrafts[draftId].draftPicksByTeamPitching)
   const draftTeams = useSelector((state: IAppState) => state.draft.allDrafts[draftId].teams)
@@ -57,7 +58,18 @@ export const DraftComputerPicks = ({
   const [ draftPicks, setDraftPicks ] = useState(null as ILocalDraftPick[])
   const [ numberOfPicksMade, setNumberOfPicksMade ] = useState(0)
 
-  // Set the draft picks
+  // Determine how often picks need to be made
+  const totalRosterSpotsBatting = Object.keys(draftRosterSpotsBatting).reduce((total, rosterSpot) => 
+    total + draftRosterSpotsBatting[rosterSpot as IPositionBatting]
+  , 0)
+  const totalRosterSpotsPitching = Object.keys(draftRosterSpotsPitching).reduce((total, rosterSpot) => 
+    total + draftRosterSpotsPitching[rosterSpot as IPositionPitching]
+  , 0)
+  const totalRosterSpotsPerTeam = totalRosterSpotsBatting + totalRosterSpotsPitching
+  const totalPicksNeeded = (draftTeams.length - 1) * totalRosterSpotsPerTeam
+  const pickInterval = _.random(0, (draftDuration / (totalPicksNeeded * 1.25)) * 1.25) * 1000
+
+  // Build the array of picks that will need to be made
   useEffect(() => {
     if(draftPicks === null) {
       let draftPicksCount = 0
@@ -81,17 +93,7 @@ export const DraftComputerPicks = ({
     }
   }, [ draftPicks ])
 
-  // Determine how often picks need to be made
-  const totalRosterSpotsBatting = Object.keys(draftRosterSpotsBatting).reduce((total, rosterSpot) => 
-    total + draftRosterSpotsBatting[rosterSpot as IPositionBatting]
-  , 0)
-  const totalRosterSpotsPitching = Object.keys(draftRosterSpotsPitching).reduce((total, rosterSpot) => 
-    total + draftRosterSpotsPitching[rosterSpot as IPositionPitching]
-  , 0)
-  const totalRosterSpotsPerTeam = totalRosterSpotsBatting + totalRosterSpotsPitching
-  const totalPicksNeeded = (draftTeams.length - 1) * totalRosterSpotsPerTeam
-  const pickInterval = _.random(0, (draftDuration / (totalPicksNeeded * 1.25)) * 1.25) * 1000
-
+  // Make the draft picks
   useInterval(() => {
     const nextNumberOfPicksMade = numberOfPicksMade + 1
     if(nextNumberOfPicksMade <= totalPicksNeeded && !isDraftPaused) {
@@ -103,7 +105,7 @@ export const DraftComputerPicks = ({
         const eligiblePlayerSeasonIds = playerSeasonsByPositionBatting[draftPick.position as IPositionBatting]
         let playerSeasonId: IPlayerSeason['playerSeasonId'] = null
         while(playerSeasonId === null) {
-          const randomPlayerSeasonId = eligiblePlayerSeasonIds[(Math.random() * eligiblePlayerSeasonIds.length) | 0]
+          const randomPlayerSeasonId = eligiblePlayerSeasonIds[(Math.random() * (eligiblePlayerSeasonIds.length / draftDifficulty)) | 0]
           if(allPlayerSeasonsBatting[randomPlayerSeasonId]) {
             playerSeasonId = randomPlayerSeasonId
           }
@@ -136,7 +138,7 @@ export const DraftComputerPicks = ({
         const eligiblePlayerSeasonIds = playerSeasonsByPositionPitching[draftPick.position as IPositionPitching]
         let playerSeasonId: IPlayerSeason['playerSeasonId'] = null
         while(playerSeasonId === null) {
-          const randomPlayerSeasonId = eligiblePlayerSeasonIds[(Math.random() * eligiblePlayerSeasonIds.length) | 0]
+          const randomPlayerSeasonId = eligiblePlayerSeasonIds[(Math.random() * (eligiblePlayerSeasonIds.length / draftDifficulty)) | 0]
           if(allPlayerSeasonsPitching[randomPlayerSeasonId]) {
             playerSeasonId = randomPlayerSeasonId
           }

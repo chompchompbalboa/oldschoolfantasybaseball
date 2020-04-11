@@ -24,6 +24,7 @@ export interface IDraft {
   hasDraftStarted: boolean
   hasDraftEnded: boolean
   isDraftPaused: boolean
+  difficulty: number
   teams: ITeam['id'][]
   statCategoriesBatting: IStatCategoryBatting[],
   statCategoriesPitching: IStatCategoryPitching[]

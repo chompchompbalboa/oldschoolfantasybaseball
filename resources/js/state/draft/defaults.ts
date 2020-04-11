@@ -35,11 +35,12 @@ export const defaultDraft = () => {
 
   const newDraft: IDraft = {
     id: createUuid(),
-    startTime: moment().add(10, 's'),
-    duration: 240,
+    startTime: moment().add(2, 's'),
+    duration: 30,
     hasDraftStarted: false,
     hasDraftEnded: false,
     isDraftPaused: false,
+    difficulty: 10,
     teams: newTeamIds,
     statCategoriesBatting: defaultStatCategoriesBatting,
     statCategoriesPitching: defaultStatCategoriesPitching,
