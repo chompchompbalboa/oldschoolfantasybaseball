@@ -4,6 +4,7 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
+import { orderBy } from 'lodash'
 
 import { IAppState } from '@/state'
 import { IDraft } from '@/state/draft/types'
@@ -135,7 +136,7 @@ export const DraftRosterSpotMakeDraftPick = ({
     }
 
     // Filter the eligibile player seasons
-    return inputValue && [ ...eligiblePlayerSeasons ].filter(playerSeasonId => {
+    return inputValue && orderBy([ ...eligiblePlayerSeasons ].filter(playerSeasonId => {
 
         // Get the player season
         const playerSeason = playerSeasons[playerSeasonId]
@@ -183,7 +184,7 @@ export const DraftRosterSpotMakeDraftPick = ({
         }
         return false
       }
-    ).slice(0, 20)
+    ), [ playerSeasonId => playerSeasons[playerSeasonId]['year'] ], [ 'desc' ]).slice(0, 20)
   }
 
   return (
