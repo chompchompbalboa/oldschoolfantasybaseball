@@ -15,6 +15,7 @@ import Stats from '@/components/Stats'
 // Component
 //-----------------------------------------------------------------------------
 export const PlayerSeason = ({ 
+  isStatsVisible = true,
   playerSeason
 }: IPlayerSeason) => {
 
@@ -23,8 +24,10 @@ export const PlayerSeason = ({
       <Player>
         {playerSeason.name} {playerSeason.year}
       </Player>
-      <Stats
-        stats={playerSeason.stats}/>
+      {isStatsVisible && 
+        <Stats
+          stats={playerSeason.stats}/>
+      }
     </Container>
   )
 }
@@ -33,6 +36,7 @@ export const PlayerSeason = ({
 // Props
 //-----------------------------------------------------------------------------
 export interface IPlayerSeason {
+  isStatsVisible?: boolean
   playerSeason: {
     name: string
     year: number

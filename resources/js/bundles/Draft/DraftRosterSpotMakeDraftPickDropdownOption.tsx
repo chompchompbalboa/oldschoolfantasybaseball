@@ -35,6 +35,7 @@ export const DraftRosterSpotMakeDraftPick = ({
       onClick={onClick}
       onMouseEnter={onMouseEnter}>
       <PlayerSeason
+        isStatsVisible={false}
         playerSeason={playerSeason}/>
     </DraftPickDropdownOption>
   )
