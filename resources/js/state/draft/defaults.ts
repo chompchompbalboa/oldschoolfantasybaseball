@@ -36,7 +36,7 @@ export const defaultDraft = () => {
   const newDraft: IDraft = {
     id: createUuid(),
     startTime: moment().add(10, 's'),
-    duration: 180,
+    duration: 300,
     hasDraftStarted: false,
     hasDraftEnded: false,
     isDraftPaused: false,

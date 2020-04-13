@@ -67,7 +67,8 @@ export const DraftComputerPicks = ({
   , 0)
   const totalRosterSpotsPerTeam = totalRosterSpotsBatting + totalRosterSpotsPitching
   const totalPicksNeeded = (draftTeams.length - 1) * totalRosterSpotsPerTeam
-  const pickInterval = _.random(0, (draftDuration / (totalPicksNeeded * 1.25)) * 1.25) * 1000
+  const averagePickInterval = draftDuration / (totalPicksNeeded * 3)
+  const pickInterval = _.random(0, averagePickInterval * 2) * 1000
 
   // Build the array of picks that will need to be made
   useEffect(() => {
